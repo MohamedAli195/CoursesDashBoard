@@ -13,8 +13,13 @@ import AvatarImage from 'assets/images/avatar.svg';
 import IconifyIcon from 'components/base/IconifyIcon';
 import { profileOptions } from 'data/navbar/menu-data';
 import { useState } from 'react';
+import axios from 'axios';
 
+import { toast } from 'react-hot-toast';
+import paths from 'routes/path';
+import { useNavigate } from 'react-router-dom';
 const ProfileDropdown = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,6 +28,34 @@ const ProfileDropdown = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        'https://market-mentor.flexi-code.com/public/api/admin/logout',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+  
+      // Clear the token from local storage
+      localStorage.removeItem('token');
+  
+      // Show a success message
+      toast.success('Logout successful');
+  
+      // Redirect to the login page
+      navigate(paths.login);
+
+      window.location.reload();
+    } catch (error) {
+      // Handle errors
+      toast.error('Logout failed. Please try again.');
+      console.error(error);
+    }
   };
   return (
     <Box
@@ -101,6 +134,7 @@ const ProfileDropdown = () => {
               width: '80%',
               py: 0.5,
             }}
+            onClick={()=>{handleLogout()}}
           >
             Logout
           </Button>

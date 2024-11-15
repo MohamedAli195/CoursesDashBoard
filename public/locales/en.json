@@ -1,0 +1,11 @@
+{
+    "welcome": "Welcome to our application!",
+    "language": "Language",
+    "dashboard":"Dashboard",
+    "packages":"Packages",
+    "categories":"Categories",
+    "courses":"Courses",
+    "customers":"Customers",
+      "settings":"Settings",
+     "globalSettings":"Global Settings"
+  }

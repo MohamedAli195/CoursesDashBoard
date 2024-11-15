@@ -9,15 +9,17 @@ import StatisticsCards from 'components/sections/dashboard/statistics/StatisticC
 import TodoList from 'components/sections/dashboard/todos/TodoList';
 import TopProductsTable from 'components/sections/dashboard/topProducts/TopProductsTable';
 import TransactionTable from 'components/sections/dashboard/transactions/TransactionTable';
+import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
+  const { t, i18n } = useTranslation();
   return (
     <Box
       sx={{
         pb: 1,
       }}
     >
-      <PageHeader>Dashboard</PageHeader>
+      <PageHeader>{t("dashboard")}</PageHeader>
       {/* /* ------------- Stats section ---------------- */}
 
       <Grid container spacing={3} mt={1} mb={3}>

@@ -4,6 +4,7 @@ import SimpleBar from 'simplebar-react';
 import SidebarBanner from './SidebarBanner';
 import SidebarItems from './SidebarItems';
 import SidebarLogo from './SidebarLogo';
+import { useTranslation } from 'react-i18next';
 interface SideNavProps {
   onDrawerClose: () => void;
   onDrawerTransitionEnd: () => void;
@@ -12,7 +13,7 @@ interface SideNavProps {
 const Sidebar = ({ onDrawerClose, onDrawerTransitionEnd, mobileOpen }: SideNavProps) => {
   const { up } = useBreakpoints();
   const upLg = up('lg');
-
+  const { t, i18n } = useTranslation();
   if (upLg) {
     return (
       <Box
@@ -21,7 +22,7 @@ const Sidebar = ({ onDrawerClose, onDrawerTransitionEnd, mobileOpen }: SideNavPr
         }}
       >
         <Drawer
-          anchor="left"
+          anchor={i18n.language === "ar" ? "right" : "left"}
           open
           variant="permanent"
           sx={{
@@ -101,6 +102,7 @@ const Sidebar = ({ onDrawerClose, onDrawerTransitionEnd, mobileOpen }: SideNavPr
           <SidebarBanner />
         </>
       </SimpleBar>
+   
     </Drawer>
   );
 };

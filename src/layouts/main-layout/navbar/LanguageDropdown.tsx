@@ -3,30 +3,37 @@ import { MouseEvent, useState } from 'react';
 import { MenuItem, Popover } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import IconifyIcon from 'components/base/IconifyIcon';
+import { useTranslation } from "react-i18next";
 
 // ----------------------------------------------------------------------
 
 const LANGS = [
   {
-    value: 'en-uk',
-    label: 'English (Global)',
+    value: 'en',
+    label: 'English',
     icon: 'flag:sh-4x3',
   },
   {
-    value: 'en-us',
-    label: 'English',
-    icon: 'flag:us-4x3',
+    value: 'ar',
+    label: 'عربى',
+    icon: 'flag:sa-4x3',
   },
 
-  {
-    value: 'bd',
-    label: 'Bangla',
-    icon: 'flag:bd-4x3',
-  },
+  // {
+  //   value: 'bd',
+  //   label: 'Bangla',
+  //   icon: 'flag:bd-4x3',
+  // },
 ];
 
 // ----------------------------------------------------------------------
 const LanguageDropdown = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    handleClose()
+  };
   const [open, setOpen] = useState<HTMLElement | null>(null);
 
   const handleOpen = (event: MouseEvent<HTMLElement>) => {
@@ -74,7 +81,10 @@ const LanguageDropdown = () => {
           <MenuItem
             key={option.value}
             selected={option.value === LANGS[0].value}
-            onClick={handleClose}
+            onClick={()=>{
+              changeLanguage(option.value)
+              console.log(option.value)
+            }}
             sx={{ typography: 'body2', py: 1 }}
           >
             <IconifyIcon icon={option.icon} sx={{ width: 28, height: 28, mr: 2 }} />

@@ -14,8 +14,8 @@ const SidebarLogo = () => {
         // pl: theme.spacing(2.5),
       }}
     >
-      <Logo fontSize={'large'} />
-      <Typography variant="h4">Modernize</Typography>
+      <Logo fontSize={'large'} sx={{width:"19.2em",height:"7.2em",objectFit:"contain"}}  />
+      {/* <Typography variant="h4">Modernize</Typography> */}
     </Link>
   );
 };

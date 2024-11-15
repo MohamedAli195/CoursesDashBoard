@@ -13,14 +13,16 @@ import Logo from 'components/icons/brand/Logo';
 import LanguageDropdown from 'layouts/main-layout/navbar/LanguageDropdown';
 import NotificationDropdown from './NotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
+import { useTranslation } from 'react-i18next';
 
 interface MainNavbarProps {
   onDrawerToggle: () => void;
 }
 
 const MainNavbar = ({ onDrawerToggle }: MainNavbarProps) => {
+
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" >
       <Toolbar>
         <Stack direction="row" spacing={{ xs: 0, sm: 2 }} alignItems="center">
           <Link

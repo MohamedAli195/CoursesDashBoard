@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from 'routes/router.tsx';
 import { theme } from 'theme/theme.ts';
 import './index.css';
+import "./i18n"; // Import the i18n configuration
 import {
 
 

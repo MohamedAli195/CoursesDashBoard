@@ -14,8 +14,10 @@ import ReportsIcon from 'components/icons/menu-icons/ReportsIcon';
 import ResetPasswordIcon from 'components/icons/menu-icons/ResetPasswordIcon';
 import SignUpIcon from 'components/icons/menu-icons/SignInIcon';
 import SignInIcon from 'components/icons/menu-icons/SignUpIcon';
+import i18next from 'i18next';
 
 import { uniqueId } from 'lodash';
+
 import paths from 'routes/path';
 
 export interface IMenuitems {
@@ -38,62 +40,61 @@ export interface IMenuitems {
 const Menuitems: IMenuitems[] = [
   {
     id: uniqueId(),
-    title: 'Dashboard',
+    title: i18next.t("dashboard"),
     icon: HomeIcon,
     href: '/',
     available: true,
   },
   {
     id: uniqueId(),
-    title: 'Packages',
+    title: i18next.t("packages"),
     icon: OrderIcon,
     href: paths.packages,
-    chip: '16',
     chipColor: 'secondary',
     available: false,
   },
   {
     id: uniqueId(),
-    title: 'Products',
+    title: i18next.t("courses"),
     icon: ProductsIcon,
     href: '#!',
     available: false,
   },
   {
     id: uniqueId(),
-    title: 'Categories',
+    title: i18next.t("Categories"),
     icon: CategoriesIcon,
     href: paths.categories,
     available: false,
   },
   {
     id: uniqueId(),
-    title: 'Customers',
+    title: i18next.t("Customers"),
     icon: CustomersIcon,
     href: '#!',
     available: false,
   },
-  {
-    id: uniqueId(),
-    title: 'Reports',
-    icon: ReportsIcon,
-    href: '#!',
-    available: false,
-  },
-  {
-    id: uniqueId(),
-    title: 'Coupons',
-    icon: CouponsIcon,
-    href: '#!',
-    available: false,
-  },
-  {
-    id: uniqueId(),
-    title: 'Inbox',
-    icon: InboxIcon,
-    href: '#!',
-    available: false,
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Reports',
+  //   icon: ReportsIcon,
+  //   href: '#!',
+  //   available: false,
+  // },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Coupons',
+  //   icon: CouponsIcon,
+  //   href: '#!',
+  //   available: false,
+  // },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Inbox',
+  //   icon: InboxIcon,
+  //   href: '#!',
+  //   available: false,
+  // },
   // {
   //   navlabel: true,
   //   subheader: 'Authentication',
@@ -129,18 +130,18 @@ const Menuitems: IMenuitems[] = [
 
   {
     navlabel: true,
-    subheader: 'Settings',
+    subheader: i18next.t("settings"),
   },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Personal Settings',
+  //   icon: PersonalSettingsIcon,
+  //   href: '/settings/#!',
+  //   available: false,
+  // },
   {
     id: uniqueId(),
-    title: 'Personal Settings',
-    icon: PersonalSettingsIcon,
-    href: '/settings/#!',
-    available: false,
-  },
-  {
-    id: uniqueId(),
-    title: 'Global Settings',
+    title: i18next.t("globalSettings"),
     icon: GlobalSettingsIcon,
     href: '/settings/#!',
     available: false,

@@ -1,0 +1,12 @@
+
+{
+    "welcome": "مرحبًا بك في تطبيقنا!",
+    "language": "اللغة",
+     "dashboard":"لوحة التحكم",
+     "packages":"الباقات",
+     "categories":"الاقسام",
+     "courses":"الكورسات",
+     "customers":"العملاء",
+     "settings":"الاعدادات",
+     "globalSettings":"الاعدادات العامة"
+  }
