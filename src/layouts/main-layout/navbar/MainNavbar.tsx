@@ -14,13 +14,18 @@ import LanguageDropdown from 'layouts/main-layout/navbar/LanguageDropdown';
 import NotificationDropdown from './NotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import i18n from 'i18n';
 
 interface MainNavbarProps {
   onDrawerToggle: () => void;
 }
 
 const MainNavbar = ({ onDrawerToggle }: MainNavbarProps) => {
-
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
   return (
     <AppBar position="sticky" >
       <Toolbar>

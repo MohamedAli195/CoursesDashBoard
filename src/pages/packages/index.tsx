@@ -7,9 +7,10 @@ import BasicModal from 'components/modal/ShareModal';
 import AddPackageForm from 'components/addPacageForm';
 import UpdatePackageForm from 'components/updatePacageForm';
 import { deletePackage, fetchPackages } from './packagesFunct';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
+import i18n from 'i18n';
 
 // Fetch packages function
 
@@ -122,7 +123,7 @@ function PackagesPage() {
 
   return (
     <>
-      <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3}>
+      <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3} height={""}>
         <Typography variant="h1" color="initial">
           Packages Page
         </Typography>
@@ -131,13 +132,15 @@ function PackagesPage() {
         </Button>
       </Stack>
 
-      <Paper sx={{ height: 400, width: '100%' }}>
+      <Paper sx={{ height: "800px", width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
+          autoHeight 
+          getRowHeight={() => 200} // Set each row's height to 200px
         />
       </Paper>
 
@@ -151,7 +154,7 @@ function PackagesPage() {
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>update pacage</h2>
-        <UpdatePackageForm handleClose={handleCloseU} initialData={selectedPackage} />
+        <UpdatePackageForm handleClose={handleCloseU} initialData={selectedPackage} refetch={refetch} />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

@@ -2,6 +2,8 @@ import { useLocation, useParams } from "react-router-dom"
 import { fetchPackage } from "./packagesFunct";
 import { useQuery } from "@tanstack/react-query";
 import ViewPackageForm from "components/viewpackageForm";
+import { useEffect } from "react";
+import i18n from "i18n";
 
 function PackageDetails() {
     let { id } = useParams();
@@ -14,7 +16,7 @@ function PackageDetails() {
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error.message}</p>;
 
-    console.log("Fetched data:", data);
+
 
     return (
         <>

@@ -6,6 +6,7 @@ import NavMenuItem from './NavMenuItem';
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 
 
@@ -14,6 +15,12 @@ const SidebarItems = () => {
   const { pathname } = location;
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+    console.log("rerenderd")
+    
+  }, [i18n.language]);
   return (
     <Box sx={{ p: 2 }}>
       <List sx={{ pt: 0 }}>

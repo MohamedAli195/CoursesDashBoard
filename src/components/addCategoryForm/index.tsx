@@ -5,7 +5,6 @@ import {
     TextField,
   } from '@mui/material';
   import axios from 'axios';
-  import { useEffect } from 'react';
   import { useForm, SubmitHandler } from 'react-hook-form';
   import toast from 'react-hot-toast';
   
@@ -14,76 +13,56 @@ import {
       en: string;
       ar: string;
     };
+    description: {
+        en: string;
+        ar: string;
+      };
     image: FileList;
-    price: string;
+
   }
+  // interface IFormInput {
+  //   name["en"]: string;
+  //   name["ar"]: string;
+  //   image: string;
+  //   price: string;
+  // }
   
-  function UpdatePackageForm({
-    handleClose,
-    initialData,
-    refetch
-  }: {
-    handleClose: () => void;
-    refetch:()=>void;
-    initialData?: null | {
-      id: number;
-    //   name: { en: string; ar: string };
-    nameAr:string;
-    nameEn:string;
-      price: string;
-      image: FileList;
-      status: string | null;
-    };
-  }) {
-    const { register, setValue, handleSubmit } = useForm<IFormInput>();
-  
-    useEffect(() => {
-        console.log({initialData})
-      if (initialData) {
-        console.log(initialData);
-        
-          setValue('name.en', initialData.nameEn);
-          setValue('name.ar', initialData.nameAr);
-        
-        setValue('price', initialData.price);
-  
-        // Since `image` is a FileList, ensure it's correctly passed when uploading
-        if (initialData.image && initialData.image.length > 0) {
-          setValue('image', initialData.image);
-        }
-      }
-    }, [initialData, setValue]);
+  function AddCategoryForm({handleClose ,refetch}:{handleClose: () => void; refetch:()=>void} ) {
+    const { register, handleSubmit } = useForm<IFormInput>();
   
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-      console.log(data);
+      console.log(data)
       try {
         // Create a FormData object and append the data
         const formData = new FormData();
         formData.append('name[en]', data.name.en);
         formData.append('name[ar]', data.name.ar);
-        formData.append('image', data.image[0]); // Access the first file in the FileList
-        formData.append('price', data.price);
-  
+        formData.append('image', data.image[0]);
+        formData.append('description[en]', data.description.en);
+        formData.append('description[ar]', data.description.ar);
+
+    
         // Define headers with the token
         const headers = {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           'Content-Type': 'multipart/form-data',
         };
-  
+    
         const response = await axios.post(
-          `https://market-mentor.flexi-code.com/public/api/admin/packages/${initialData?.id}/update`,
+          'https://market-mentor.flexi-code.com/public/api/admin/categories',
           formData,
           { headers }
         );
-  
+         console.log(formData);
         console.log(response.data);
-        toast.success('Package updated successfully');
+        toast.success('category added successfully');
+        handleClose()
         refetch()
-        handleClose();
-  
+    
       } catch (err) {
-        console.error('Error updating package:', err);
-        toast.error('Failed to update package, please check your input.');
+        console.error('Error signing in:', err);
+        toast.error('Failed to add category, please check your input.');
+        
       }
     };
   
@@ -113,14 +92,24 @@ import {
               label="names.en"
               {...register('name.en', { required: 'names.en is required' })}
             />
+              <TextField
+              fullWidth
+              variant="outlined"
+              id="description.ar"
+              type="text"
+              label="description.ar"
+              {...register('description.ar', { required: 'description.ar is required' })}
+            />
             <TextField
               fullWidth
               variant="outlined"
-              id="price"
+              id="desc.en"
               type="text"
-              label="Price"
-              {...register('price', { required: 'Price is required' })}
+              label="description.en"
+              {...register('description.en', { required: 'desc.en is required' })}
             />
+
+
             <TextField
               fullWidth
               variant="outlined"
@@ -131,6 +120,7 @@ import {
               inputProps={{ accept: 'image/*' }}
               {...register('image', { required: 'Image is required' })}
             />
+         
           </Stack>
           <Button
             color="primary"
@@ -140,12 +130,12 @@ import {
             type="submit"
             sx={{ mt: 3, fontSize: '18px' }}
           >
-            Update Package
+            Add Category
           </Button>
         </Box>
       </>
     );
   }
   
-  export default UpdatePackageForm;
+  export default AddCategoryForm;
   

@@ -7,6 +7,7 @@ import paths, { rootPaths } from './path';
 import ProtectedRoute from 'components/protectedRoute/ProtectedRoute';
 import PackagesPage from 'pages/packages';
 import PackageDetails from 'pages/packages/PackageDetails';
+import CategoriesDetails from 'pages/categories/CategoriesDetails';
 
 // Lazy-loaded components
 const App = lazy(() => import('App'));
@@ -121,6 +122,14 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <PackageDetails />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.categories}/:id`, // Fixed typo
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <CategoriesDetails />
               </ProtectedRoute>
             ),
           },

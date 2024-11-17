@@ -62,14 +62,14 @@ const Menuitems: IMenuitems[] = [
   },
   {
     id: uniqueId(),
-    title: i18next.t("Categories"),
+    title: i18next.t("categories"),
     icon: CategoriesIcon,
     href: paths.categories,
     available: false,
   },
   {
     id: uniqueId(),
-    title: i18next.t("Customers"),
+    title: i18next.t("customers"),
     icon: CustomersIcon,
     href: '#!',
     available: false,
