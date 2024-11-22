@@ -66,8 +66,8 @@ function ViewPackageForm({
                     variant="outlined"
                     id="names.ar"
                     type="text"
-                    label="Name (Arabic)"
                     disabled
+                    label="Name (Arabic)"
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.ar')}
                 />

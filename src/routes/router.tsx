@@ -8,6 +8,11 @@ import ProtectedRoute from 'components/protectedRoute/ProtectedRoute';
 import PackagesPage from 'pages/packages';
 import PackageDetails from 'pages/packages/PackageDetails';
 import CategoriesDetails from 'pages/categories/CategoriesDetails';
+import CoursesPage from 'pages/courses';
+import AddCoursePage from 'pages/courses/AddCoursePage';
+import CourseDetails from 'pages/courses/CourseDetails';
+import AddCourseLectuerPage from 'pages/courses/AddCourseLectuerPage';
+
 
 // Lazy-loaded components
 const App = lazy(() => import('App'));
@@ -102,6 +107,30 @@ export const routes = [
             ),
           },
           {
+            path: paths.courses,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <CoursesPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.courses}/add`,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <AddCoursePage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.courses}/:id/add-lectuer`,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <AddCourseLectuerPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
             path: paths.inbox,
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
@@ -130,6 +159,14 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <CategoriesDetails />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.courses}/:id`, // Fixed typo
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <CourseDetails />
               </ProtectedRoute>
             ),
           },

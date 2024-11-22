@@ -57,7 +57,7 @@ const Menuitems: IMenuitems[] = [
     id: uniqueId(),
     title: i18next.t("courses"),
     icon: ProductsIcon,
-    href: '#!',
+    href: paths.courses,
     available: false,
   },
   {

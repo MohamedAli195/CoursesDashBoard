@@ -17,6 +17,7 @@ const paths = {
   orders: `${rootPaths.pagesRoot}orders`,
   reports: `${rootPaths.pagesRoot}reports`,
   coupons: `${rootPaths.pagesRoot}coupons`,
+  courses: `${rootPaths.pagesRoot}courses`,
   inbox: `${rootPaths.pagesRoot}inbox`,
   login: `${rootPaths.authRoot}/login`,
   signup: `${rootPaths.authRoot}/sign-up`,
