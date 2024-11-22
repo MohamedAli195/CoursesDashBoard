@@ -122,14 +122,14 @@ function CoursesPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ['packages'],
+    queryKey: ['courses'],
     queryFn: () => fetchCourses(),
   });
 
-  // console.log(data?.data?.data)
+  console.log(data?.data.data)
 
   // Prepare rows for DataGrid
-  const rows = data?.data?.data.map(
+  const rows =data?.data?.data.length > 0 ?  data?.data?.data.map(
     (packageItem: {
       id: number;
       name: { en: string; ar: string };
@@ -168,7 +168,7 @@ function CoursesPage() {
       descriptionEn:packageItem.description.en,
       descriptionAr:packageItem.description.ar,
     }),
-  );
+  ):"";
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
   return (

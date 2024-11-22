@@ -104,7 +104,7 @@ function PackagesPage() {
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
-  const rows = data.data.map(
+  const rows = data.data.length>0? data.data.map(
     (packageItem: {
       id: number;
       name: { en: string; ar: string };
@@ -119,7 +119,7 @@ function PackagesPage() {
       image: packageItem.image,
       status: packageItem.status,
     }),
-  );
+  ):"";
 
   return (
     <>

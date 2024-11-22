@@ -108,7 +108,7 @@ function CategoriesPage() {
   if (isError) return <p>Error: {error.message}</p>;
   console.log(data.data);
   // Prepare rows for DataGrid
-  const rows = data.data.map(
+  const rows =data.data.length > 0 ? data.data.map(
     (packageItem: {
       id: number;
       name: { en: string; ar: string };
@@ -124,7 +124,7 @@ function CategoriesPage() {
 
       image: packageItem.image,
     }),
-  );
+  ):"";
 
   return (
     <>
