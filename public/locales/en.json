@@ -23,7 +23,7 @@
       "delete":"Delete",
       "updateCategory":"Update Category",
       "UpdatePackage":"Update Package",
-      
+
       "ArabicName":"Arabic Name",
       "ArabicNameReq":"Arabic name is required",
       "EnglishName":"English Name",
@@ -33,7 +33,7 @@
       "descArReq":"Arabic Description is required",
       "descEn":"English Description",
       "descEnReq":"English Description is required",
-
+ "price":"Price",
        "image":"Image",
       "imageReq":"Image is required"
 

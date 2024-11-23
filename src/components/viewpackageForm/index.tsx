@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
     name: {
@@ -31,7 +32,7 @@ function ViewPackageForm({
     const { register, setValue } = useForm<IFormInput>();
     const theme = useTheme();
     const [imageUrl, setImageUrl] = useState<string | null>(null);
-
+    const { t } = useTranslation();
     useEffect(() => {
         if (initialData) {
             setValue('name.en', initialData.name.en);
@@ -67,7 +68,7 @@ function ViewPackageForm({
                     id="names.ar"
                     type="text"
                     
-                    label="Name (Arabic)"
+                    label={t("ArabicName")}
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.ar')}
                 />
@@ -76,7 +77,7 @@ function ViewPackageForm({
                     variant="outlined"
                     id="names.en"
                     type="text"
-                    label="Name (English)"
+                    label={t("EnglishName")}
                     
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.en')}
@@ -86,7 +87,7 @@ function ViewPackageForm({
                     variant="outlined"
                     id="price"
                     type="text"
-                    label="Price"
+                    label={t("price")}
                     
                     sx={{ color: theme.palette.text.primary }}
                     {...register('price')}
