@@ -75,53 +75,53 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           variant="outlined"
           id="names.ar"
           type="text"
-          label="Arabic Name"
+          label={t("ArabicName")}
           error={!!errors.name?.ar}
           helperText={errors.name?.ar?.message}
-          {...register('name.ar', { required: 'Arabic name is required' })}
+          {...register('name.ar', { required: t("ArabicNameReq") })}
         />
         <TextField
           fullWidth
           variant="outlined"
           id="names.en"
           type="text"
-          label="English Name"
+          label={t("EnglishName")}
           error={!!errors.name?.en}
           helperText={errors.name?.en?.message}
-          {...register('name.en', { required: 'English name is required' })}
+          {...register('name.en', { required: t("EnglishNameReq") })}
         />
         <TextField
           fullWidth
           variant="outlined"
           id="description.ar"
           type="text"
-          label="Arabic Description"
+          label={t("descAr")}
           error={!!errors.description?.ar}
           helperText={errors.description?.ar?.message}
-          {...register('description.ar', { required: 'Arabic description is required' })}
+          {...register('description.ar', { required: t("descArReq")  })}
         />
         <TextField
           fullWidth
           variant="outlined"
           id="description.en"
           type="text"
-          label="English Description"
+          label={t("descEn")}
           error={!!errors.description?.en}
           helperText={errors.description?.en?.message}
-          {...register('description.en', { required: 'English description is required' })}
+          {...register('description.en', { required: t("descEnReq")   })}
         />
         <TextField
           fullWidth
           variant="outlined"
           id="image"
           type="file"
-          label="Image"
+          label={t("image")}
           InputLabelProps={{ shrink: true }}
           inputProps={{ accept: 'image/*' }}
           error={!!errors.image}
           helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
           {...register('image', {
-            required: 'Image is required',
+            required: t("imageReq"),
             onChange: (e) => setFileName(e.target.files?.[0]?.name || null), // Update file name on change
           })}
         />

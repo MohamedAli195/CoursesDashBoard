@@ -109,16 +109,16 @@ function UpdateCategoryForm({
             variant="outlined"
             id="names.ar"
             type="text"
-            label="names.ar"
-            {...register('name.ar', { required: 'names.ar is required' })}
+            label={t("ArabicName")}
+            {...register('name.ar', { required:t("ArabicNameReq")  })}
           />
           <TextField
             fullWidth
             variant="outlined"
             id="names.en"
             type="text"
-            label="names.en"
-            {...register('name.en', { required: 'names.en is required' })}
+            label={t("EnglishName")}
+            {...register('name.en', { required:t("EnglishNameReq")  })}
           />
 
           <TextField
@@ -126,16 +126,16 @@ function UpdateCategoryForm({
             variant="outlined"
             id="description.ar"
             type="text"
-            label="description.ar"
-            {...register('description.ar', { required: 'description.ar is required' })}
+            label={t("descAr")}
+            {...register('description.ar', {required:t("descArReq") })}
           />
           <TextField
             fullWidth
             variant="outlined"
             id="description.en"
             type="text"
-            label="description.en"
-            {...register('description.en', { required: 'description.en is required' })}
+            label={t("descEn")}
+            {...register('description.en', {required:t("descEnReq") })}
           />
 
           <TextField
@@ -143,7 +143,7 @@ function UpdateCategoryForm({
             variant="outlined"
             id="image"
             type="file"
-            label="Image"
+            label={t("image")}
             InputLabelProps={{ shrink: true }}
             inputProps={{ accept: 'image/*' }}
             {...register('image')}

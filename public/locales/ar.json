@@ -23,5 +23,16 @@
       "view":"مشاهدة",
       "delete":"حذف",
       "updateCategory":"تحديث قسم",
-      "UpdatePackage":"تحديث باقة"
+      "UpdatePackage":"تحديث باقة",
+      "ArabicName":"الاسم بالعربى",
+      "ArabicNameReq":"الاسم بالعربى حقل اساسى",
+      "EnglishName":"الاسم بالانجليزى",
+      "EnglishNameReq":"الاسم بالانجليزى حقل اساسى",
+
+      "descAr":"الوصف بالعربى",
+      "descArReq":"الوصف بالعربى حقل اساسى",
+      "descEn":"الوصف بالانجليزى",
+      "descEnReq":"الوصف بالانجليزى حقل اساسى",
+       "image":"الصورة",
+      "imageReq":"الصورة حقل اساسى"
   }

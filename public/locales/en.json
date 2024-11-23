@@ -22,7 +22,20 @@
       "view":"View",
       "delete":"Delete",
       "updateCategory":"Update Category",
-      "UpdatePackage":"Update Package"
+      "UpdatePackage":"Update Package",
+      
+      "ArabicName":"Arabic Name",
+      "ArabicNameReq":"Arabic name is required",
+      "EnglishName":"English Name",
+      "EnglishNameReq":"English name is required",
+
+      "descAr":"Arabic Description",
+      "descArReq":"Arabic Description is required",
+      "descEn":"English Description",
+      "descEnReq":"English Description is required",
+
+       "image":"Image",
+      "imageReq":"Image is required"
 
       
 

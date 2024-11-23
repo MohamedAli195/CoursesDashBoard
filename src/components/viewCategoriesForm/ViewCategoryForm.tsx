@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
     name: {
@@ -36,6 +37,7 @@ function ViewCategoryForm({
     const { register, setValue } = useForm<IFormInput>();
     const theme = useTheme();
     const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (initialData) {
@@ -72,7 +74,7 @@ function ViewCategoryForm({
                     variant="outlined"
                     id="names.ar"
                     type="text"
-                    label="Name (Arabic)"
+                    label={t("ArabicName")}
                     
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.ar')}
@@ -82,7 +84,7 @@ function ViewCategoryForm({
                     variant="outlined"
                     id="names.en"
                     type="text"
-                    label="Name (English)"
+                    label={t("EnglishName")}
                     
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.en')}
@@ -92,7 +94,7 @@ function ViewCategoryForm({
                     variant="outlined"
                     id="desc.ar"
                     type="text"
-                    label="desc (Arabic)"
+                    label={t("descAr")}
                     
                     sx={{ color: theme.palette.text.primary }}
                     {...register('description.ar')}
@@ -102,7 +104,7 @@ function ViewCategoryForm({
                     variant="outlined"
                     id="desc.en"
                     type="text"
-                    label="desc (English)"
+                    label={t("descEn")}
                     
                     sx={{ color: theme.palette.text.primary }}
                     {...register('description.en')}

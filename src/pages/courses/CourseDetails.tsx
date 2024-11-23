@@ -7,6 +7,7 @@ import i18n from "i18n";
 import { Button, Stack, Typography } from "@mui/material";
 import paths from "routes/path";
 import { useTranslation } from "react-i18next";
+import ViewCoursForm from "components/viewCoursForm";
 
 function CourseDetails() {
     let { id } = useParams();
@@ -35,7 +36,7 @@ function CourseDetails() {
         </Button>
         </Stack>
         
-        <ViewPackageForm initialData ={data?.data}/>
+        <ViewCoursForm initialData ={data?.data}/>
        
         </>
     );
