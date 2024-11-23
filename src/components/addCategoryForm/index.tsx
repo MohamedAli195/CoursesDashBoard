@@ -8,6 +8,7 @@ import {
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
   name: {
@@ -29,7 +30,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
   } = useForm<IFormInput>();
 
   const [fileName, setFileName] = useState<string | null>(null); // State to hold file name
-
+  const { t } = useTranslation();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       const formData = new FormData();
@@ -133,7 +134,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
         type="submit"
         sx={{ mt: 3, fontSize: '18px' }}
       >
-        Add Category
+        {t("AddCategory")}
       </Button>
     </Box>
   );

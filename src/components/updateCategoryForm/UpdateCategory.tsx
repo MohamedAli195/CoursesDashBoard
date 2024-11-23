@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
   name: {
@@ -35,7 +36,7 @@ function UpdateCategoryForm({
   };
 }) {
   const { register, setValue, handleSubmit } = useForm<IFormInput>();
-
+  const { t } = useTranslation();
   useEffect(() => {
     console.log(initialData?.image);
     if (initialData) {
@@ -156,7 +157,7 @@ function UpdateCategoryForm({
           type="submit"
           sx={{ mt: 3, fontSize: '18px' }}
         >
-          Update Category
+          {t("updateCategory")}
         </Button>
       </Box>
     </>

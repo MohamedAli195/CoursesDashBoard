@@ -21,5 +21,7 @@
      "AddCategory":"اضافة قسم",
      "edit":"تعديل",
       "view":"مشاهدة",
-      "delete":"حذف"
+      "delete":"حذف",
+      "updateCategory":"تحديث قسم",
+      "UpdatePackage":"تحديث باقة"
   }

@@ -8,6 +8,7 @@ import {
   import { useEffect } from 'react';
   import { useForm, SubmitHandler } from 'react-hook-form';
   import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
   
   interface IFormInput {
     name: {
@@ -36,7 +37,7 @@ import {
     };
   }) {
     const { register, setValue, handleSubmit } = useForm<IFormInput>();
-  
+    const { t } = useTranslation();
     useEffect(() => {
         console.log({initialData})
       if (initialData) {
@@ -140,7 +141,7 @@ import {
             type="submit"
             sx={{ mt: 3, fontSize: '18px' }}
           >
-            Update Package
+            {t("UpdatePackage")}
           </Button>
         </Box>
       </>

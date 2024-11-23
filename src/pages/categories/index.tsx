@@ -162,7 +162,7 @@ function CategoriesPage() {
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
-        <h2>update category</h2>
+        <h2>{t("updateCategory")}</h2>
         <UpdateCategoryForm
           handleClose={handleCloseU}
           initialData={selectedCategory}
