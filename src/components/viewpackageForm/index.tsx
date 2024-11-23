@@ -56,7 +56,7 @@ function ViewPackageForm({
     return (
         <Box
             sx={{
-                mt: { sm: 5, xs: 2.5 },
+                mt: { sm: 5, xs: 2.5 },width:"50%"
             }}
             component="form"
         >
@@ -66,7 +66,7 @@ function ViewPackageForm({
                     variant="outlined"
                     id="names.ar"
                     type="text"
-                    disabled
+                    
                     label="Name (Arabic)"
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.ar')}
@@ -77,7 +77,7 @@ function ViewPackageForm({
                     id="names.en"
                     type="text"
                     label="Name (English)"
-                    disabled
+                    
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.en')}
                 />
@@ -87,7 +87,7 @@ function ViewPackageForm({
                     id="price"
                     type="text"
                     label="Price"
-                    disabled
+                    
                     sx={{ color: theme.palette.text.primary }}
                     {...register('price')}
                 />
@@ -95,7 +95,7 @@ function ViewPackageForm({
                     <Avatar
                         src={imageUrl}
                         alt="Package Image"
-                        sx={{ width: "50%", height: "40vh" }}
+                        sx={{ width: "100%", height: "40vh" }}
                     />
                 )}
             </Stack>

@@ -11,11 +11,13 @@ import paths from 'routes/path';
 import i18n from 'i18n';
 import AddCategoryForm from 'components/addCategoryForm';
 import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
+import { useTranslation } from 'react-i18next';
 
 // Fetch packages function
 
 function CategoriesPage() {
   // states
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   // add modal
   const [open, setOpen] = useState(false);
@@ -48,13 +50,12 @@ function CategoriesPage() {
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'nameEn', headerName: 'Name En' },
-    { field: 'nameAr', headerName: 'Name Ar' },
-    { field: 'descriptionEn', headerName: 'description En' },
-    { field: 'descriptionAr', headerName: 'description Ar' },
+    i18n.language === "ar" ? { field: 'nameAr', headerName: 'الاسم' }:{ field: 'nameEn', headerName: 'Name' },
+    i18n.language === "ar" ?{ field: 'descriptionAr', headerName: 'الوصف' }:{ field: 'descriptionEn', headerName: 'description' },
+
     {
       field: 'image',
-      headerName: 'Image',
+      headerName:i18n.language === "ar" ? 'الصورة':"image",
 
       flex: 1,
       renderCell: (params) =>
@@ -68,7 +69,7 @@ function CategoriesPage() {
     },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName:i18n.language === "ar" ? 'العمليات':"actions",
       width: 130,
       flex: 1,
       renderCell: (params) => (
@@ -130,7 +131,7 @@ function CategoriesPage() {
     <>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3}>
         <Typography variant="h1" color="initial">
-          Categories Page
+        {t("categories")}
         </Typography>
         <Button variant="contained" color="info" onClick={handleOpen}>
           Add Category

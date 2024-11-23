@@ -62,7 +62,7 @@ function ViewCategoryForm({
     return (
         <Box
             sx={{
-                mt: { sm: 5, xs: 2.5 },
+                mt: { sm: 5, xs: 2.5 },width:"50%"
             }}
             component="form"
         >
@@ -73,7 +73,7 @@ function ViewCategoryForm({
                     id="names.ar"
                     type="text"
                     label="Name (Arabic)"
-                    disabled
+                    
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.ar')}
                 />
@@ -83,7 +83,7 @@ function ViewCategoryForm({
                     id="names.en"
                     type="text"
                     label="Name (English)"
-                    disabled
+                    
                     sx={{ color: theme.palette.text.primary }}
                     {...register('name.en')}
                 />
@@ -93,7 +93,7 @@ function ViewCategoryForm({
                     id="desc.ar"
                     type="text"
                     label="desc (Arabic)"
-                    disabled
+                    
                     sx={{ color: theme.palette.text.primary }}
                     {...register('description.ar')}
                 />
@@ -103,7 +103,7 @@ function ViewCategoryForm({
                     id="desc.en"
                     type="text"
                     label="desc (English)"
-                    disabled
+                    
                     sx={{ color: theme.palette.text.primary }}
                     {...register('description.en')}
                 />
@@ -112,7 +112,7 @@ function ViewCategoryForm({
                     <Avatar
                         src={imageUrl}
                         alt="desc Image"
-                        sx={{ width: "50%", height: "40vh" }}
+                        sx={{ width: "100%", height: "40vh" }}
                     />
                 )}
             </Stack>

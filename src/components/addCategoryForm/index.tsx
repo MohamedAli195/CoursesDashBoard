@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -27,9 +28,10 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
     formState: { errors },
   } = useForm<IFormInput>();
 
+  const [fileName, setFileName] = useState<string | null>(null); // State to hold file name
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      // Create a FormData object and append the data
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
       formData.append('name[ar]', data.name.ar);
@@ -37,7 +39,6 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
       formData.append('description[ar]', data.description.ar);
       formData.append('image', data.image[0]);
 
-      // Define headers with the token
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data',
@@ -117,8 +118,11 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           InputLabelProps={{ shrink: true }}
           inputProps={{ accept: 'image/*' }}
           error={!!errors.image}
-          helperText={errors.image?.message}
-          {...register('image', { required: 'Image is required' })}
+          helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
+          {...register('image', {
+            required: 'Image is required',
+            onChange: (e) => setFileName(e.target.files?.[0]?.name || null), // Update file name on change
+          })}
         />
       </Stack>
       <Button

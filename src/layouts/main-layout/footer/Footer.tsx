@@ -15,7 +15,7 @@ const Footer = () => {
       <Box component="section" textAlign="center" py={0}>
         <Container>
           <Box pb={3}>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid container justifyContent="center" alignItems="center">
               <Grid item xs={12} lg="auto">
                 <Stack
                   alignItems="center"
@@ -25,10 +25,18 @@ const Footer = () => {
                       lg: 'row',
                     },
                     gap: 1,
+                    
                   }}
                 >
-                  <Typography variant="h6" fontWeight="regular" mb={0}>
-                    &copy; {new Date().getFullYear()}, Your Company Inc.
+                  <Typography variant="h6" fontWeight="regular" mb={0} sx={{
+                        textDecoration: 'none',
+                        transition: 'background 1s, color 0.5s',
+                        ml: 1,
+                        fontWeight: 'bold',
+                        '&:hover': { color: 'primary.main' },
+                        cursor:"pointer"
+                      }}>
+                     FLEXI-CODE.
                   </Typography>
                   <Typography
                     variant="h6"
@@ -38,9 +46,11 @@ const Footer = () => {
                     justifyContent="center"
                     fontWeight="regular"
                   >
+                    
                     Made with
+                    
                     <IconifyIcon icon="ri:heart-fill" sx={{ mx: 1, color: 'error.main' }} />
-                    by
+                    
                     <Link
                       href="https://themewagon.com/"
                       target="_blank"
@@ -53,12 +63,13 @@ const Footer = () => {
                         '&:hover': { color: 'primary.main' },
                       }}
                     >
-                      ThemeWagon
+                      Market Mentor 
+                      &copy; {new Date().getFullYear()},
                     </Link>
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12} lg="auto" mb={{ xs: 1, lg: 0 }} alignItems="center">
+              {/* <Grid item xs={12} lg="auto" mb={{ xs: 1, lg: 0 }} alignItems="center">
                 <Stack
                   flexDirection="row"
                   flexWrap="wrap"
@@ -89,7 +100,7 @@ const Footer = () => {
                     </ButtonBase>
                   ))}
                 </Stack>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
         </Container>

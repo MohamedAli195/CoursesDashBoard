@@ -2,6 +2,9 @@ module.exports = {
   printWidth: 100,
   singleQuote: true,
   trailingComma: 'all',
+  rules: {
+    '@typescript-eslint/no-unused-vars': 'off',
+  },
   overrides: [
     {
       files: ['docs/**/*.md', 'docs/src/pages/**/*.{js,tsx}', 'docs/data/**/*.{js,tsx}'],

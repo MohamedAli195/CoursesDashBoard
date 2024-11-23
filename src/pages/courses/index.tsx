@@ -13,13 +13,14 @@ import paths from 'routes/path';
 import i18n from 'i18n';
 import { deleteCourse, fetchCourses } from './coursesFunct';
 import { fetchPackages } from 'pages/packages/packagesFunct';
+import { useTranslation } from 'react-i18next';
 
 // Fetch packages function
 
 function CoursesPage() {
   // states
   const navigate = useNavigate();
-
+  const { t,i18n } = useTranslation();
   // update modal
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
@@ -63,19 +64,19 @@ function CoursesPage() {
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'nameEn', headerName: 'Name En' },
-    { field: 'nameAr', headerName: 'Name Ar' },
-    { field: 'price', headerName: 'Price' },
-    { field: 'categoryEn', headerName: 'category En' },
-    { field: 'categoryAr', headerName: 'category Ar' },
+    i18n.language === "ar" ? { field: 'nameAr', headerName: 'اسم الكورس' }: { field: 'nameEn', headerName: 'Name ' },
+   
+   
+    { field: 'price', headerName:i18n.language === "ar" ? 'السعر':"price" },
+    i18n.language === "ar" ? { field: 'categoryAr', headerName: 'القسم' }:{ field: 'categoryEn', headerName: 'category ' },
 
-    { field: 'packageEn', headerName: 'package En' },
-    { field: 'packageAr', headerName: 'package Ar' },
-    { field: 'descriptionEn', headerName: 'description En' },
-    { field: 'descriptionAr', headerName: 'description Ar' },
+    i18n.language === "ar" ?{ field: 'packageAr', headerName: 'الباقة' } :{ field: 'packageEn', headerName: 'package ' },
+    i18n.language === "ar" ? { field: 'descriptionAr', headerName: 'الوصف' } :{ field: 'descriptionEn', headerName: 'description ' },
+
     {
       field: 'image',
-      headerName: 'Image',
+      
+      headerName:i18n.language === "ar" ? 'الصورة':"image",
 
       flex: 1,
       renderCell: (params) =>
@@ -87,10 +88,10 @@ function CoursesPage() {
           </Typography>
         ),
     },
-    { field: 'status', headerName: 'Status', width: 130 },
+    { field: 'status',  headerName:i18n.language === "ar" ? 'الحالة':"status", width: 130 },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName:i18n.language === "ar" ? 'العمليات':"actions",
       width: 130,
       flex: 1,
       renderCell: (params) => (
@@ -156,6 +157,7 @@ function CoursesPage() {
       };
     }) => ({
       id: packageItem.id,
+      
       nameEn: packageItem.name?.en,
       nameAr: packageItem.name?.ar,
       price: packageItem.price,
@@ -171,6 +173,11 @@ function CoursesPage() {
   ):"";
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
+
+  // useEffect(() => {
+  //   document.documentElement.lang = i18n.language;
+  //   document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  // }, [i18n.language]);
   return (
     <>
       <Stack
@@ -181,7 +188,8 @@ function CoursesPage() {
         height={''}
       >
         <Typography variant="h1" color="initial">
-          Courses Page
+     
+          {t("courses")}
         </Typography>
         <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
           Add Course

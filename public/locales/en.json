@@ -7,5 +7,11 @@
     "courses":"Courses",
     "customers":"Customers",
       "settings":"Settings",
-     "globalSettings":"Global Settings"
+      "coursepage":"Course Page",
+      "categorypage":"category Page",
+      "packagPage":"packag Page",
+     "globalSettings":"Global Settings",
+     "AddCoursePage":" Add Course Page",
+     "addPackage":"ِAdd Package",
+      "editPackage":"edit Package"
   }

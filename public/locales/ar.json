@@ -4,9 +4,15 @@
     "language": "اللغة",
      "dashboard":"لوحة التحكم",
      "packages":"الباقات",
+     "packagPage":"صفحة الباقة",
      "categories":"الاقسام",
+     "categorypage":"صفحة القسم",
      "courses":"الكورسات",
+     "coursepage":"صفحة الكورس",
      "customers":"العملاء",
      "settings":"الاعدادات",
-     "globalSettings":"الاعدادات العامة"
+     "globalSettings":"الاعدادات العامة",
+     "AddCoursePage":"صفحة اضافة كورس",
+     "addPackage":"اضافة باقة",
+     "editPackage":"تعديل باقة"
   }

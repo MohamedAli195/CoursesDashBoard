@@ -1,21 +1,16 @@
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  MenuItem,
   Stack,
   TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
 } from '@mui/material';
 import axios from 'axios';
 import { fetchCategories } from 'pages/categories/categoriesFunct';
 import { fetchPackages } from 'pages/packages/packagesFunct';
-import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import paths from 'routes/path';
 
 interface IFormInput {
   name: {
@@ -36,6 +31,7 @@ interface IFormInput {
     ar: string;
   };
 }
+
 interface IPackageRes {
   code: number;
   data: {
@@ -57,19 +53,20 @@ function AddCourseForm() {
     code: 0,
     data: [],
   });
+
+  const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch,
   } = useForm<IFormInput>();
 
   useEffect(() => {
     const loadCategories = async () => {
       try {
         const categoryData = await fetchCategories();
-        setCategories(categoryData); // Should be an object matching IPackageRes
+        setCategories(categoryData);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -78,18 +75,17 @@ function AddCourseForm() {
     const loadPackages = async () => {
       try {
         const packageData = await fetchPackages();
-        setPackages(packageData); // Should be an object matching IPackageRes
+        setPackages(packageData);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error('Error fetching packages:', error);
       }
     };
-    
 
     loadCategories();
     loadPackages();
   }, []);
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
@@ -103,8 +99,8 @@ function AddCourseForm() {
       formData.append('price_after_discount', data.price_after_discount);
       formData.append('package_id', data.package_id.toString());
       formData.append('category_id', data.category_id.toString());
-      formData.append('description[en]', data.description?.en);
-      formData.append('description[ar]', data.description?.ar);
+      formData.append('description[en]', data.description.en);
+      formData.append('description[ar]', data.description.ar);
 
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -114,30 +110,27 @@ function AddCourseForm() {
       const response = await axios.post(
         'https://market-mentor.flexi-code.com/public/api/admin/courses',
         formData,
-        { headers },
+        { headers }
       );
 
-      console.log(response.data);
-      toast.success('course added successfully');
+      toast.success('Course added successfully');
     } catch (err) {
       console.error('Error adding course:', err);
       toast.error('Failed to add course, please check your input.');
     }
   };
 
-  // console.log(packages)
-  // console.log(categories)
   return (
     <>
       <Box
         sx={{
-          mt: { sm: 5, xs: 2.5 },
+          mt: { sm: 5, xs: 2.5 },width:"50%"
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Stack spacing={3}>
-          {/* Arabic Name */}
+          {/* Name Fields */}
           <TextField
             fullWidth
             variant="outlined"
@@ -146,8 +139,6 @@ function AddCourseForm() {
             helperText={errors.name?.ar?.message}
             {...register('name.ar', { required: 'Arabic name is required' })}
           />
-
-          {/* English Name */}
           <TextField
             fullWidth
             variant="outlined"
@@ -157,93 +148,61 @@ function AddCourseForm() {
             {...register('name.en', { required: 'English name is required' })}
           />
 
-
-           {/* description Name */}
-           <TextField
-            fullWidth
-            variant="outlined"
-            label="Arabic description"
-            error={!!errors.description?.ar}
-            helperText={errors.description?.ar?.message}
-            {...register('description.ar', { required: 'Arabic description is required' })}
-          />
-
-          {/* description En */}
+          {/* Description Fields */}
           <TextField
             fullWidth
             variant="outlined"
-            label="English description"
+            label="Arabic Description"
+            error={!!errors.description?.ar}
+            helperText={errors.description?.ar?.message}
+            {...register('description.ar', {
+              required: 'Arabic description is required',
+            })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="English Description"
             error={!!errors.description?.en}
             helperText={errors.description?.en?.message}
-            {...register('description.en', { required: 'English description is required' })}
+            {...register('description.en', {
+              required: 'English description is required',
+            })}
           />
 
-          {/* Price */}
+          {/* Image Upload */}
+          <TextField
+            fullWidth
+            variant="outlined"
+            type="file"
+            label="Image"
+            InputLabelProps={{ shrink: true }}
+            inputProps={{ accept: 'image/*' }}
+            error={!!errors.image}
+            helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
+            {...register('image', {
+              required: 'Image is required',
+              onChange: (e) =>
+                setFileName(e.target.files?.[0]?.name || 'No file selected'),
+            })}
+          />
+
+          {/* Other Inputs */}
           <TextField
             fullWidth
             variant="outlined"
             label="Price"
             error={!!errors.price}
             helperText={errors.price?.message}
-            {...register('price', {
-              required: 'Price is required',
-              pattern: {
-                value: /^[0-9]+(\.[0-9]{1,2})?$/,
-                message: 'Enter a valid price (e.g., 12.34)',
-              },
-            })}
+            {...register('price', { required: 'Price is required' })}
           />
-
-          {/* Category */}
-          <FormControl fullWidth>
-            <InputLabel id="category-label">Category</InputLabel>
-            <Select
-              labelId="category-label"
-              {...register('category_id', { required: true })}
-              onChange={(e) => setValue('category_id', Number(e.target.value))}
-              value={watch('category_id') || ''}
-            >
-              {/* <MenuItem value={10}>Female</MenuItem>
-              <MenuItem value={20}>Male</MenuItem>
-              <MenuItem value={30}>Other</MenuItem> */}
-              {categories.data &&
-                categories.data.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name.en}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-
-          {/* Package */}
-          <FormControl fullWidth>
-            <InputLabel id="package-label">Package</InputLabel>
-            <Select
-              labelId="package-label"
-              {...register('package_id', { required: true })}
-              onChange={(e) => setValue('package_id', Number(e.target.value))}
-              value={watch('package_id') || ''}
-            >
-              {/* <MenuItem value={1}>Basic</MenuItem>
-              <MenuItem value={2}>Standard</MenuItem>
-              <MenuItem value={3}>Premium</MenuItem> */}
-              {packages.data &&
-                packages.data.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name.en}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-
-          {/* Other Fields */}
           <TextField
             fullWidth
             variant="outlined"
-            label="Main Video"
+            label="Main Video URL"
             error={!!errors.main_video}
             helperText={errors.main_video?.message}
-            {...register('main_video', { required: 'Main video is required' })}
+            {...register('main_video', { required: 'Main video URL is required' })}
           />
           <TextField
             fullWidth
@@ -281,19 +240,47 @@ function AddCourseForm() {
               required: 'Price after discount is required',
             })}
           />
-
-          {/* Image Upload */}
           <TextField
+         
+            select
             fullWidth
             variant="outlined"
-            type="file"
-            label="Image"
-            InputLabelProps={{ shrink: true }}
-            inputProps={{ accept: 'image/*' }}
-            error={!!errors.image}
-            helperText={errors.image?.message}
-            {...register('image', { required: 'Image is required' })}
-          />
+            label="Package"
+            error={!!errors.package_id}
+            helperText={errors.package_id?.message}
+            {...register('package_id', { required: 'Package is required' })}
+            sx={{
+              '.MuiOutlinedInput-root': {
+                height: 56, // Match default height for MUI TextField
+              },
+            }}
+          >
+            {packages.data.map((pkg) => (
+              <MenuItem key={pkg.id} value={pkg.id}>
+                {pkg.name.en}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            fullWidth
+            variant="outlined"
+            label="Category"
+            error={!!errors.category_id}
+            helperText={errors.category_id?.message}
+            {...register('category_id', { required: 'Category is required' })}
+            sx={{
+              '.MuiOutlinedInput-root': {
+                height: 56, // Match default height for MUI TextField
+              },
+            }}
+          >
+            {categories.data.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name.en}
+              </MenuItem>
+            ))}
+          </TextField>
         </Stack>
 
         <Button
@@ -304,14 +291,12 @@ function AddCourseForm() {
           type="submit"
           sx={{ mt: 3, fontSize: '18px' }}
         >
-          Add Package
+          Add Course
         </Button>
       </Box>
-      
       <Toaster position="bottom-center" reverseOrder={false} />
     </>
   );
 }
 
 export default AddCourseForm;
-

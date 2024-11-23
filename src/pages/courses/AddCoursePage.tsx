@@ -4,12 +4,14 @@
 import { Typography } from '@mui/material'
 import AddCourseForm from 'components/AddCourseForm'
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 
 function AddCoursePage() {
+  const { t, i18n } = useTranslation();
   return (
     <>
     <Typography variant="h1" color="initial">
-          Add Course Page
+    {t("AddCoursePage")}
         </Typography>
     <AddCourseForm  />
     

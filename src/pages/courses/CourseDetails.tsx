@@ -6,11 +6,12 @@ import { useEffect } from "react";
 import i18n from "i18n";
 import { Button, Typography } from "@mui/material";
 import paths from "routes/path";
+import { useTranslation } from "react-i18next";
 
 function CourseDetails() {
     let { id } = useParams();
   const navigate = useNavigate();
-
+  const { t, i18n } = useTranslation();
 
     const { data, error, isLoading, isError } = useQuery({
         queryKey: ['packageDetail', id],
@@ -25,7 +26,7 @@ function CourseDetails() {
     return (
         <>
         <Typography variant="h1" color="initial">
-          Courses Details 
+        {t("coursepage")}
         </Typography>
         <ViewPackageForm initialData ={data?.data}/>
         <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/${id}/add-lectuer`)}>

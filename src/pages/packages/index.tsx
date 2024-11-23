@@ -11,10 +11,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import i18n from 'i18n';
+import { useTranslation } from 'react-i18next';
 
 // Fetch packages function
 
 function PackagesPage() {
+  const { t, i18n } = useTranslation();
   // states
   const navigate = useNavigate();
   // add modal
@@ -48,12 +50,11 @@ function PackagesPage() {
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'nameEn', headerName: 'Name En' },
-    { field: 'nameAr', headerName: 'Name Ar' },
-    { field: 'price', headerName: 'Price' },
+    i18n.language === "ar" ? { field: 'nameAr', headerName: 'الاسم' } : { field: 'nameEn', headerName: 'Name' },
+    { field: 'price', headerName:i18n.language === "ar" ? 'السعر':"price" },
     {
       field: 'image',
-      headerName: 'Image',
+      headerName:i18n.language === "ar" ? 'الصورة':"image",
 
       flex: 1,
       renderCell: (params) =>
@@ -65,10 +66,10 @@ function PackagesPage() {
           </Typography>
         ),
     },
-    { field: 'status', headerName: 'Status', width: 130 },
+    { field: 'status', headerName:i18n.language === "ar" ? 'الحالة':"status", width: 130 },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName:i18n.language === "ar" ? 'العمليات':"actions",
       width: 130,
       flex: 1,
       renderCell: (params) => (
@@ -121,14 +122,21 @@ function PackagesPage() {
     }),
   ):"";
 
+  // useEffect(() => {
+  //   document.documentElement.lang = i18n.language;
+  //   document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  // }, [i18n.language]);
+
   return (
     <>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3} height={""}>
         <Typography variant="h1" color="initial">
-          Packages Page
+          
+          {t("packages")}
         </Typography>
         <Button variant="contained" color="info" onClick={handleOpen}>
-          Add Package
+          {t("addPackage")}
+      
         </Button>
       </Stack>
 
@@ -146,14 +154,14 @@ function PackagesPage() {
 
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>
-        <h2>add pacage</h2>
+        <h2>{t("addPackage")}</h2>
 
         <AddPackageForm handleClose={handleClose}  refetch={refetch}/>
       </BasicModal>
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
-        <h2>update pacage</h2>
+        <h2>{t("editPackage")}</h2>
         <UpdatePackageForm handleClose={handleCloseU} initialData={selectedPackage} refetch={refetch} />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />

@@ -1,9 +1,5 @@
-import {
-  Box,
-  Button,
-  Stack,
-  TextField,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -18,6 +14,8 @@ interface IFormInput {
 }
 
 function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; refetch: () => void }) {
+  const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
+
   const {
     register,
     handleSubmit,
@@ -45,7 +43,6 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
         { headers }
       );
 
-      console.log(response.data);
       toast.success('Package added successfully');
       handleClose();
       refetch();
@@ -109,8 +106,14 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
           InputLabelProps={{ shrink: true }}
           inputProps={{ accept: 'image/*' }}
           error={!!errors.image}
-          helperText={errors.image?.message}
-          {...register('image', { required: 'Image is required' })}
+          helperText={
+            errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')
+          }
+          {...register('image', {
+            required: 'Image is required',
+            onChange: (e) =>
+              setFileName(e.target.files?.[0]?.name || 'No file selected'),
+          })}
         />
       </Stack>
       <Button
