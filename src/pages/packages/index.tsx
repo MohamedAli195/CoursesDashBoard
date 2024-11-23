@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import  { Toaster } from 'react-hot-toast';
@@ -75,17 +75,17 @@ function PackagesPage() {
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
           <Button variant="contained" color="error" onClick={() => deletePackage(params.row.id,refetch) }>
-            Delete
+          {t("delete")}
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
           >
-            View
+            {t("view")}
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            Edit
+          {t("edit")}
           </Button>
         </Stack>
       ),
@@ -149,6 +149,9 @@ function PackagesPage() {
           sx={{ border: 0 }}
           autoHeight 
           getRowHeight={() => 200} // Set each row's height to 200px
+          getRowClassName={(params: GridRowClassNameParams) =>
+            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
+          }
         />
       </Paper>
 

@@ -8,6 +8,8 @@ import {
   Typography,
 } from '@mui/material';
 import { IMenuitems } from './MenuItems';
+import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 interface NavMenuItemType {
   item: IMenuitems;
@@ -16,6 +18,13 @@ interface NavMenuItemType {
 const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
   const { icon: Icon } = item;
   const itemIcon = Icon ? <Icon /> : null;
+
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
   return (
     <List component="li" disablePadding key={item?.id && item.title}>
       <ListItemButton

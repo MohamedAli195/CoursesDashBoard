@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
@@ -101,17 +101,17 @@ function CoursesPage() {
             color="error"
             onClick={() => deleteCourse(params.row.id, refetch)}
           >
-            Delete
+            {t("delete")}
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.courses}/${params.row.id}`)}
           >
-            View
+             {t("view")}
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            Edit
+          {t("edit")}
           </Button>
         </Stack>
       ),
@@ -192,7 +192,7 @@ function CoursesPage() {
           {t("courses")}
         </Typography>
         <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
-          Add Course
+        {t("AddCourse")}
         </Button>
       </Stack>
 
@@ -205,6 +205,9 @@ function CoursesPage() {
           sx={{ border: 0 }}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
+          getRowClassName={(params: GridRowClassNameParams) =>
+            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
+          }
         />
       </Paper>
 

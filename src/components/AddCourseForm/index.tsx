@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  MenuItem,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
 import axios from 'axios';
 import { fetchCategories } from 'pages/categories/categoriesFunct';
 import { fetchPackages } from 'pages/packages/packagesFunct';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
+import { t } from 'i18next';
 
 interface IFormInput {
   name: {
@@ -110,7 +105,7 @@ function AddCourseForm() {
       const response = await axios.post(
         'https://market-mentor.flexi-code.com/public/api/admin/courses',
         formData,
-        { headers }
+        { headers },
       );
 
       toast.success('Course added successfully');
@@ -124,7 +119,8 @@ function AddCourseForm() {
     <>
       <Box
         sx={{
-          mt: { sm: 5, xs: 2.5 },width:"50%"
+          mt: { sm: 5, xs: 2.5 },
+          width: '50%',
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -161,6 +157,7 @@ function AddCourseForm() {
           />
           <TextField
             fullWidth
+            key={"description.en"}
             variant="outlined"
             label="English Description"
             error={!!errors.description?.en}
@@ -169,6 +166,31 @@ function AddCourseForm() {
               required: 'English description is required',
             })}
           />
+          
+           <TextField
+            select
+            fullWidth
+            key={"CourseLanguage"}
+            id='Course Language'
+            variant="outlined"
+            label="Course Language"
+            error={!!errors.course_lang}
+            helperText={errors.course_lang?.message}
+            {...register('course_lang', { required: 'Course Language is required' })}
+            sx={{
+              '.MuiOutlinedInput-root': {
+                lineHeight: 0 // Match default height for MUI TextField
+              },
+            }}
+          >
+            {
+            ['arabic', 'english'].map((lang) => (
+              <MenuItem key={lang} value={lang}>
+                {lang}
+              </MenuItem>
+            ))
+            }
+          </TextField>
 
           {/* Image Upload */}
           <TextField
@@ -182,8 +204,7 @@ function AddCourseForm() {
             helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
             {...register('image', {
               required: 'Image is required',
-              onChange: (e) =>
-                setFileName(e.target.files?.[0]?.name || 'No file selected'),
+              onChange: (e) => setFileName(e.target.files?.[0]?.name || 'No file selected'),
             })}
           />
 
@@ -197,51 +218,6 @@ function AddCourseForm() {
             {...register('price', { required: 'Price is required' })}
           />
           <TextField
-            fullWidth
-            variant="outlined"
-            label="Main Video URL"
-            error={!!errors.main_video}
-            helperText={errors.main_video?.message}
-            {...register('main_video', { required: 'Main video URL is required' })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Course Duration"
-            error={!!errors.course_duration}
-            helperText={errors.course_duration?.message}
-            {...register('course_duration', {
-              required: 'Course duration is required',
-            })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Course Level"
-            error={!!errors.course_level}
-            helperText={errors.course_level?.message}
-            {...register('course_level', { required: 'Course level is required' })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Course Language"
-            error={!!errors.course_lang}
-            helperText={errors.course_lang?.message}
-            {...register('course_lang', { required: 'Course language is required' })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Price After Discount"
-            error={!!errors.price_after_discount}
-            helperText={errors.price_after_discount?.message}
-            {...register('price_after_discount', {
-              required: 'Price after discount is required',
-            })}
-          />
-          <TextField
-         
             select
             fullWidth
             variant="outlined"
@@ -251,7 +227,7 @@ function AddCourseForm() {
             {...register('package_id', { required: 'Package is required' })}
             sx={{
               '.MuiOutlinedInput-root': {
-                height: 56, // Match default height for MUI TextField
+                lineHeight: 0 // Match default height for MUI TextField
               },
             }}
           >
@@ -262,25 +238,85 @@ function AddCourseForm() {
             ))}
           </TextField>
           <TextField
-            select
             fullWidth
             variant="outlined"
-            label="Category"
-            error={!!errors.category_id}
-            helperText={errors.category_id?.message}
-            {...register('category_id', { required: 'Category is required' })}
+            label="Main Video URL"
+            error={!!errors.main_video}
+            helperText={errors.main_video?.message}
+            {...register('main_video', { required: 'Main video URL is required' })}
+          />
+          
+          <TextField
+          id='Course Duration'
+            fullWidth
+            variant="outlined"
+            label="Course Duration"
+            error={!!errors.course_duration}
+            helperText={errors.course_duration?.message}
+            {...register('course_duration', {
+              required: 'Course duration is required',
+            })}
+          />
+
+          <TextField
+            select
+            fullWidth
+            id='Course Level'
+            variant="outlined"
+            label="Course Level"
+            error={!!errors.course_level}
+            helperText={errors.course_level?.message}
+            {...register('course_level', { required: 'Course level is required' })}
             sx={{
               '.MuiOutlinedInput-root': {
-                height: 56, // Match default height for MUI TextField
+                lineHeight: 0 // Match default height for MUI TextField
               },
             }}
           >
-            {categories.data.map((cat) => (
-              <MenuItem key={cat.id} value={cat.id}>
-                {cat.name.en}
+            {['beginner', 'intermediate', 'advance'].map((lev) => (
+              <MenuItem key={lev} value={lev}>
+                {lev}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField> 
+
+  
+
+  <TextField
+    fullWidth
+    variant="outlined"
+    label="Price After Discount"
+    error={!!errors.price_after_discount}
+    helperText={errors.price_after_discount?.message}
+    {...register('price_after_discount', {
+      required: 'Price after discount is required',
+    })}
+    sx={{
+      marginBottom: 2, // Add margin to separate this field visually from the next
+    }}
+  />
+
+  {/* Category */}
+  <TextField
+    select
+    fullWidth
+    variant="outlined"
+    label="Category"
+    error={!!errors.category_id}
+    helperText={errors.category_id?.message}
+    {...register('category_id', { required: 'Category is required' })}
+    sx={{
+      '.MuiOutlinedInput-root': {
+            lineHeight: 0
+      },
+    }}
+  >
+    {categories.data.map((cat) => (
+      <MenuItem key={cat.id} value={cat.id}>
+        {cat.name.en}
+      </MenuItem>
+    ))}
+  </TextField>
         </Stack>
 
         <Button
@@ -291,7 +327,7 @@ function AddCourseForm() {
           type="submit"
           sx={{ mt: 3, fontSize: '18px' }}
         >
-          Add Course
+          {t("AddCourse")}
         </Button>
       </Box>
       <Toaster position="bottom-center" reverseOrder={false} />

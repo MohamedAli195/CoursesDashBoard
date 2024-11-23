@@ -13,5 +13,15 @@
      "globalSettings":"Global Settings",
      "AddCoursePage":" Add Course Page",
      "addPackage":"ِAdd Package",
-      "editPackage":"edit Package"
+      "editPackage":"edit Package",
+      "AddCourseLectuer":"Add Course Lectuer",
+      "AddCourseLecuterPage":"Add Course Lecuter Page",
+      "AddCourse":"AddCourse",
+      "AddCategory":"Add Category",
+      "edit":"Edit",
+      "view":"View",
+      "delete":"Delete"
+
+      
+
   }

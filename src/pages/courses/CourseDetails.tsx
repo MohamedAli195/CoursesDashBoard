@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import ViewPackageForm from "components/viewpackageForm";
 import { useEffect } from "react";
 import i18n from "i18n";
-import { Button, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import paths from "routes/path";
 import { useTranslation } from "react-i18next";
 
@@ -25,13 +25,18 @@ function CourseDetails() {
 
     return (
         <>
+        <Stack flexDirection={"row"} justifyContent={"space-between"}>
+        
         <Typography variant="h1" color="initial">
         {t("coursepage")}
         </Typography>
-        <ViewPackageForm initialData ={data?.data}/>
         <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/${id}/add-lectuer`)}>
-          Add Course Lectuer
+        {t("AddCourseLectuer")} 
         </Button>
+        </Stack>
+        
+        <ViewPackageForm initialData ={data?.data}/>
+       
         </>
     );
 }

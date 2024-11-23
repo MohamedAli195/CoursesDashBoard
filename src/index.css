@@ -7,3 +7,10 @@ input:-webkit-autofill:focus {
 input[data-autocompleted] {
   background-color: transparent !important;
 }
+.even-row {
+  background-color: white;
+}
+
+.odd-row {
+  background-color: #f5f5f5; /* Light gray */
+}

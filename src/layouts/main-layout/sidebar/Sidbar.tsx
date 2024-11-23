@@ -5,6 +5,7 @@ import SidebarBanner from './SidebarBanner';
 import SidebarItems from './SidebarItems';
 import SidebarLogo from './SidebarLogo';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 interface SideNavProps {
   onDrawerClose: () => void;
   onDrawerTransitionEnd: () => void;
@@ -14,6 +15,12 @@ const Sidebar = ({ onDrawerClose, onDrawerTransitionEnd, mobileOpen }: SideNavPr
   const { up } = useBreakpoints();
   const upLg = up('lg');
   const { t, i18n } = useTranslation();
+
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
   if (upLg) {
     return (
       <Box

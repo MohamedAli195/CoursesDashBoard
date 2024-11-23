@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import AddCourseLectuerForm from 'components/AddCourseLectuerForm';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,10 @@ function AddCourseLectuerPage() {
       <Typography variant="h1" color="initial">
         Add Course Lecuter Page
       </Typography>
-      <AddCourseLectuerForm vid={id} />
+      <Box sx={{width:"50%"}}>
+          <AddCourseLectuerForm vid={id} />
+      </Box>
+    
     </>
   );
 }

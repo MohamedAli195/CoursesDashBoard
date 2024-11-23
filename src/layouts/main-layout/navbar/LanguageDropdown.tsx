@@ -56,7 +56,7 @@ const LanguageDropdown = () => {
         }}
       >
         <IconifyIcon
-          icon="flag:sh-4x3"
+          icon= {i18n.language === "ar" ? 'flag:sa-4x3':"flag:sh-4x3"}
           sx={{
             maxWidth: 1,
             borderRadius: 1,
@@ -84,6 +84,7 @@ const LanguageDropdown = () => {
             onClick={()=>{
               changeLanguage(option.value)
               console.log(option.value)
+              
             }}
             sx={{ typography: 'body2', py: 1 }}
           >

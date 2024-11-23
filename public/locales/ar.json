@@ -14,5 +14,12 @@
      "globalSettings":"الاعدادات العامة",
      "AddCoursePage":"صفحة اضافة كورس",
      "addPackage":"اضافة باقة",
-     "editPackage":"تعديل باقة"
+     "editPackage":"تعديل باقة",
+     "AddCourseLectuer":"اضافة محاضرة جديدة",
+     "AddCourseLecuterPage":" اضافة محاضرة جدبدة",
+     "AddCourse":"اضافة كورس",
+     "AddCategory":"اضافة قسم",
+     "edit":"تعديل",
+      "view":"مشاهدة",
+      "delete":"حذف"
   }

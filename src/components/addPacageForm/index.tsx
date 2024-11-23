@@ -3,6 +3,7 @@ import { Box, Button, Stack, TextField } from '@mui/material';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
   name: {
@@ -15,7 +16,7 @@ interface IFormInput {
 
 function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; refetch: () => void }) {
   const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
-
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -124,7 +125,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
         type="submit"
         sx={{ mt: 3, fontSize: '18px' }}
       >
-        Add Package
+        {t("addPackage")}
       </Button>
     </Box>
   );
