@@ -22,10 +22,12 @@ interface IFormInput {
   title: {
     en: string;
     ar: string;
+    fr: string;
   };
   description: {
     en: string;
     ar: string;
+    fr: string;
   };
   course_id: string | undefined;
   video_url: string;
@@ -48,8 +50,10 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
       const formData = new FormData();
       formData.append('title[en]', data.title.en);
       formData.append('title[ar]', data.title.ar);
+      formData.append('title[fr]', data.title.fr);
       formData.append('description[en]', data.description?.en);
       formData.append('description[ar]', data.description?.ar);
+      formData.append('description[fr]', data.description?.ar);
       formData.append('video_url', data.video_url);
       formData.append('duration', data.duration);
       formData.append('course_id', vid || ''); // Ensure course_id is included
@@ -102,6 +106,15 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
             helperText={errors.title?.en?.message}
             {...register('title.en', { required: t("EnglishNameReq") })}
           />
+          {/* English Name */}
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="franc name"
+            error={!!errors.title?.fr}
+            helperText={errors.title?.fr?.message}
+            {...register('title.fr', { required: "franc name is required" })}
+          />
 
           {/* description Name */}
           <TextField
@@ -121,6 +134,14 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
             error={!!errors.description?.en}
             helperText={errors.description?.en?.message}
             {...register('description.en', { required: t("descEnReq") })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="franc desc"
+            error={!!errors.description?.en}
+            helperText={errors.description?.en?.message}
+            {...register('description.en', { required: "franc desc required" })}
           />
 
           {/* Other Fields */}

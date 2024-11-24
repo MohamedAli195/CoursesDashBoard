@@ -11,6 +11,7 @@ interface IFormInput {
   name: {
     en: string;
     ar: string;
+    fr:string;
   };
   image: FileList;
   price: string;
@@ -24,6 +25,7 @@ interface IFormInput {
   description: {
     en: string;
     ar: string;
+    fr:string;
   };
 }
 
@@ -85,6 +87,7 @@ function AddCourseForm() {
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
       formData.append('name[ar]', data.name.ar);
+      formData.append('name[fr]', data.name.fr);
       formData.append('image', data.image[0]);
       formData.append('price', data.price);
       formData.append('main_video', data.main_video);
@@ -96,6 +99,7 @@ function AddCourseForm() {
       formData.append('category_id', data.category_id.toString());
       formData.append('description[en]', data.description.en);
       formData.append('description[ar]', data.description.ar);
+      formData.append('description[fr]', data.description.ar);
 
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -143,6 +147,14 @@ function AddCourseForm() {
             helperText={errors.name?.en?.message}
             {...register('name.en', { required: t("EnglishNameReq") })}
           />
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="name franc"
+            error={!!errors.name?.fr}
+            helperText={errors.name?.fr?.message}
+            {...register('name.fr', { required: "name franc is requirded" })}
+          />
 
           {/* Description Fields */}
           <TextField
@@ -164,6 +176,17 @@ function AddCourseForm() {
             helperText={errors.description?.en?.message}
             {...register('description.en', {
               required: t("descEnReq"),
+            })}
+          />
+          <TextField
+            fullWidth
+            key={"description.fr"}
+            variant="outlined"
+            label="desc france"
+            error={!!errors.description?.en}
+            helperText={errors.description?.en?.message}
+            {...register('description.en', {
+              required: "desc france is required",
             })}
           />
           

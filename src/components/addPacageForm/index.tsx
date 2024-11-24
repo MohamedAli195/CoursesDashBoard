@@ -9,6 +9,7 @@ interface IFormInput {
   name: {
     en: string;
     ar: string;
+    fr:string
   };
   image: FileList;
   price: string;
@@ -29,6 +30,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
       formData.append('name[ar]', data.name.ar);
+      formData.append('name[fr]', data.name.fr);
       formData.append('image', data.image[0]);
       formData.append('price', data.price);
 
@@ -81,6 +83,16 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
           error={!!errors.name?.en}
           helperText={errors.name?.en?.message}
           {...register('name.en', { required: t("EnglishNameReq") })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="names.fr"
+          type="text"
+          label={t("francName")}
+          error={!!errors.name?.en}
+          helperText={errors.name?.en?.message}
+          {...register('name.fr', { required: t("francNameReq") })}
         />
         <TextField
           fullWidth

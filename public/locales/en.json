@@ -56,7 +56,9 @@
       "videoUrlReq":"video url is required",
       "videoDuration" :"video Duration",
       "videoDurationReq" :"video Duration is required",
-      "AddLecuter":"Add Lecuter"
+      "AddLecuter":"Add Lecuter",
+      "francName":"le nom ",
+      "francNameReq":"leur nom est requis"
 
       
 

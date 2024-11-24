@@ -14,10 +14,12 @@ interface IFormInput {
   name: {
     en: string;
     ar: string;
+    fr: string;
   };
   description: {
     en: string;
     ar: string;
+    fr: string;
   };
   image: FileList;
 }
@@ -36,8 +38,10 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
       formData.append('name[ar]', data.name.ar);
+      formData.append('name[fr]', data.name.fr);
       formData.append('description[en]', data.description.en);
       formData.append('description[ar]', data.description.ar);
+      formData.append('description[fr]', data.description.fr);
       formData.append('image', data.image[0]);
 
       const headers = {
@@ -93,6 +97,16 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
         <TextField
           fullWidth
           variant="outlined"
+          id="names.fr"
+          type="text"
+          label="fr name"
+          error={!!errors.name?.fr}
+          helperText={errors.name?.fr?.message}
+          {...register('name.fr', { required: "fr name is requried" })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
           id="description.ar"
           type="text"
           label={t("descAr")}
@@ -109,6 +123,16 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           error={!!errors.description?.en}
           helperText={errors.description?.en?.message}
           {...register('description.en', { required: t("descEnReq")   })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="description.fr"
+          type="text"
+          label="fr desc"
+          error={!!errors.description?.fr}
+          helperText={errors.description?.fr?.message}
+          {...register('description.fr', { required: "fr desc is required"   })}
         />
         <TextField
           fullWidth
