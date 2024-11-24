@@ -76,6 +76,7 @@ const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
                     bgcolor: palette.text.primary,
                     color: palette.common.white,
                   }),
+                  
             })}
           />
         )}

@@ -130,40 +130,40 @@ function AddCourseForm() {
           <TextField
             fullWidth
             variant="outlined"
-            label="Arabic Name"
+            label={t("ArabicName")}
             error={!!errors.name?.ar}
             helperText={errors.name?.ar?.message}
-            {...register('name.ar', { required: 'Arabic name is required' })}
+            {...register('name.ar', { required:t("ArabicNameReq") })}
           />
           <TextField
             fullWidth
             variant="outlined"
-            label="English Name"
+            label={t("EnglishName")}
             error={!!errors.name?.en}
             helperText={errors.name?.en?.message}
-            {...register('name.en', { required: 'English name is required' })}
+            {...register('name.en', { required: t("EnglishNameReq") })}
           />
 
           {/* Description Fields */}
           <TextField
             fullWidth
             variant="outlined"
-            label="Arabic Description"
+            label={t("descAr")}
             error={!!errors.description?.ar}
             helperText={errors.description?.ar?.message}
             {...register('description.ar', {
-              required: 'Arabic description is required',
+              required: t("descArReq"),
             })}
           />
           <TextField
             fullWidth
             key={"description.en"}
             variant="outlined"
-            label="English Description"
+            label={t("descEn")}
             error={!!errors.description?.en}
             helperText={errors.description?.en?.message}
             {...register('description.en', {
-              required: 'English description is required',
+              required: t("descEnReq"),
             })}
           />
           
@@ -173,10 +173,10 @@ function AddCourseForm() {
             key={"CourseLanguage"}
             id='Course Language'
             variant="outlined"
-            label="Course Language"
+            label={t("CourseLanguage")}
             error={!!errors.course_lang}
             helperText={errors.course_lang?.message}
-            {...register('course_lang', { required: 'Course Language is required' })}
+            {...register('course_lang', { required: t("CourseLanguageReq") })}
             sx={{
               '.MuiOutlinedInput-root': {
                 lineHeight: 0 // Match default height for MUI TextField
@@ -197,13 +197,13 @@ function AddCourseForm() {
             fullWidth
             variant="outlined"
             type="file"
-            label="Image"
+            label={t("image")}
             InputLabelProps={{ shrink: true }}
             inputProps={{ accept: 'image/*' }}
             error={!!errors.image}
             helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
             {...register('image', {
-              required: 'Image is required',
+              required: t("imageReq"),
               onChange: (e) => setFileName(e.target.files?.[0]?.name || 'No file selected'),
             })}
           />
@@ -212,19 +212,19 @@ function AddCourseForm() {
           <TextField
             fullWidth
             variant="outlined"
-            label="Price"
+            label={t("price")}
             error={!!errors.price}
             helperText={errors.price?.message}
-            {...register('price', { required: 'Price is required' })}
+            {...register('price', { required: t("priceReq2") })}
           />
           <TextField
             select
             fullWidth
             variant="outlined"
-            label="Package"
+            label={t("package")}
             error={!!errors.package_id}
             helperText={errors.package_id?.message}
-            {...register('package_id', { required: 'Package is required' })}
+            {...register('package_id', { required: t("packageReq") })}
             sx={{
               '.MuiOutlinedInput-root': {
                 lineHeight: 0 // Match default height for MUI TextField
@@ -240,21 +240,21 @@ function AddCourseForm() {
           <TextField
             fullWidth
             variant="outlined"
-            label="Main Video URL"
+            label={t("MainVideoURL")}
             error={!!errors.main_video}
             helperText={errors.main_video?.message}
-            {...register('main_video', { required: 'Main video URL is required' })}
+            {...register('main_video', { required: t("MainVideoURLReq") })}
           />
           
           <TextField
           id='Course Duration'
             fullWidth
             variant="outlined"
-            label="Course Duration"
+            label={t("CourseDuration")}
             error={!!errors.course_duration}
             helperText={errors.course_duration?.message}
             {...register('course_duration', {
-              required: 'Course duration is required',
+              required: t("CourseDurationReq"),
             })}
           />
 
@@ -263,10 +263,10 @@ function AddCourseForm() {
             fullWidth
             id='Course Level'
             variant="outlined"
-            label="Course Level"
+            label={t("CourseLevel")}
             error={!!errors.course_level}
             helperText={errors.course_level?.message}
-            {...register('course_level', { required: 'Course level is required' })}
+            {...register('course_level', { required: t("CourseLevelReq") })}
             sx={{
               '.MuiOutlinedInput-root': {
                 lineHeight: 0 // Match default height for MUI TextField
@@ -285,11 +285,11 @@ function AddCourseForm() {
   <TextField
     fullWidth
     variant="outlined"
-    label="Price After Discount"
+    label={t("PriceAfterDiscount")}
     error={!!errors.price_after_discount}
     helperText={errors.price_after_discount?.message}
     {...register('price_after_discount', {
-      required: 'Price after discount is required',
+      required: t("PriceAfterDiscountReq"),
     })}
     sx={{
       marginBottom: 2, // Add margin to separate this field visually from the next
@@ -301,10 +301,10 @@ function AddCourseForm() {
     select
     fullWidth
     variant="outlined"
-    label="Category"
+    label={t("Category")}
     error={!!errors.category_id}
     helperText={errors.category_id?.message}
-    {...register('category_id', { required: 'Category is required' })}
+    {...register('category_id', { required: t("CategoryReq") })}
     sx={{
       '.MuiOutlinedInput-root': {
             lineHeight: 0

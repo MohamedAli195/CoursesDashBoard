@@ -103,34 +103,34 @@ import { useTranslation } from 'react-i18next';
               variant="outlined"
               id="names.ar"
               type="text"
-              label="names.ar"
-              {...register('name.ar', { required: 'names.ar is required' })}
+              label={t("ArabicName")}
+              {...register('name.ar', { required: t("ArabicNameReq") })}
             />
             <TextField
               fullWidth
               variant="outlined"
               id="names.en"
               type="text"
-              label="names.en"
-              {...register('name.en', { required: 'names.en is required' })}
+              label={t("EnglishName")}
+              {...register('name.en', { required: t("EnglishNameReq") })}
             />
             <TextField
               fullWidth
               variant="outlined"
               id="price"
               type="text"
-              label="Price"
-              {...register('price', { required: 'Price is required' })}
+              label={t("price")}
+              {...register('price', { required: t("priceReq2") })}
             />
             <TextField
               fullWidth
               variant="outlined"
               id="image"
               type="file"
-              label="Image"
+              label={t("image")}
               InputLabelProps={{ shrink: true }}
               inputProps={{ accept: 'image/*' }}
-              {...register('image', { required: 'Image is required' })}
+              {...register('image', { required: t("imageReq") })}
             />
           </Stack>
           <Button

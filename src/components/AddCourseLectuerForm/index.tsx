@@ -9,6 +9,7 @@ import {
   Select,
 } from '@mui/material';
 import axios from 'axios';
+import { t } from 'i18next';
 import { fetchCategories } from 'pages/categories/categoriesFunct';
 import { fetchPackages } from 'pages/packages/packagesFunct';
 import { useEffect, useState } from 'react';
@@ -86,60 +87,60 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
           <TextField
             fullWidth
             variant="outlined"
-            label="Arabic Name"
+            label={t("ArabicName")}
             error={!!errors.title?.ar}
             helperText={errors.title?.ar?.message}
-            {...register('title.ar', { required: 'Arabic title is required' })}
+            {...register('title.ar', { required: t("ArabicNameReq") })}
           />
 
           {/* English Name */}
           <TextField
             fullWidth
             variant="outlined"
-            label="English Name"
+            label={t("EnglishName")}
             error={!!errors.title?.en}
             helperText={errors.title?.en?.message}
-            {...register('title.en', { required: 'English title is required' })}
+            {...register('title.en', { required: t("EnglishNameReq") })}
           />
 
           {/* description Name */}
           <TextField
             fullWidth
             variant="outlined"
-            label="Arabic description"
+            label={t("descAr")}
             error={!!errors.description?.ar}
             helperText={errors.description?.ar?.message}
-            {...register('description.ar', { required: 'Arabic description is required' })}
+            {...register('description.ar', { required: t("descArReq")})}
           />
 
           {/* description En */}
           <TextField
             fullWidth
             variant="outlined"
-            label="English description"
+            label={t("descEn")}
             error={!!errors.description?.en}
             helperText={errors.description?.en?.message}
-            {...register('description.en', { required: 'English description is required' })}
+            {...register('description.en', { required: t("descEnReq") })}
           />
 
           {/* Other Fields */}
           <TextField
             fullWidth
             variant="outlined"
-            label="video url"
+            label={t("videoUrl")}
             error={!!errors.video_url}
             helperText={errors.video_url?.message}
-            {...register('video_url', { required: 'video url is required' })}
+            {...register('video_url', { required: t("videoUrlReq") })}
           />
 
           <TextField
             fullWidth
             variant="outlined"
-            label="video Duration"
+            label={t("videoDuration")}
             error={!!errors.duration}
             helperText={errors.duration?.message}
             {...register('duration', {
-              required: 'video duration is required',
+              required: t("videoDurationReq"),
             })}
           />
 
@@ -151,7 +152,7 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
             type="submit"
             sx={{ mt: 3, fontSize: '18px' }}
           >
-            Add Package
+            {t("AddLecuter")}
           </Button>
         </Stack>
       </Box>
