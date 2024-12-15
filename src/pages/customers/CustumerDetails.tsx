@@ -1,17 +1,18 @@
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
+import { fetchCustomer } from "./costumersFunct";
 import { useQuery } from "@tanstack/react-query";
-
-import { fetchCategory } from "./categoriesFunct";
-import ViewCategoryForm from "components/viewCategoriesForm/ViewCategoryForm";
+import ViewPackageForm from "components/viewpackageForm";
+import { useEffect } from "react";
+import i18n from "i18n";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-function CategoriesDetails() {
+function customerDetails() {
     const { id } = useParams();
     const { t } = useTranslation();
     const { data, error, isLoading, isError } = useQuery({
         queryKey: ['packageDetail', id],
-        queryFn: () => fetchCategory(id),
+        queryFn: () => fetchCustomer(id),
     });
 
     if (isLoading) return <p>Loading...</p>;
@@ -22,11 +23,11 @@ function CategoriesDetails() {
     return (
         <>
         <Typography variant="h1" color="initial">
-        {t("categorypage")}
+        {t("packagPage")}
         </Typography>
-        <ViewCategoryForm initialData ={data?.data}/>
+        <ViewPackageForm initialData ={data?.data}/>
         </>
     );
 }
 
-export default CategoriesDetails;
+export default customerDetails;

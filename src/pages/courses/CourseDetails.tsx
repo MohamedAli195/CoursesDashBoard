@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import ViewCoursForm from "components/viewCoursForm";
 
 function CourseDetails() {
-    let { id } = useParams();
+    const { id } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 

@@ -6,28 +6,9 @@ import { fetchPackages } from 'pages/packages/packagesFunct';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { t } from 'i18next';
+import { IFormInputCourses } from 'interfaces';
 
-interface IFormInput {
-  name: {
-    en: string;
-    ar: string;
-    fr:string;
-  };
-  image: FileList;
-  price: string;
-  main_video: string;
-  course_duration: string;
-  course_level: string;
-  course_lang: string;
-  price_after_discount: string;
-  package_id: number;
-  category_id: number;
-  description: {
-    en: string;
-    ar: string;
-    fr:string;
-  };
-}
+
 
 interface IPackageRes {
   code: number;
@@ -57,7 +38,7 @@ function AddCourseForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>();
+  } = useForm<IFormInputCourses>();
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -82,7 +63,7 @@ function AddCourseForm() {
     loadPackages();
   }, []);
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInputCourses> = async (data) => {
     try {
       const formData = new FormData();
       formData.append('name[en]', data.name.en);

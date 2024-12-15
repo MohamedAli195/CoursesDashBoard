@@ -27,6 +27,7 @@
       "view":"مشاهدة",
       "delete":"حذف",
       "updateCategory":"تحديث قسم",
+      "updateCustomer":"تحديث عميل",
       "UpdatePackage":"تحديث باقة",
       "ArabicName":"الاسم بالعربى",
       "ArabicNameReq":"الاسم بالعربى حقل اساسى",
@@ -56,6 +57,13 @@
       "videoUrlReq":"لينك المحاضرة حقل اساسى",
       "videoDuration" :"مدة المحاضرة",
       "videoDurationReq" :"مدة المحاضرة جقل اساسى",
-      "AddLecuter":"اضافة محاضرة"
+      "AddLecuter":"اضافة محاضرة",
+      "Addcustomers":"اضافة عميل",
+      "name":"الاسم",
+      "email":"الايميل",
+      "phone":"الموبايل",
+      "partner_code":"رقم الشريك",
+      "password":"كلمة المرور"
+
       
   }

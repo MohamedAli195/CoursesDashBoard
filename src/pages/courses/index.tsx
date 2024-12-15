@@ -14,6 +14,7 @@ import i18n from 'i18n';
 import { deleteCourse, fetchCourses } from './coursesFunct';
 import { fetchPackages } from 'pages/packages/packagesFunct';
 import { useTranslation } from 'react-i18next';
+import {ICourse, ICourseSelect } from 'interfaces';
 
 // Fetch packages function
 
@@ -26,34 +27,9 @@ function CoursesPage() {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | {
-    id: number;
-    nameAr: string;
-    nameEn: string;
-    price: string;
-    image: FileList;
-    status: string | null;
-    category: {
-      id: number;
-      name: {
-        ar: string;
-        en: string;
-      };
-    };
-    package: {
-      id: number;
-      name: {
-        ar: string;
-        en: string;
-      };
-    };
-    description: {
-      en: string;
-      ar: string;
-    };
-  }>(null);
+  const [selectedPackage, setSelectedPackage] = useState<null | ICourseSelect>(null);
 
-  const handleEditOpen = (packageData: any) => {
+  const handleEditOpen = (packageData: ICourseSelect) => {
     setSelectedPackage(packageData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
@@ -131,33 +107,8 @@ function CoursesPage() {
 
   // Prepare rows for DataGrid
   const rows =data?.data?.data.length > 0 ?  data?.data?.data.map(
-    (packageItem: {
-      id: number;
-      name: { en: string; ar: string };
-      price: string;
-      image: string;
-      status: string | null;
-      category: {
-        id: number;
-        name: {
-          ar: string;
-          en: string;
-        };
-      };
-      package: {
-        id: number;
-        name: {
-          ar: string;
-          en: string;
-        };
-      };
-      description: {
-        en: string;
-        ar: string;
-      };
-    }) => ({
+    (packageItem: ICourse) => ({
       id: packageItem.id,
-      
       nameEn: packageItem.name?.en,
       nameAr: packageItem.name?.ar,
       price: packageItem.price,
@@ -173,11 +124,6 @@ function CoursesPage() {
   ):"";
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
-
-  // useEffect(() => {
-  //   document.documentElement.lang = i18n.language;
-  //   document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
-  // }, [i18n.language]);
   return (
     <>
       <Stack

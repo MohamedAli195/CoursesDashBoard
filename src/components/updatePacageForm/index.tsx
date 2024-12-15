@@ -1,152 +1,152 @@
-import {
-    Box,
-    Button,
-    Stack,
-    TextField,
-  } from '@mui/material';
-  import axios from 'axios';
-  import { useEffect } from 'react';
-  import { useForm, SubmitHandler } from 'react-hook-form';
-  import toast from 'react-hot-toast';
+import { Box, Button, Stack, TextField } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
-  
-  interface IFormInput {
-    name: {
-      en: string;
-      ar: string;
-    };
-    image: FileList;
+
+interface IFormInput {
+  name: {
+    en: string;
+    ar: string;
+  };
+  image: FileList | null;
+  price: string;
+}
+
+function UpdatePackageForm({
+  handleClose,
+  initialData,
+  refetch,
+}: {
+  handleClose: () => void;
+  refetch: () => void;
+  initialData?: null | {
+    id: number;
+    nameAr: string;
+    nameEn: string;
     price: string;
-  }
-  
-  function UpdatePackageForm({
-    handleClose,
-    initialData,
-    refetch
-  }: {
-    handleClose: () => void;
-    refetch:()=>void;
-    initialData?: null | {
-      id: number;
-    //   name: { en: string; ar: string };
-    nameAr:string;
-    nameEn:string;
-      price: string;
-      image: FileList;
-      status: string | null;
-    };
-  }) {
-    const { register, setValue, handleSubmit } = useForm<IFormInput>();
-    const { t } = useTranslation();
-    useEffect(() => {
-        console.log({initialData})
-      if (initialData) {
-        console.log(initialData);
-        
-          setValue('name.en', initialData.nameEn);
-          setValue('name.ar', initialData.nameAr);
-        
-        setValue('price', initialData.price);
-  
-        // Since `image` is a FileList, ensure it's correctly passed when uploading
-        if (initialData.image && initialData.image.length > 0) {
-          setValue('image', initialData.image);
-        }
+    imageUrl: string;
+  };
+}) {
+  const { register, setValue, handleSubmit, watch } = useForm<IFormInput>();
+  const { t } = useTranslation();
+  const [previewImage, setPreviewImage] = useState<string | null>(initialData?.imageUrl || null);
+  const selectedImage = watch('image');
+
+  useEffect(() => {
+    if (initialData) {
+      setValue('name.en', initialData.nameEn);
+      setValue('name.ar', initialData.nameAr);
+      setValue('price', initialData.price);
+    }
+  }, [initialData, setValue]);
+
+  useEffect(() => {
+    if (selectedImage && selectedImage.length > 0) {
+      const file = selectedImage[0];
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  }, [selectedImage]);
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append('name[en]', data.name.en);
+      formData.append('name[ar]', data.name.ar);
+      formData.append('price', data.price);
+
+      if (data.image && data.image.length > 0) {
+        formData.append('image', data.image[0]);
       }
-    }, [initialData, setValue]);
-  
-    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-      console.log(data);
-      try {
-        // Create a FormData object and append the data
-        const formData = new FormData();
-        formData.append('name[en]', data.name.en);
-        formData.append('name[ar]', data.name.ar);
-        formData.append('image', data.image[0]); // Access the first file in the FileList
-        formData.append('price', data.price);
-  
-        // Define headers with the token
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          'Content-Type': 'multipart/form-data',
-        };
-  
-        const response = await axios.post(
-          `https://market-mentor.flexi-code.com/public/api/admin/packages/${initialData?.id}/update`,
-          formData,
-          { headers }
-        );
-  
-        console.log(response.data);
-        toast.success('Package updated successfully');
-        refetch()
-        handleClose();
-  
-      } catch (err) {
-        console.error('Error updating package:', err);
-        toast.error('Failed to update package, please check your input.');
-      }
-    };
-  
-    return (
-      <>
-        <Box
-          sx={{
-            mt: { sm: 5, xs: 2.5 },
-          }}
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Stack spacing={3}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="names.ar"
-              type="text"
-              label={t("ArabicName")}
-              {...register('name.ar', { required: t("ArabicNameReq") })}
+
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data',
+      };
+
+      const response = await axios.post(
+        `https://market-mentor.flexi-code.com/public/api/admin/packages/${initialData?.id}/update`,
+        formData,
+        { headers }
+      );
+
+      toast.success(t('Package updated successfully'));
+      refetch();
+      handleClose();
+    } catch (err) {
+      console.error('Error updating package:', err);
+      toast.error(t('Failed to update package, please check your input.'));
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        mt: { sm: 5, xs: 2.5 },
+      }}
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Stack spacing={3}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="name-ar"
+          type="text"
+          label={t('ArabicName')}
+          {...register('name.ar', { required: t('ArabicNameReq') })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="name-en"
+          type="text"
+          label={t('EnglishName')}
+          {...register('name.en', { required: t('EnglishNameReq') })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="price"
+          type="text"
+          label={t('price')}
+          {...register('price', { required: t('priceReq2') })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="image"
+          type="file"
+          label={t('image')}
+          InputLabelProps={{ shrink: true }}
+          inputProps={{ accept: 'image/*' }}
+          {...register('image')}
+        />
+
+        {previewImage && (
+          <Box sx={{ mt: 2 }}>
+            <img
+              src={previewImage}
+              alt={t('Preview')}
+              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
             />
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="names.en"
-              type="text"
-              label={t("EnglishName")}
-              {...register('name.en', { required: t("EnglishNameReq") })}
-            />
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="price"
-              type="text"
-              label={t("price")}
-              {...register('price', { required: t("priceReq2") })}
-            />
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="image"
-              type="file"
-              label={t("image")}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ accept: 'image/*' }}
-              {...register('image', { required: t("imageReq") })}
-            />
-          </Stack>
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            fullWidth
-            type="submit"
-            sx={{ mt: 3, fontSize: '18px' }}
-          >
-            {t("UpdatePackage")}
-          </Button>
-        </Box>
-      </>
-    );
-  }
-  
-  export default UpdatePackageForm;
-  
+          </Box>
+        )}
+      </Stack>
+
+      <Button
+        color="primary"
+        variant="contained"
+        size="large"
+        fullWidth
+        type="submit"
+        sx={{ mt: 3, fontSize: '18px' }}
+      >
+        {t('UpdatePackage')}
+      </Button>
+    </Box>
+  );
+}
+
+export default UpdatePackageForm;

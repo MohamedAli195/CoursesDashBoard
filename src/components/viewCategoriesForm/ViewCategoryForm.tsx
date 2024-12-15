@@ -5,6 +5,7 @@ import {
     TextField,
     useTheme,
 } from '@mui/material';
+import { ICategory } from 'interfaces';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -25,20 +26,23 @@ interface IFormInput {
 function ViewCategoryForm({
     initialData,
 }: {
-    initialData?: {
-        id: number;
-        name: { en: string; ar: string };
-        description: { en: string; ar: string };
-
-        image: FileList | string; // allow either FileList or URL string
-
-    };
+    initialData?: ICategory;
 }) {
     const { register, setValue } = useForm<IFormInput>();
     const theme = useTheme();
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const { t } = useTranslation();
-
+    const inputs: {
+        id: string;
+        laberl: string;
+        InputName: 'name.ar' | 'name.en'| 'description.ar' | 'description.en';
+      }[] = [
+        { id: 'names.ar', laberl: 'ArabicName', InputName: 'name.ar' },
+        { id: 'names.en', laberl: 'EnglishName', InputName: 'name.en' },
+        { id: 'desc.ar', laberl: 'descAr', InputName: 'description.ar' },
+        { id: 'desc.en', laberl: 'descEn', InputName: 'description.en' },
+        
+      ];
     useEffect(() => {
         if (initialData) {
             setValue('name.en', initialData.name.en);
@@ -69,46 +73,20 @@ function ViewCategoryForm({
             component="form"
         >
             <Stack spacing={3}>
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    id="names.ar"
-                    type="text"
-                    label={t("ArabicName")}
-                    
-                    sx={{ color: theme.palette.text.primary }}
-                    {...register('name.ar')}
-                />
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    id="names.en"
-                    type="text"
-                    label={t("EnglishName")}
-                    
-                    sx={{ color: theme.palette.text.primary }}
-                    {...register('name.en')}
-                />
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    id="desc.ar"
-                    type="text"
-                    label={t("descAr")}
-                    
-                    sx={{ color: theme.palette.text.primary }}
-                    {...register('description.ar')}
-                />
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    id="desc.en"
-                    type="text"
-                    label={t("descEn")}
-                    
-                    sx={{ color: theme.palette.text.primary }}
-                    {...register('description.en')}
-                />
+                    {inputs.map((input) => {
+                        return (
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            id={input.id}
+                            type="text"
+                            label={t(input.laberl)}
+                            sx={{ color: theme.palette.text.primary }}
+                            {...register(input.InputName)}
+                          />
+                        );
+                      })
+                      }
 
                 {imageUrl && (
                     <Avatar

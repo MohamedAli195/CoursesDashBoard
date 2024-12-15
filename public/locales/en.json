@@ -27,6 +27,7 @@
       "delete":"Delete",
       "updateCategory":"Update Category",
       "UpdatePackage":"Update Package",
+      "Addcustomers":"Add Customers",
 
       "ArabicName":"Arabic Name",
       "ArabicNameReq":"Arabic name is required",
@@ -58,7 +59,15 @@
       "videoDurationReq" :"video Duration is required",
       "AddLecuter":"Add Lecuter",
       "francName":"le nom ",
-      "francNameReq":"leur nom est requis"
+      "francNameReq":"leur nom est requis",
+      "name":"name",
+      "email":"email",
+      "phone":"phone",
+      "password":"password",
+      "partner_code":"Partener Code",
+      "updateCustomer":"update Customer"
+
+      
 
       
 

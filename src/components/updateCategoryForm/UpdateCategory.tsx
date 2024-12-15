@@ -1,6 +1,6 @@
 import { Box, Button, Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,7 @@ interface IFormInput {
     en: string;
     ar: string;
   };
-  image: FileList;
+  image: FileList | null;
 }
 
 function UpdateCategoryForm({
@@ -26,53 +26,46 @@ function UpdateCategoryForm({
   refetch: () => void;
   initialData?: null | {
     id: number;
-    //   name: { en: string; ar: string };
     nameAr: string;
     nameEn: string;
     descriptionAr: string;
     descriptionEn: string;
-
-    image: FileList;
+    imageUrl: string;
   };
 }) {
-  const { register, setValue, handleSubmit } = useForm<IFormInput>();
+  const { register, setValue, handleSubmit, watch } = useForm<IFormInput>();
   const { t } = useTranslation();
+  const [previewImage, setPreviewImage] = useState<string | null>(initialData?.imageUrl || null);
+  const selectedImage = watch('image');
+
   useEffect(() => {
-    console.log(initialData?.image);
     if (initialData) {
       setValue('name.en', initialData.nameEn);
       setValue('name.ar', initialData.nameAr);
       setValue('description.en', initialData.descriptionEn);
-
       setValue('description.ar', initialData.descriptionAr);
-
-      // Since `image` is a FileList, ensure it's correctly passed when uploading
-      if (initialData.image && initialData.image.length > 0) {
-        setValue('image', initialData.image);
-      }
     }
   }, [initialData, setValue]);
 
+  useEffect(() => {
+    if (selectedImage && selectedImage.length > 0) {
+      const file = selectedImage[0];
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  }, [selectedImage]);
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
-      // Create a FormData object and append the data
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
       formData.append('name[ar]', data.name.ar);
-
-      // Check if a new image is selected
-      if (data.image.length > 0) {
-        formData.append('image', data.image[0]); // Access the first file in the FileList
-      } else if (initialData?.image && initialData.image.length > 0) {
-        // Use the existing image from `initialData`
-        formData.append('image', initialData.image[0]); // Existing image
-      } // Access the first file in the FileList
-      
       formData.append('description[en]', data.description.en);
       formData.append('description[ar]', data.description.ar);
 
-      // Define headers with the token
+      if (data.image && data.image.length > 0) {
+        formData.append('image', data.image[0]);
+      }
+
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data',
@@ -81,86 +74,94 @@ function UpdateCategoryForm({
       const response = await axios.post(
         `https://market-mentor.flexi-code.com/public/api/admin/categories/${initialData?.id}/update`,
         formData,
-        { headers },
+        { headers }
       );
 
-      console.log(response.data);
-      toast.success('Category updated successfully');
+      toast.success(t('Category updated successfully'));
       refetch();
       handleClose();
     } catch (err) {
-      console.error('Error updating package:', err);
-      toast.error('Failed to update package, please check your input.');
+      console.error('Error updating category:', err);
+      toast.error(t('Failed to update category, please check your input.'));
     }
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          mt: { sm: 5, xs: 2.5 },
-        }}
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Stack spacing={3}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            id="names.ar"
-            type="text"
-            label={t("ArabicName")}
-            {...register('name.ar', { required:t("ArabicNameReq")  })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            id="names.en"
-            type="text"
-            label={t("EnglishName")}
-            {...register('name.en', { required:t("EnglishNameReq")  })}
-          />
-
-          <TextField
-            fullWidth
-            variant="outlined"
-            id="description.ar"
-            type="text"
-            label={t("descAr")}
-            {...register('description.ar', {required:t("descArReq") })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            id="description.en"
-            type="text"
-            label={t("descEn")}
-            {...register('description.en', {required:t("descEnReq") })}
-          />
-
-          <TextField
-            fullWidth
-            variant="outlined"
-            id="image"
-            type="file"
-            label={t("image")}
-            InputLabelProps={{ shrink: true }}
-            inputProps={{ accept: 'image/*' }}
-            {...register('image')}
-          />
-        </Stack>
-        <Button
-          color="primary"
-          variant="contained"
-          size="large"
+    <Box
+      sx={{
+        mt: { sm: 5, xs: 2.5 },
+      }}
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Stack spacing={3}>
+        <TextField
           fullWidth
-          type="submit"
-          sx={{ mt: 3, fontSize: '18px' }}
-        >
-          {t("updateCategory")}
-        </Button>
-      </Box>
-    </>
+          variant="outlined"
+          id="name-ar"
+          type="text"
+          label={t('ArabicName')}
+          {...register('name.ar', { required: t('ArabicNameReq') })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="name-en"
+          type="text"
+          label={t('EnglishName')}
+          {...register('name.en', { required: t('EnglishNameReq') })}
+        />
+
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="description-ar"
+          type="text"
+          label={t('descAr')}
+          {...register('description.ar', { required: t('descArReq') })}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="description-en"
+          type="text"
+          label={t('descEn')}
+          {...register('description.en', { required: t('descEnReq') })}
+        />
+
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="image"
+          type="file"
+          label={t('image')}
+          InputLabelProps={{ shrink: true }}
+          inputProps={{ accept: 'image/*' }}
+          {...register('image')}
+        />
+
+        {previewImage && (
+          <Box sx={{ mt: 2 }}>
+            <img
+              src={previewImage}
+              alt={t('Preview')}
+              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+            />
+          </Box>
+        )}
+      </Stack>
+
+      <Button
+        color="primary"
+        variant="contained"
+        size="large"
+        fullWidth
+        type="submit"
+        sx={{ mt: 3, fontSize: '18px' }}
+      >
+        {t('updateCategory')}
+      </Button>
+    </Box>
   );
 }
 

@@ -12,6 +12,7 @@ import i18n from 'i18n';
 import AddCategoryForm from 'components/addCategoryForm';
 import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
 import { useTranslation } from 'react-i18next';
+import { ICategory, ISelectCategory } from 'interfaces';
 
 // Fetch packages function
 
@@ -29,17 +30,9 @@ function CategoriesPage() {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedCategory, setSelectedCategory] = useState<null | {
-    id: number;
-    nameAr: string;
-    nameEn: string;
-    image: FileList;
-    descriptionAr: string;
-    descriptionEn: string;
-    price: string;
-  }>(null);
+  const [selectedCategory, setSelectedCategory] = useState<null | ISelectCategory >(null);
 
-  const handleEditOpen = (categoryData: any) => {
+  const handleEditOpen = (categoryData: ISelectCategory) => {
     setSelectedCategory(categoryData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
@@ -110,19 +103,12 @@ function CategoriesPage() {
   console.log(data.data);
   // Prepare rows for DataGrid
   const rows =data.data.length > 0 ? data.data.map(
-    (packageItem: {
-      id: number;
-      name: { en: string; ar: string };
-      description: { en: string; ar: string };
-      price: string;
-      image: string;
-    }) => ({
+    (packageItem: ICategory) => ({
       id: packageItem.id,
       nameEn: packageItem.name?.en,
       nameAr: packageItem.name?.ar,
       descriptionEn: packageItem.description?.en,
       descriptionAr: packageItem.description?.ar,
-
       image: packageItem.image,
     }),
   ):"";

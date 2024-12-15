@@ -62,7 +62,7 @@ const generateMenuItems = (): IMenuitems[] => [
     id: uniqueId(),
     title: i18next.t("customers"),
     icon: CustomersIcon,
-    href: '#!',
+    href: paths.customers,
     available: false,
   },
   
