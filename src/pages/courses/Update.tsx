@@ -8,8 +8,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { t } from 'i18next';
 import { IFormInputCourses } from 'interfaces';
 
-
-
 export interface IPackageRes {
   code: number;
   data: {
@@ -21,7 +19,8 @@ export interface IPackageRes {
   }[];
 }
 
-function AddCourseForm() {
+function UpdateCourse(props: IFormInputCourses) {
+  console.log(props);
   const [categories, setCategories] = useState<IPackageRes>({
     code: 0,
     data: [],
@@ -33,10 +32,11 @@ function AddCourseForm() {
   });
 
   const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
-
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IFormInputCourses>();
 
@@ -63,6 +63,28 @@ function AddCourseForm() {
     loadPackages();
   }, []);
 
+  useEffect(() => {
+    if (props) {
+      setValue('name.en', props.name.en);
+      setValue('name.ar', props.name.ar);
+      setValue('name.fr', props.name.fr);
+      setValue('price', props.price);
+      setValue('main_video', props.main_video);
+      setValue('course_duration', props.course_duration);
+      setValue('course_level', props.course_level);
+      setValue('course_lang', props.course_lang);
+      setValue('priceAfterDiscount', props.priceAfterDiscount);
+      setValue('category_id', props.category_id);
+      setValue('description.en', props.description.en);
+      setValue('description.ar', props.description.ar);
+      setValue('description.fr', props.description.fr);
+
+      if (typeof props.image === 'string') {
+        setPreviewImage(props.image);
+      }
+    }
+  }, [props, setValue]);
+
   const onSubmit: SubmitHandler<IFormInputCourses> = async (data) => {
     try {
       const formData = new FormData();
@@ -88,7 +110,7 @@ function AddCourseForm() {
       };
 
       const response = await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/courses',
+        `https://market-mentor.flexi-code.com/public/api/admin/courses/${props.id}/update`,
         formData,
         { headers },
       );
@@ -115,18 +137,18 @@ function AddCourseForm() {
           <TextField
             fullWidth
             variant="outlined"
-            label={t("ArabicName")}
+            label={t('ArabicName')}
             error={!!errors.name?.ar}
             helperText={errors.name?.ar?.message}
-            {...register('name.ar', { required:t("ArabicNameReq") })}
+            {...register('name.ar', { required: t('ArabicNameReq') })}
           />
           <TextField
             fullWidth
             variant="outlined"
-            label={t("EnglishName")}
+            label={t('EnglishName')}
             error={!!errors.name?.en}
             helperText={errors.name?.en?.message}
-            {...register('name.en', { required: t("EnglishNameReq") })}
+            {...register('name.en', { required: t('EnglishNameReq') })}
           />
           <TextField
             fullWidth
@@ -134,66 +156,64 @@ function AddCourseForm() {
             label="name franc"
             error={!!errors.name?.fr}
             helperText={errors.name?.fr?.message}
-            {...register('name.fr', { required: "name franc is requirded" })}
+            {...register('name.fr', { required: 'name franc is requirded' })}
           />
 
           {/* Description Fields */}
           <TextField
             fullWidth
             variant="outlined"
-            label={t("descAr")}
+            label={t('descAr')}
             error={!!errors.description?.ar}
             helperText={errors.description?.ar?.message}
             {...register('description.ar', {
-              required: t("descArReq"),
+              required: t('descArReq'),
             })}
           />
           <TextField
             fullWidth
-            key={"description.en"}
+            key={'description.en'}
             variant="outlined"
-            label={t("descEn")}
+            label={t('descEn')}
             error={!!errors.description?.en}
             helperText={errors.description?.en?.message}
             {...register('description.en', {
-              required: t("descEnReq"),
+              required: t('descEnReq'),
             })}
           />
           <TextField
             fullWidth
-            key={"description.fr"}
+            key={'description.fr'}
             variant="outlined"
             label="desc france"
             error={!!errors.description?.en}
             helperText={errors.description?.en?.message}
             {...register('description.en', {
-              required: "desc france is required",
+              required: 'desc france is required',
             })}
           />
-          
-           <TextField
+
+          <TextField
             select
             fullWidth
-            key={"CourseLanguage"}
-            id='Course Language'
+            key={'CourseLanguage'}
+            id="Course Language"
             variant="outlined"
-            label={t("CourseLanguage")}
+            label={t('CourseLanguage')}
             error={!!errors.course_lang}
             helperText={errors.course_lang?.message}
-            {...register('course_lang', { required: t("CourseLanguageReq") })}
+            {...register('course_lang', { required: t('CourseLanguageReq') })}
             sx={{
               '.MuiOutlinedInput-root': {
-                lineHeight: 0 // Match default height for MUI TextField
+                lineHeight: 0, // Match default height for MUI TextField
               },
             }}
           >
-            {
-            ['arabic', 'english'].map((lang) => (
+            {['arabic', 'english'].map((lang) => (
               <MenuItem key={lang} value={lang}>
                 {lang}
               </MenuItem>
-            ))
-            }
+            ))}
           </TextField>
 
           {/* Image Upload */}
@@ -201,13 +221,13 @@ function AddCourseForm() {
             fullWidth
             variant="outlined"
             type="file"
-            label={t("image")}
+            label={t('image')}
             InputLabelProps={{ shrink: true }}
             inputProps={{ accept: 'image/*' }}
             error={!!errors.image}
             helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
             {...register('image', {
-              required: t("imageReq"),
+              required: t('imageReq'),
               onChange: (e) => setFileName(e.target.files?.[0]?.name || 'No file selected'),
             })}
           />
@@ -216,64 +236,64 @@ function AddCourseForm() {
           <TextField
             fullWidth
             variant="outlined"
-            label={t("price")}
+            label={t('price')}
             error={!!errors.price}
             helperText={errors.price?.message}
-            {...register('price', { required: t("priceReq2") })}
+            {...register('price', { required: t('priceReq2') })}
           />
-          <TextField
-            select
-            fullWidth
-            variant="outlined"
-            label={t("package")}
-            error={!!errors.package_id}
-            helperText={errors.package_id?.message}
-            {...register('package_id', { required: t("packageReq") })}
-            sx={{
-              '.MuiOutlinedInput-root': {
-                lineHeight: 0 // Match default height for MUI TextField
-              },
-            }}
+
+          <select
+            //   label={t('package')}
+            //   error={!!errors.package_id}
+            //   helperText={errors.package_id?.message}
+            value={props.package_id} // Controlled value for TextField
+            {...register('package_id', { required: t('packageReq') })}
+            style={{}}
           >
             {packages.data.map((pkg) => (
-              <MenuItem key={pkg.id} value={pkg.id}>
+              <option
+                key={pkg.id}
+                value={pkg.id}
+                selected={pkg.id === props.package_id ? true : false}
+              >
                 {pkg.name.en}
-              </MenuItem>
+              </option>
             ))}
-          </TextField>
+          </select>
+
           <TextField
             fullWidth
             variant="outlined"
-            label={t("MainVideoURL")}
+            label={t('MainVideoURL')}
             error={!!errors.main_video}
             helperText={errors.main_video?.message}
-            {...register('main_video', { required: t("MainVideoURLReq") })}
+            {...register('main_video', { required: t('MainVideoURLReq') })}
           />
-          
+
           <TextField
-          id='Course Duration'
+            id="Course Duration"
             fullWidth
             variant="outlined"
-            label={t("CourseDuration")}
+            label={t('CourseDuration')}
             error={!!errors.course_duration}
             helperText={errors.course_duration?.message}
             {...register('course_duration', {
-              required: t("CourseDurationReq"),
+              required: t('CourseDurationReq'),
             })}
           />
 
           <TextField
             select
             fullWidth
-            id='Course Level'
+            id="Course Level"
             variant="outlined"
-            label={t("CourseLevel")}
+            label={t('CourseLevel')}
             error={!!errors.course_level}
             helperText={errors.course_level?.message}
-            {...register('course_level', { required: t("CourseLevelReq") })}
+            {...register('course_level', { required: t('CourseLevelReq') })}
             sx={{
               '.MuiOutlinedInput-root': {
-                lineHeight: 0 // Match default height for MUI TextField
+                lineHeight: 0, // Match default height for MUI TextField
               },
             }}
           >
@@ -282,45 +302,60 @@ function AddCourseForm() {
                 {lev}
               </MenuItem>
             ))}
-          </TextField> 
+          </TextField>
 
-  
+          <TextField
+            fullWidth
+            variant="outlined"
+            label={t('PriceAfterDiscount')}
+            error={!!errors.priceAfterDiscount}
+            helperText={errors.priceAfterDiscount?.message}
+            {...register('priceAfterDiscount', {
+              required: t('PriceAfterDiscountReq'),
+            })}
+            sx={{
+              marginBottom: 2, // Add margin to separate this field visually from the next
+            }}
+          />
 
-  <TextField
-    fullWidth
-    variant="outlined"
-    label={t("PriceAfterDiscount")}
-    error={!!errors.priceAfterDiscount}
-    helperText={errors.priceAfterDiscount?.message}
-    {...register('priceAfterDiscount', {
-      required: t("PriceAfterDiscountReq"),
-    })}
-    sx={{
-      marginBottom: 2, // Add margin to separate this field visually from the next
-    }}
-  />
-
-  {/* Category */}
-  <TextField
-    select
-    fullWidth
-    variant="outlined"
-    label={t("Category")}
-    error={!!errors.category_id}
-    helperText={errors.category_id?.message}
-    {...register('category_id', { required: t("CategoryReq") })}
-    sx={{
-      '.MuiOutlinedInput-root': {
-            lineHeight: 0
-      },
-    }}
-  >
-    {categories.data.map((cat) => (
-      <MenuItem key={cat.id} value={cat.id}>
-        {cat.name.en}
-      </MenuItem>
-    ))}
-  </TextField>
+          {/* Category
+          <TextField
+            select
+            fullWidth
+            variant="outlined"
+            label={t('Category')}
+            error={!!errors.category_id}
+            helperText={errors.category_id?.message}
+            value={props.category_id} // Use value instead of defaultValue
+            {...register('category_id', { required: t('CategoryReq') })}
+            sx={{
+              '.MuiOutlinedInput-root': {
+                lineHeight: 0,
+              },
+            }}
+          >
+            {categories.data.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name.en}
+              </MenuItem>
+            ))}
+          </TextField> */}
+          <select
+            value={props.category_id || ''} // Controlled value
+            {...register('category_id', { required: t('CategoryReq') })}
+            style={{
+              width: '100%',
+              padding: '10px',
+              border: errors.category_id ? '1px solid red' : '1px solid #ccc',
+              borderRadius: '4px',
+            }}
+          >
+            {categories.data.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name.en}
+              </MenuItem>
+            ))}
+          </select>
         </Stack>
 
         <Button
@@ -331,7 +366,7 @@ function AddCourseForm() {
           type="submit"
           sx={{ mt: 3, fontSize: '18px' }}
         >
-          {t("AddCourse")}
+          {t('AddCourse')}
         </Button>
       </Box>
       <Toaster position="bottom-center" reverseOrder={false} />
@@ -339,4 +374,4 @@ function AddCourseForm() {
   );
 }
 
-export default AddCourseForm;
+export default UpdateCourse;

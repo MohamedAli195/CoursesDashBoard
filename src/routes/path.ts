@@ -14,6 +14,7 @@ const paths = {
   packages: `${rootPaths.pagesRoot}packages`,
   products: `${rootPaths.pagesRoot}products`,
   customers: `${rootPaths.pagesRoot}customers`,
+  lectuers: `${rootPaths.pagesRoot}lectuers`,
   orders: `${rootPaths.pagesRoot}orders`,
   reports: `${rootPaths.pagesRoot}reports`,
   coupons: `${rootPaths.pagesRoot}coupons`,

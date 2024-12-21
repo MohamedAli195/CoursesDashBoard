@@ -63,7 +63,11 @@
       "email":"الايميل",
       "phone":"الموبايل",
       "partner_code":"رقم الشريك",
-      "password":"كلمة المرور"
+      "password":"كلمة المرور",
+      "updateLEctuer":"تحديث محاضرة",
+      "CoursesTable" : "جدول المحاضرات",
+      "LectuerPage":"صفحة المحاضرة",
+      "UpdateLecter":"تحديثالمحاضرة"
 
       
   }

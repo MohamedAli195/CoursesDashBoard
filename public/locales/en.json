@@ -65,7 +65,12 @@
       "phone":"phone",
       "password":"password",
       "partner_code":"Partener Code",
-      "updateCustomer":"update Customer"
+      "updateCustomer":"update Customer",
+      "updateLEctuer":"update Lectuer",
+      "CoursesTable" : "Courses Table",
+      "LectuerPage":"Lectuer Page",
+      "UpdateLecter":"Update Lectuer"
+
 
       
 

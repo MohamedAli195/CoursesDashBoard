@@ -98,13 +98,14 @@ export interface ICourseSelect {
       ar: string;
       fr:string;
     };
-    image: FileList;
+    id:number;
+    image: FileList |string;
     price: string;
     main_video: string;
     course_duration: string;
     course_level: string;
     course_lang: string;
-    price_after_discount: string;
+    priceAfterDiscount: string;
     package_id: number;
     category_id: number;
     description: {
@@ -112,4 +113,31 @@ export interface ICourseSelect {
       ar: string;
       fr:string;
     };
+  }
+
+  export interface IPackageLectuerSelected {
+    id:number |string
+    title: {
+      en: string;
+      ar: string;
+    };
+    description: {
+      en: string;
+      ar: string;
+
+    };
+
+    video_url: string;
+    duration: string;
+  }
+
+  export interface ICourseLectuer {
+    id: number |string;
+    nameAr: string;
+    nameEn: string;
+    descriptionAr: string;
+    descriptionEn: string;
+
+    vedioUrl: string;
+    vedioDuration: string | null;
   }

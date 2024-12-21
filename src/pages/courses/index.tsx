@@ -4,17 +4,12 @@ import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import BasicModal from 'components/modal/ShareModal';
-import AddPackageForm from 'components/addPacageForm';
-import UpdatePackageForm from 'components/updatePacageForm';
-
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
-import i18n from 'i18n';
 import { deleteCourse, fetchCourses } from './coursesFunct';
-import { fetchPackages } from 'pages/packages/packagesFunct';
 import { useTranslation } from 'react-i18next';
-import {ICourse, ICourseSelect } from 'interfaces';
+import {ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
 
 // Fetch packages function
 
@@ -27,10 +22,10 @@ function CoursesPage() {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | ICourseSelect>(null);
+  const [selectedCourse, setSelectedCourse] = useState<null | IFormInputCourses | undefined>(null);
 
-  const handleEditOpen = (packageData: ICourseSelect) => {
-    setSelectedPackage(packageData); // Set selected package data
+  const handleEditOpen = (packageData: IFormInputCourses) => {
+    setSelectedCourse(packageData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
 
@@ -86,9 +81,17 @@ function CoursesPage() {
           >
              {t("view")}
           </Button>
-          <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-          {t("edit")}
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`${paths.courses}/update/${params.row.id}`)}
+          >
+             {t("edit")}
           </Button>
+          {/* <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
+          {t("edit")}
+          </Button> */}
         </Stack>
       ),
     },
@@ -158,14 +161,15 @@ function CoursesPage() {
       </Paper>
 
       {/* update modal */}
+{/*       
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>update pacage</h2>
-        <UpdatePackageForm
+        <UpdateCourseForm
           handleClose={handleCloseU}
-          initialData={selectedPackage}
+          initialData={selectedCourse}
           refetch={refetch}
         />
-      </BasicModal>
+      </BasicModal> */}
       <Toaster position="bottom-center" reverseOrder={false} />
     </>
   );

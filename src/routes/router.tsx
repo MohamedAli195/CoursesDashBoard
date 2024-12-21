@@ -12,6 +12,9 @@ import CoursesPage from 'pages/courses';
 import AddCoursePage from 'pages/courses/AddCoursePage';
 import CourseDetails from 'pages/courses/CourseDetails';
 import AddCourseLectuerPage from 'pages/courses/AddCourseLectuerPage';
+import CourseUpdate from 'pages/courses/CourseUpdate';
+import UpdateLectuerForm from 'components/updateLectuerForm';
+import LectuerDetails from 'components/lectuerTable/LectuerDetails';
 
 
 // Lazy-loaded components
@@ -167,6 +170,31 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <CourseDetails />
+              </ProtectedRoute>
+            ),
+          },
+
+          {
+            path: `${paths.courses}/update/:id`, // Fixed typo
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <CourseUpdate />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.lectuers}/:id`, // Fixed typo
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <LectuerDetails />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.lectuers}/update/:id`, // Fixed typo
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <UpdateLectuerForm />
               </ProtectedRoute>
             ),
           },
