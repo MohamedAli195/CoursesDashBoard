@@ -65,7 +65,7 @@ function ViewCoursForm({
 
     useEffect(() => {
         if (initialData) {
-            console.log(initialData)
+            // console.log(initialData)
             // Populate fields with initial data
             setValue('name.en', initialData.name.en);
             setValue('name.ar', initialData.name.ar);

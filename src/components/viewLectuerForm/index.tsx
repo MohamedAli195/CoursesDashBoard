@@ -40,7 +40,7 @@ function ViewLectuerForm() {
     queryKey: [`Lectuers-${id}`],
     queryFn: () => fetchLectuer(id),
   });
-console.log(data?.data)
+// console.log(data?.data)
 
 const courseID = data?.data.course.id
 

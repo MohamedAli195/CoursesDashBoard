@@ -106,8 +106,8 @@ export interface ICourseSelect {
     course_level: string;
     course_lang: string;
     priceAfterDiscount: string;
-    package_id: number;
-    category_id: number;
+    package_id: number|string;
+    category_id: number|string;
     description: {
       en: string;
       ar: string;

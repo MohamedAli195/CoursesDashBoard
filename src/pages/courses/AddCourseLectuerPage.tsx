@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { t } from 'i18next';
 function AddCourseLectuerPage() {
     const {id}= useParams()
-    console.log(typeof(id))
+    // console.log(typeof(id))
   return (
     <>
       <Typography variant="h1" color="initial">

@@ -83,7 +83,7 @@ const LanguageDropdown = () => {
             selected={option.value === LANGS[0].value}
             onClick={()=>{
               changeLanguage(option.value)
-              console.log(option.value)
+              // console.log(option.value)
               
             }}
             sx={{ typography: 'body2', py: 1 }}

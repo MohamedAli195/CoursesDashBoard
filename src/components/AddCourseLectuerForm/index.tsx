@@ -45,7 +45,7 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       const formData = new FormData();
       formData.append('title[en]', data.title.en);

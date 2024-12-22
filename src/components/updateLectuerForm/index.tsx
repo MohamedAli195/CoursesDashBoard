@@ -4,7 +4,7 @@ import axios from 'axios';
 import { fetchLectuer } from 'components/lectuerTable/LectuerFunct';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
@@ -39,7 +39,7 @@ function UpdateLectuerForm() {
     queryKey: [`Lectuers-${id}`],
     queryFn: () => fetchLectuer(id),
   });
-  console.log(data?.data);
+  // console.log(data?.data);
 
   const courseID = data?.data.course.id;
 
@@ -57,7 +57,7 @@ function UpdateLectuerForm() {
   }, [data?.data, setValue]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       const formData = new FormData();
       formData.append('title[en]', data.title.en);
@@ -81,7 +81,7 @@ function UpdateLectuerForm() {
         { headers },
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       toast.success('course lectuer updated successfully');
     } catch (err) {
       console.error('Error adding course lectuer:', err);
@@ -191,6 +191,8 @@ function UpdateLectuerForm() {
           {t('UpdatePackage')}
         </Button>
       </Box>
+      <Toaster position="bottom-center" reverseOrder={false} />
+
     </>
   );
 }

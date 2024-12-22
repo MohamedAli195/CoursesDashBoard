@@ -94,7 +94,7 @@ function LectuerTable() {
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
-  console.log(data.data.data);
+  // console.log(data.data.data);
   // Prepare rows for DataGrid
   const rows =
     data.data?.data?.length > 0

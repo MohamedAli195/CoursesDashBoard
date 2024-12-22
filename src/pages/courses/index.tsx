@@ -106,7 +106,7 @@ function CoursesPage() {
     queryFn: () => fetchCourses(),
   });
 
-  console.log(data?.data.data)
+  // console.log(data?.data.data)
 
   // Prepare rows for DataGrid
   const rows =data?.data?.data.length > 0 ?  data?.data?.data.map(

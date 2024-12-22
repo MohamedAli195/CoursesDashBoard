@@ -37,9 +37,9 @@ import { useTranslation } from 'react-i18next';
     const { register, setValue, handleSubmit } = useForm<IFormInput>();
     const { t } = useTranslation();
     useEffect(() => {
-        console.log({initialData})
+        // console.log({initialData})
       if (initialData) {
-        console.log(initialData);
+        // console.log(initialData);
         
           setValue('name', initialData.name);
           setValue('email', initialData.email);
@@ -51,7 +51,7 @@ import { useTranslation } from 'react-i18next';
     }, [initialData, setValue]);
   
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-      console.log(data);
+      // console.log(data);
       try {
         // Create a FormData object and append the data
         const formData = new FormData();
