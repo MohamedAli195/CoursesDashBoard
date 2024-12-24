@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { ICourseLectuer, IPackage, IPackageLectuerSelected, IPackageSelected } from 'interfaces';
 import { deletePackage } from 'pages/packages/packagesFunct';
 import UpdateLectuerForm from 'components/updateLectuerForm';
+import {Eye ,Trash2 ,Pencil} from  'lucide-react';
 
 // Fetch packages function
 
@@ -66,17 +67,20 @@ function LectuerTable() {
             color="error"
             onClick={() => deleteLectuer(params.row.id, refetch)}
           >
-            {t('delete')}
+            {/* {t('delete')} */}
+             <Trash2 /> 
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.lectuers}/${params.row.id}`)}
           >
-            {t('view')}
+            {/* {t('view')} */}
+            <Eye />
           </Button>
           <Button variant="contained" color="primary" onClick={() => navigate(`${paths.lectuers}/update/${params.row.id}`)}>
-            {t('edit')}
+            {/* {t('edit')} */}
+            <Pencil />
           </Button>
         </Stack>
       ),
@@ -120,14 +124,17 @@ function LectuerTable() {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
+          // initialState={{ pagination: { paginationModel } }}
+          // pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
+          disableRowSelectionOnClick 
+          disableMultipleRowSelection
+          hideFooterPagination={true}
         />
       </Paper>
 

@@ -13,6 +13,7 @@ import paths from 'routes/path';
 import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
 import { IPackage, IPackageSelected } from 'interfaces';
+import {Eye ,Trash2 ,Pencil} from  'lucide-react';
 
 // Fetch packages function
 
@@ -68,23 +69,25 @@ function PackagesPage() {
       width: 130,
       flex: 1,
       renderCell: (params) => (
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" gap={1}>
           <Button
             variant="contained"
             color="error"
             onClick={() => deletePackage(params.row.id, refetch)}
           >
-            {t('delete')}
+            {/* {t('delete')} */}
+            <Trash2 />
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
           >
-            {t('view')}
+            {/* {t('view')} */}<Eye />
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            {t('edit')}
+            {/* {t('edit')} */}
+            <Eye />
           </Button>
         </Stack>
       ),
@@ -118,6 +121,7 @@ function PackagesPage() {
 
   return (
     <>
+    
       <Stack
         flexDirection="row"
         alignItems="center"
@@ -127,6 +131,7 @@ function PackagesPage() {
       >
         <Typography variant="h1" color="initial">
           {t('packages')}
+          
         </Typography>
         <Button variant="contained" color="info" onClick={handleOpen}>
           {t('addPackage')}
@@ -137,14 +142,16 @@ function PackagesPage() {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
+         
           sx={{ border: 0 }}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
+          disableRowSelectionOnClick 
+          disableMultipleRowSelection
+          hideFooterPagination={true}
         />
       </Paper>
 
@@ -165,6 +172,8 @@ function PackagesPage() {
         />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />
+
+      
     </>
   );
 }

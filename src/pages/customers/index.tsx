@@ -14,10 +14,14 @@ import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
 import AddCustomer from 'components/addCustomer';
 import UpdateCustomerForm from 'components/updatePacageForm/updateCustomer';
+import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import PaginationComponent from 'components/pagination';
+
 
 // Fetch packages function
 
 function CustomersPage() {
+  const [page,setPage] = useState(1)
   const { t, i18n } = useTranslation();
   // states
   const navigate = useNavigate();
@@ -71,23 +75,26 @@ function CustomersPage() {
       width: 130,
       flex: 1,
       renderCell: (params) => (
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" gap={1}>
           <Button
             variant="contained"
             color="error"
             onClick={() => deleteCustomer(params.row.id, refetch)}
           >
-            {t('delete')}
+            {/* {t('delete')} */}
+            <Trash2 />
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
           >
-            {t('view')}
+            {/* {t('view')} */}
+            <Eye />
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            {t('edit')}
+            {/* {t('edit')} */}
+            <Pencil />
           </Button>
         </Stack>
       ),
@@ -95,18 +102,19 @@ function CustomersPage() {
   ];
 
   // Pagination settings
-  const paginationModel = { page: 0, pageSize: 5 };
+  // const paginationModel = { page: 0, pageSize: 5 };
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ['customers'],
-    queryFn: () => fetchCustomers(),
+    queryKey: [`customers-${page}`],
+    queryFn: () => fetchCustomers(page),
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
+  console.log(data.data?.total)
   const rows =
     data.data.data.length > 0
       ? data.data.data.map(
@@ -149,15 +157,20 @@ function CustomersPage() {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
+          // initialState={{ pagination: { paginationModel } }}
+          // pageSizeOptions={[5, 10]}
+          sx={{ border: 0}}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
+          disableRowSelectionOnClick 
+          disableMultipleRowSelection
+          hideFooterPagination={true}
+          
         />
+        <PaginationComponent page={page} pageCounter={data.data?.total} setPage={setPage} />
       </Paper>
 
       {/* add modal */}

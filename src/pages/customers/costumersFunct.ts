@@ -30,7 +30,7 @@ export   const deleteCustomer = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchCustomers = async () => {
+    export const fetchCustomers = async (page=1,perpage=1,) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -38,7 +38,7 @@ export   const deleteCustomer = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      'https://market-mentor.flexi-code.com/public/api/admin/customers',
+      `https://market-mentor.flexi-code.com/public/api/admin/customers?per_page=${perpage}&page=${page}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

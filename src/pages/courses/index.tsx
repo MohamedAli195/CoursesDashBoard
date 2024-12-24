@@ -10,6 +10,7 @@ import paths from 'routes/path';
 import { deleteCourse, fetchCourses } from './coursesFunct';
 import { useTranslation } from 'react-i18next';
 import {ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
+import {Eye ,Trash2 ,Pencil} from  'lucide-react';
 
 // Fetch packages function
 
@@ -66,20 +67,22 @@ function CoursesPage() {
       width: 130,
       flex: 1,
       renderCell: (params) => (
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" gap={1}>
           <Button
             variant="contained"
             color="error"
             onClick={() => deleteCourse(params.row.id, refetch)}
           >
-            {t("delete")}
+            {/* {t("delete")} */}
+            <Trash2 />
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.courses}/${params.row.id}`)}
           >
-             {t("view")}
+             {/* {t("view")} */}
+             <Eye />
           </Button>
 
           <Button
@@ -87,7 +90,8 @@ function CoursesPage() {
             color="primary"
             onClick={() => navigate(`${paths.courses}/update/${params.row.id}`)}
           >
-             {t("edit")}
+             {/* {t("edit")} */}
+             <Pencil />
           </Button>
           {/* <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
           {t("edit")}
@@ -149,14 +153,17 @@ function CoursesPage() {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
+          // initialState={{ pagination: { paginationModel } }}
+          // pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
+          disableRowSelectionOnClick 
+          disableMultipleRowSelection
+          hideFooterPagination={true}
         />
       </Paper>
 

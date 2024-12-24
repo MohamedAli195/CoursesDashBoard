@@ -13,6 +13,8 @@ import AddCategoryForm from 'components/addCategoryForm';
 import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
 import { useTranslation } from 'react-i18next';
 import { ICategory, ISelectCategory } from 'interfaces';
+import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
 
 // Fetch packages function
 
@@ -66,23 +68,26 @@ function CategoriesPage() {
       width: 130,
       flex: 1,
       renderCell: (params) => (
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" gap={1}>
           <Button
             variant="contained"
             color="error"
             onClick={() => deleteCategory(params.row.id, refetch)}
           >
-            {t("delete")}
+            {/* {t("delete")} */}
+            <Trash2 />
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.categories}/${params.row.id}`)}
           >
-            {t("view")}
+            {/* {t("view")}  */}
+            <Eye />
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-          {t("edit")}
+          {/* {t("edit")} */}
+          <Pencil />
           </Button>
         </Stack>
       ),
@@ -128,16 +133,20 @@ function CategoriesPage() {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
+          // initialState={{ pagination: { paginationModel } }}
+          // pageSizeOptions={[5, 10]}
           sx={{ border: 0, }}
           autoHeight 
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
+          disableRowSelectionOnClick 
+          disableMultipleRowSelection
+          hideFooterPagination={true}
         />
       </Paper>
+      {/* <CustomDataGridFooter labelRowsPerPage={0}  /> */}
 
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>

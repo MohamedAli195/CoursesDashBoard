@@ -27,7 +27,7 @@ const PasswordResetPage = lazy(() => import('pages/authentication/reset-password
 const CategoriesPage = lazy(() => import('pages/categories'));
 const OrdersPage = lazy(() => import('pages/orders'));
 const Dashboard = lazy(() => import('pages/dashboard/index'));
-const ProductsPage = lazy(() => import('pages/products'));
+// const ProductsPage = lazy(() => import('pages/products'));
 const CustomersPage = lazy(() => import('pages/customers'));
 const ReportsPage = lazy(() => import('pages/reports'));
 const CouponsPage = lazy(() => import('pages/coupons'));
@@ -69,14 +69,14 @@ export const routes = [
               </ProtectedRoute>
             ),
           },
-          {
-            path: paths.products,
-            element: (
-              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <ProductsPage />
-              </ProtectedRoute>
-            ),
-          },
+          // {
+          //   path: paths.products,
+          //   element: (
+          //     <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+          //       <ProductsPage />
+          //     </ProtectedRoute>
+          //   ),
+          // },
           {
             path: paths.customers,
             element: (
