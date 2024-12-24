@@ -16,10 +16,15 @@ import { ICourseLectuer, IPackage, IPackageLectuerSelected, IPackageSelected } f
 import { deletePackage } from 'pages/packages/packagesFunct';
 import UpdateLectuerForm from 'components/updateLectuerForm';
 import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import PaginationComponent from 'components/pagination';
+import SelectPerPage from 'components/selectPerPAge';
 
 // Fetch packages function
 
 function LectuerTable() {
+  const [page, setPage] = useState(1);
+  const [per, setper] = useState(1);
+
   const { id } = useParams();
   const { t, i18n } = useTranslation();
   // states
@@ -42,7 +47,7 @@ function LectuerTable() {
   };
 
   // fetch from api
-  fetchLectuers(id);
+  // fetchLectuers(id);
 
   // Columns configuration
   const columns: GridColDef[] = [
@@ -88,12 +93,11 @@ function LectuerTable() {
   ];
 
   // Pagination settings
-  const paginationModel = { page: 0, pageSize: 5 };
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ['Lectuers'],
-    queryFn: () => fetchLectuers(id),
+    queryKey: [`Lectuers-${page}-${per}`],
+    queryFn: () => fetchLectuers(id,page,per),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -136,6 +140,11 @@ function LectuerTable() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
+        <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+          <PaginationComponent page={page} pageCounter={(data.data?.total)%(per)===0?(data.data?.total)/(per):(data.data?.total)%(per) +1} setPage={setPage} />
+          <SelectPerPage perPage={per}  setPerPage={setper}/>
+        </Stack>
+        
       </Paper>
 
       {/* add modal

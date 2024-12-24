@@ -14,14 +14,16 @@ import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
 import AddCustomer from 'components/addCustomer';
 import UpdateCustomerForm from 'components/updatePacageForm/updateCustomer';
-import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
-
+import SelectPerPage from 'components/selectPerPAge';
 
 // Fetch packages function
 
 function CustomersPage() {
-  const [page,setPage] = useState(1)
+  const [page, setPage] = useState(1);
+  const [per, setper] = useState(1);
+
   const { t, i18n } = useTranslation();
   // states
   const navigate = useNavigate();
@@ -43,11 +45,13 @@ function CustomersPage() {
     partner_code: string;
   }>(null);
 
-  const handleEditOpen = (packageData: {id: number;
+  const handleEditOpen = (packageData: {
+    id: number;
     name: string;
     email: string;
     phone: string;
-    partner_code: string;}) => {
+    partner_code: string;
+  }) => {
     setSelectedPackage(packageData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
@@ -106,15 +110,15 @@ function CustomersPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`customers-${page}`],
-    queryFn: () => fetchCustomers(page),
+    queryKey: [`customers-${page}-${per}`],
+    queryFn: () => fetchCustomers(page, per),
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
-  console.log(data.data?.total)
+  console.log(data.data?.total);
   const rows =
     data.data.data.length > 0
       ? data.data.data.map(
@@ -133,8 +137,6 @@ function CustomersPage() {
           }),
         )
       : '';
-
-
 
   return (
     <>
@@ -159,18 +161,26 @@ function CustomersPage() {
           columns={columns}
           // initialState={{ pagination: { paginationModel } }}
           // pageSizeOptions={[5, 10]}
-          sx={{ border: 0}}
+          sx={{ border: 0 }}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
-          disableRowSelectionOnClick 
+          disableRowSelectionOnClick
           disableMultipleRowSelection
           hideFooterPagination={true}
-          
         />
-        <PaginationComponent page={page} pageCounter={data.data?.total} setPage={setPage} />
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <PaginationComponent
+            page={page}
+            pageCounter={
+              data.data?.total % per === 0 ? data.data?.total / per : (data.data?.total % per) + 1
+            }
+            setPage={setPage}
+          />
+          <SelectPerPage perPage={per} setPerPage={setper} />
+        </Stack>{' '}
       </Paper>
 
       {/* add modal */}

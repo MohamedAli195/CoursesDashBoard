@@ -30,7 +30,7 @@ export   const deleteCustomer = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchCustomers = async (page=1,perpage=1,) => {
+    export const fetchCustomers = async (page=1,perpage=1) => {
     const token = localStorage.getItem('token');
 
     if (!token) {

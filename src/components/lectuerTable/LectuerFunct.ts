@@ -30,7 +30,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchLectuers = async (id:string|undefined) => {
+    export const fetchLectuers = async (id:string|undefined,page=1,perpage=1) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -38,7 +38,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `https://market-mentor.flexi-code.com/public/api/admin/course-lectures/course/${id}`,
+      `https://market-mentor.flexi-code.com/public/api/admin/course-lectures/course/${id}?per_page=${perpage}&page=${page}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

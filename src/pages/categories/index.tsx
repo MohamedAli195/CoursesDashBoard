@@ -14,12 +14,17 @@ import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
 import { useTranslation } from 'react-i18next';
 import { ICategory, ISelectCategory } from 'interfaces';
 import {Eye ,Trash2 ,Pencil} from  'lucide-react';
-import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
+import PaginationComponent from 'components/pagination';
+import SelectPerPage from 'components/selectPerPAge';
+// import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
 
 // Fetch packages function
 
 function CategoriesPage() {
   // states
+  const [page,setPage] = useState(1)
+  const [per, setper] = useState(1);
+
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   // add modal
@@ -99,15 +104,15 @@ function CategoriesPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ['packages'],
-    queryFn: () => fetchCategories(),
+    queryKey: [`packages-${page}-${per}`],
+    queryFn: () => fetchCategories(page,per),
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
   // console.log(data.data);
   // Prepare rows for DataGrid
-  const rows =data.data.length > 0 ? data.data.map(
+  const rows =data.data.data.length > 0 ? data.data.data.map(
     (packageItem: ICategory) => ({
       id: packageItem.id,
       nameEn: packageItem.name?.en,
@@ -116,8 +121,8 @@ function CategoriesPage() {
       descriptionAr: packageItem.description?.ar,
       image: packageItem.image,
     }),
-  ):"";
-
+  ):[];
+// console.log(data.data.data)
   return (
     <>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3}>
@@ -145,8 +150,14 @@ function CategoriesPage() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-      </Paper>
-      {/* <CustomDataGridFooter labelRowsPerPage={0}  /> */}
+       <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                 <PaginationComponent page={page} pageCounter={(data.data?.total)%(per)===0?(data.data?.total)/(per):(data.data?.total)%(per) +1} setPage={setPage} />
+                 <SelectPerPage perPage={per}  setPerPage={setper}/>
+               </Stack>
+        
+      </Paper> 
+
+      {/* <CustomDataGridFooter labelRowsPerPage={0}  />
 
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>

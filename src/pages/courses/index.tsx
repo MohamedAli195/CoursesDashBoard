@@ -11,11 +11,17 @@ import { deleteCourse, fetchCourses } from './coursesFunct';
 import { useTranslation } from 'react-i18next';
 import {ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
 import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import PaginationComponent from 'components/pagination';
+import SelectPerPage from 'components/selectPerPAge';
 
 // Fetch packages function
 
 function CoursesPage() {
+
   // states
+  const [page,setPage] = useState(1)
+  const [per, setper] = useState(1);
+
   const navigate = useNavigate();
   const { t,i18n } = useTranslation();
   // update modal
@@ -106,8 +112,8 @@ function CoursesPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ['courses'],
-    queryFn: () => fetchCourses(),
+    queryKey: [`courses-${page}-${per}`],
+    queryFn: () => fetchCourses(page,per),
   });
 
   // console.log(data?.data.data)
@@ -165,7 +171,10 @@ function CoursesPage() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-      </Paper>
+<Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+          <PaginationComponent page={page} pageCounter={(data.data?.total)%(per)===0?(data.data?.total)/(per):(data.data?.total)%(per) +1} setPage={setPage} />
+          <SelectPerPage perPage={per}  setPerPage={setper}/>
+        </Stack>      </Paper>
 
       {/* update modal */}
 {/*       

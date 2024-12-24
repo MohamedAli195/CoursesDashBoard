@@ -13,13 +13,18 @@ import paths from 'routes/path';
 import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
 import { IPackage, IPackageSelected } from 'interfaces';
-import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import { Eye, Trash2, Pencil } from 'lucide-react';
+import PaginationComponent from 'components/pagination';
+import SelectPerPage from 'components/selectPerPAge';
 
 // Fetch packages function
 
 function PackagesPage() {
-  const { t, i18n } = useTranslation();
   // states
+  const [page, setPage] = useState(1);
+  const [per, setper] = useState(1);
+  const { t, i18n } = useTranslation();
+
   const navigate = useNavigate();
   // add modal
   const [open, setOpen] = useState(false);
@@ -83,7 +88,8 @@ function PackagesPage() {
             color="info"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
           >
-            {/* {t('view')} */}<Eye />
+            {/* {t('view')} */}
+            <Eye />
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
             {/* {t('edit')} */}
@@ -95,12 +101,12 @@ function PackagesPage() {
   ];
 
   // Pagination settings
-  const paginationModel = { page: 0, pageSize: 5 };
+  // const paginationModel = { page: 0, pageSize: 5 };
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ['packages'],
-    queryFn: () => fetchPackages(),
+    queryKey: [`packages-${page}-${per}`],
+    queryFn: () => fetchPackages(page, per),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -108,8 +114,8 @@ function PackagesPage() {
   // console.log(data.data);
   // Prepare rows for DataGrid
   const rows =
-    data.data.length > 0
-      ? data.data.map((packageItem: IPackage) => ({
+    data.data.data.length > 0
+      ? data.data.data.map((packageItem: IPackage) => ({
           id: packageItem.id,
           nameEn: packageItem.name?.en,
           nameAr: packageItem.name?.ar,
@@ -118,10 +124,9 @@ function PackagesPage() {
           status: packageItem.status,
         }))
       : '';
-
+  console.log(data);
   return (
     <>
-    
       <Stack
         flexDirection="row"
         alignItems="center"
@@ -131,7 +136,6 @@ function PackagesPage() {
       >
         <Typography variant="h1" color="initial">
           {t('packages')}
-          
         </Typography>
         <Button variant="contained" color="info" onClick={handleOpen}>
           {t('addPackage')}
@@ -142,17 +146,26 @@ function PackagesPage() {
         <DataGrid
           rows={rows}
           columns={columns}
-         
           sx={{ border: 0 }}
           autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
-          disableRowSelectionOnClick 
+          disableRowSelectionOnClick
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <PaginationComponent
+            page={page}
+            pageCounter={
+              data.data?.total % per === 0 ? data.data?.total / per : (data.data?.total % per) + 1
+            }
+            setPage={setPage}
+          />
+          <SelectPerPage perPage={per} setPerPage={setper} />
+        </Stack>{' '}
       </Paper>
 
       {/* add modal */}
@@ -172,8 +185,6 @@ function PackagesPage() {
         />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />
-
-      
     </>
   );
 }

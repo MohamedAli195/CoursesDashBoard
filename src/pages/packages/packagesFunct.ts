@@ -30,7 +30,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchPackages = async () => {
+    export const fetchPackages = async (page=1,perpage=2) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -38,7 +38,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      'https://market-mentor.flexi-code.com/public/api/admin/packages',
+      `https://market-mentor.flexi-code.com/public/api/admin/packages?per_page=${perpage}&page=${page}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
