@@ -1,4 +1,5 @@
 import axios from "axios";
+import i18n from "i18n";
 import toast from "react-hot-toast";
 
 
@@ -30,7 +31,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchPackages = async (page=1,perpage=2) => {
+    export const fetchPackages = async (page=1,perpage=2,search='') => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -38,10 +39,12 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `https://market-mentor.flexi-code.com/public/api/admin/packages?per_page=${perpage}&page=${page}`,
+      `https://market-mentor.flexi-code.com/public/api/admin/packages?per_page=${perpage}&page=${page}&search=${search}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          Accept:'application/json',
+          lang:i18n.language
         },
       },
     );

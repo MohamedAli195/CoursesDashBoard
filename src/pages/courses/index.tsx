@@ -9,21 +9,21 @@ import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import { deleteCourse, fetchCourses } from './coursesFunct';
 import { useTranslation } from 'react-i18next';
-import {ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
-import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import { ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
+import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
+import SearchForm from 'components/searchForm';
 
 // Fetch packages function
 
 function CoursesPage() {
-
   // states
-  const [page,setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
-
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
-  const { t,i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   // update modal
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
@@ -42,19 +42,26 @@ function CoursesPage() {
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
-    i18n.language === "ar" ? { field: 'nameAr', headerName: 'اسم الكورس' }: { field: 'nameEn', headerName: 'Name ' },
-   
-   
-    { field: 'price', headerName:i18n.language === "ar" ? 'السعر':"price" },
-    i18n.language === "ar" ? { field: 'categoryAr', headerName: 'القسم' }:{ field: 'categoryEn', headerName: 'category ' },
+    i18n.language === 'ar'
+      ? { field: 'nameAr', headerName: 'اسم الكورس' }
+      : { field: 'nameEn', headerName: 'Name ' },
 
-    i18n.language === "ar" ?{ field: 'packageAr', headerName: 'الباقة' } :{ field: 'packageEn', headerName: 'package ' },
-    i18n.language === "ar" ? { field: 'descriptionAr', headerName: 'الوصف' } :{ field: 'descriptionEn', headerName: 'description ' },
+    { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
+    i18n.language === 'ar'
+      ? { field: 'categoryAr', headerName: 'القسم' }
+      : { field: 'categoryEn', headerName: 'category ' },
+
+    i18n.language === 'ar'
+      ? { field: 'packageAr', headerName: 'الباقة' }
+      : { field: 'packageEn', headerName: 'package ' },
+    i18n.language === 'ar'
+      ? { field: 'descriptionAr', headerName: 'الوصف' }
+      : { field: 'descriptionEn', headerName: 'description ' },
 
     {
       field: 'image',
-      
-      headerName:i18n.language === "ar" ? 'الصورة':"image",
+
+      headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
 
       flex: 1,
       renderCell: (params) =>
@@ -66,10 +73,10 @@ function CoursesPage() {
           </Typography>
         ),
     },
-    { field: 'status',  headerName:i18n.language === "ar" ? 'الحالة':"status", width: 130 },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 },
     {
       field: 'actions',
-      headerName:i18n.language === "ar" ? 'العمليات':"actions",
+      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
       width: 130,
       flex: 1,
       renderCell: (params) => (
@@ -87,8 +94,8 @@ function CoursesPage() {
             color="info"
             onClick={() => navigate(`${paths.courses}/${params.row.id}`)}
           >
-             {/* {t("view")} */}
-             <Eye />
+            {/* {t("view")} */}
+            <Eye />
           </Button>
 
           <Button
@@ -96,8 +103,8 @@ function CoursesPage() {
             color="primary"
             onClick={() => navigate(`${paths.courses}/update/${params.row.id}`)}
           >
-             {/* {t("edit")} */}
-             <Pencil />
+            {/* {t("edit")} */}
+            <Pencil />
           </Button>
           {/* <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
           {t("edit")}
@@ -108,35 +115,37 @@ function CoursesPage() {
   ];
 
   // Pagination settings
-  const paginationModel = { page: 0, pageSize: 5 };
+
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`courses-${page}-${per}`],
-    queryFn: () => fetchCourses(page,per),
+    queryKey: [`courses-${page}-${per}-${search}`],
+    queryFn: () => fetchCourses(page, per, search),
   });
 
   // console.log(data?.data.data)
 
   // Prepare rows for DataGrid
-  const rows =data?.data?.data.length > 0 ?  data?.data?.data.map(
-    (packageItem: ICourse) => ({
-      id: packageItem.id,
-      nameEn: packageItem.name?.en,
-      nameAr: packageItem.name?.ar,
-      price: packageItem.price,
-      image: packageItem.image,
-      status: packageItem.status,
-      categoryEn:packageItem.category?.name?.en,
-      categoryAr:packageItem.category?.name?.ar,
-      packageEn:packageItem.package?.name?.en,
-      packageAr:packageItem.package?.name?.ar,
-      descriptionEn:packageItem.description.en,
-      descriptionAr:packageItem.description.ar,
-    }),
-  ):"";
+  const rows =
+    data?.data?.data?.length > 0
+      ? data?.data?.data.map((packageItem: ICourse) => ({
+          id: packageItem.id,
+          nameEn: packageItem.name?.en,
+          nameAr: packageItem.name?.ar,
+          price: packageItem.price,
+          image: packageItem.image,
+          status: packageItem.status,
+          categoryEn: packageItem.category?.name?.en,
+          categoryAr: packageItem.category?.name?.ar,
+          packageEn: packageItem.package?.name?.en,
+          packageAr: packageItem.package?.name?.ar,
+          descriptionEn: packageItem.description.en,
+          descriptionAr: packageItem.description.ar,
+        }))
+      : [];
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
+  const totalItems = data.data?.total;
   return (
     <>
       <Stack
@@ -147,15 +156,18 @@ function CoursesPage() {
         height={''}
       >
         <Typography variant="h1" color="initial">
-     
-          {t("courses")}
+          {t('courses')}
         </Typography>
         <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
-        {t("AddCourse")}
+          {t('AddCourse')}
         </Button>
       </Stack>
 
       <Paper sx={{ height: '800px', width: '100%' }}>
+      <Stack flexDirection={"row"} alignItems={"center"} >
+          <SearchForm setsearch={setSearch} />
+
+        </Stack>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -167,17 +179,24 @@ function CoursesPage() {
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
-          disableRowSelectionOnClick 
+          disableRowSelectionOnClick
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-<Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-          <PaginationComponent page={page} pageCounter={(data.data?.total)%(per)===0?(data.data?.total)/(per):(data.data?.total)%(per) +1} setPage={setPage} />
-          <SelectPerPage perPage={per}  setPerPage={setper}/>
-        </Stack>      </Paper>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <PaginationComponent
+            page={page}
+            pageCounter={
+              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
+            }
+            setPage={setPage}
+          />
+          <SelectPerPage perPage={per} setPerPage={setper} />
+        </Stack>{' '}
+      </Paper>
 
       {/* update modal */}
-{/*       
+      {/*       
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>update pacage</h2>
         <UpdateCourseForm

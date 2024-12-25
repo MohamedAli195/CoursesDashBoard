@@ -13,18 +13,19 @@ import AddCategoryForm from 'components/addCategoryForm';
 import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
 import { useTranslation } from 'react-i18next';
 import { ICategory, ISelectCategory } from 'interfaces';
-import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
+import SearchForm from 'components/searchForm';
 // import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
 
 // Fetch packages function
 
 function CategoriesPage() {
   // states
-  const [page,setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
-
+  const [search, setSearch] = useState('');
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   // add modal
@@ -37,7 +38,7 @@ function CategoriesPage() {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedCategory, setSelectedCategory] = useState<null | ISelectCategory >(null);
+  const [selectedCategory, setSelectedCategory] = useState<null | ISelectCategory>(null);
 
   const handleEditOpen = (categoryData: ISelectCategory) => {
     setSelectedCategory(categoryData); // Set selected package data
@@ -45,17 +46,21 @@ function CategoriesPage() {
   };
 
   // fetch from api
-  fetchCategories();
+  // fetchCategories();
 
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
-    i18n.language === "ar" ? { field: 'nameAr', headerName: 'الاسم' }:{ field: 'nameEn', headerName: 'Name' },
-    i18n.language === "ar" ?{ field: 'descriptionAr', headerName: 'الوصف' }:{ field: 'descriptionEn', headerName: 'description' },
+    i18n.language === 'ar'
+      ? { field: 'nameAr', headerName: 'الاسم' }
+      : { field: 'nameEn', headerName: 'Name' },
+    i18n.language === 'ar'
+      ? { field: 'descriptionAr', headerName: 'الوصف' }
+      : { field: 'descriptionEn', headerName: 'description' },
 
     {
       field: 'image',
-      headerName:i18n.language === "ar" ? 'الصورة':"image",
+      headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
 
       flex: 1,
       renderCell: (params) =>
@@ -69,7 +74,7 @@ function CategoriesPage() {
     },
     {
       field: 'actions',
-      headerName:i18n.language === "ar" ? 'العمليات':"actions",
+      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
       width: 130,
       flex: 1,
       renderCell: (params) => (
@@ -91,8 +96,8 @@ function CategoriesPage() {
             <Eye />
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-          {/* {t("edit")} */}
-          <Pencil />
+            {/* {t("edit")} */}
+            <Pencil />
           </Button>
         </Stack>
       ),
@@ -104,71 +109,80 @@ function CategoriesPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`packages-${page}-${per}`],
-    queryFn: () => fetchCategories(page,per),
+    queryKey: [`packages-${page}-${per}-${search}`],
+    queryFn: () => fetchCategories(page, per, search),
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
   // console.log(data.data);
   // Prepare rows for DataGrid
-  const rows =data.data.data.length > 0 ? data.data.data.map(
-    (packageItem: ICategory) => ({
-      id: packageItem.id,
-      nameEn: packageItem.name?.en,
-      nameAr: packageItem.name?.ar,
-      descriptionEn: packageItem.description?.en,
-      descriptionAr: packageItem.description?.ar,
-      image: packageItem.image,
-    }),
-  ):[];
-// console.log(data.data.data)
+  const rows =
+    data?.data?.data?.length > 0
+      ? data.data.data.map((packageItem: ICategory) => ({
+          id: packageItem.id,
+          nameEn: packageItem.name?.en,
+          nameAr: packageItem.name?.ar,
+          descriptionEn: packageItem.description?.en,
+          descriptionAr: packageItem.description?.ar,
+          image: packageItem.image,
+        }))
+      : [];
+      const totalItems = data.data?.total
   return (
     <>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3}>
         <Typography variant="h1" color="initial">
-        {t("categories")}
+          {t('categories')}
         </Typography>
         <Button variant="contained" color="info" onClick={handleOpen}>
-        {t("AddCategory")}
+          {t('AddCategory')}
         </Button>
       </Stack>
 
       <Paper sx={{ height: '800px', width: '100%' }}>
+        <Stack flexDirection={'row'} alignItems={'center'}>
+          <SearchForm setsearch={setSearch} />
+        </Stack>
         <DataGrid
           rows={rows}
           columns={columns}
           // initialState={{ pagination: { paginationModel } }}
           // pageSizeOptions={[5, 10]}
-          sx={{ border: 0, }}
-          autoHeight 
+          sx={{ border: 0 }}
+          autoHeight
           getRowHeight={() => 200} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
-          disableRowSelectionOnClick 
+          disableRowSelectionOnClick
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-       <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                 <PaginationComponent page={page} pageCounter={(data.data?.total)%(per)===0?(data.data?.total)/(per):(data.data?.total)%(per) +1} setPage={setPage} />
-                 <SelectPerPage perPage={per}  setPerPage={setper}/>
-               </Stack>
-        
-      </Paper> 
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <PaginationComponent
+            page={page}
+            pageCounter={
+              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
+            }
+            setPage={setPage}
+          />
+          <SelectPerPage perPage={per} setPerPage={setper} />
+        </Stack>
+      </Paper>
 
       {/* <CustomDataGridFooter labelRowsPerPage={0}  />
 
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>
-        <h2>{t("AddCategory")}</h2>
+        <h2>{t('AddCategory')}</h2>
 
         <AddCategoryForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
-        <h2>{t("updateCategory")}</h2>
+        <h2>{t('updateCategory')}</h2>
         <UpdateCategoryForm
           handleClose={handleCloseU}
           initialData={selectedCategory}

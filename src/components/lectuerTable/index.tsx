@@ -15,16 +15,17 @@ import { useTranslation } from 'react-i18next';
 import { ICourseLectuer, IPackage, IPackageLectuerSelected, IPackageSelected } from 'interfaces';
 import { deletePackage } from 'pages/packages/packagesFunct';
 import UpdateLectuerForm from 'components/updateLectuerForm';
-import {Eye ,Trash2 ,Pencil} from  'lucide-react';
+import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
+import SearchForm from 'components/searchForm';
 
 // Fetch packages function
 
 function LectuerTable() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
-
+  const [search, setSearch] = useState('');
   const { id } = useParams();
   const { t, i18n } = useTranslation();
   // states
@@ -55,7 +56,7 @@ function LectuerTable() {
     i18n.language === 'ar'
       ? { field: 'nameAr', headerName: 'الاسم' }
       : { field: 'nameEn', headerName: 'Name' },
-      i18n.language === 'ar'
+    i18n.language === 'ar'
       ? { field: 'descriptionAr', headerName: 'الوصف' }
       : { field: 'descriptionEn', headerName: 'description' },
     { field: 'vedioUrl', headerName: i18n.language === 'ar' ? 'الرابط' : 'Link', width: 130 },
@@ -73,7 +74,7 @@ function LectuerTable() {
             onClick={() => deleteLectuer(params.row.id, refetch)}
           >
             {/* {t('delete')} */}
-             <Trash2 /> 
+            <Trash2 />
           </Button>
           <Button
             variant="contained"
@@ -83,7 +84,11 @@ function LectuerTable() {
             {/* {t('view')} */}
             <Eye />
           </Button>
-          <Button variant="contained" color="primary" onClick={() => navigate(`${paths.lectuers}/update/${params.row.id}`)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`${paths.lectuers}/update/${params.row.id}`)}
+          >
             {/* {t('edit')} */}
             <Pencil />
           </Button>
@@ -96,8 +101,8 @@ function LectuerTable() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`Lectuers-${page}-${per}`],
-    queryFn: () => fetchLectuers(id,page,per),
+    queryKey: [`Lectuers-${page}-${per}-${search}`],
+    queryFn: () => fetchLectuers(id, page, per, search),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -106,7 +111,7 @@ function LectuerTable() {
   // Prepare rows for DataGrid
   const rows =
     data.data?.data?.length > 0
-      ? data.data.data.map((lecturItem: IPackageLectuerSelected) => ({
+      ? data?.data?.data.map((lecturItem: IPackageLectuerSelected) => ({
           id: lecturItem.id,
           nameEn: lecturItem.title?.en,
           nameAr: lecturItem.title?.ar,
@@ -116,15 +121,18 @@ function LectuerTable() {
           vedioUrl: lecturItem.video_url,
           vedioDuration: lecturItem.duration,
         }))
-      : '';
-
+      : [];
+  const totalItems = data.data?.total;
   return (
     <>
       <Typography variant="h1" color="initial">
-        {t("CoursesTable")}
+        {t('CoursesTable')}
       </Typography>
 
       <Paper sx={{ height: '800px', width: '100%', marginTop: '20px' }}>
+        <Stack flexDirection={'row'} alignItems={'center'}>
+          <SearchForm setsearch={setSearch} />
+        </Stack>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -136,15 +144,18 @@ function LectuerTable() {
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
-          disableRowSelectionOnClick 
+          disableRowSelectionOnClick
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-          <PaginationComponent page={page} pageCounter={(data.data?.total)%(per)===0?(data.data?.total)/(per):(data.data?.total)%(per) +1} setPage={setPage} />
-          <SelectPerPage perPage={per}  setPerPage={setper}/>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <PaginationComponent
+            page={page}
+            pageCounter={totalItems / per <= 1 ? 1 : Math.round(totalItems / per)}
+            setPage={setPage}
+          />
+          <SelectPerPage perPage={per} setPerPage={setper} />
         </Stack>
-        
       </Paper>
 
       {/* add modal
@@ -153,7 +164,6 @@ function LectuerTable() {
 
         <AddPackageForm handleClose={handleClose} refetch={refetch} />
       </BasicModal> */}
-
 
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

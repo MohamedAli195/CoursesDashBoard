@@ -16,12 +16,14 @@ import { IPackage, IPackageSelected } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
+import SearchForm from 'components/searchForm';
 
 // Fetch packages function
 
 function PackagesPage() {
   // states
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   const [per, setper] = useState(1);
   const { t, i18n } = useTranslation();
 
@@ -105,8 +107,8 @@ function PackagesPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`packages-${page}-${per}`],
-    queryFn: () => fetchPackages(page, per),
+    queryKey: [`packages-${page}-${per}-${search}`],
+    queryFn: () => fetchPackages(page, per,search),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -114,7 +116,7 @@ function PackagesPage() {
   // console.log(data.data);
   // Prepare rows for DataGrid
   const rows =
-    data.data.data.length > 0
+    data?.data?.data?.length > 0
       ? data.data.data.map((packageItem: IPackage) => ({
           id: packageItem.id,
           nameEn: packageItem.name?.en,
@@ -123,8 +125,8 @@ function PackagesPage() {
           image: packageItem.image,
           status: packageItem.status,
         }))
-      : '';
-  console.log(data);
+      : [];
+const totalItems = data.data?.total
   return (
     <>
       <Stack
@@ -143,6 +145,10 @@ function PackagesPage() {
       </Stack>
 
       <Paper sx={{ height: '800px', width: '100%' }}>
+        <Stack flexDirection={"row"} alignItems={"center"} >
+          <SearchForm setsearch={setSearch} />
+
+        </Stack>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -160,7 +166,7 @@ function PackagesPage() {
           <PaginationComponent
             page={page}
             pageCounter={
-              data.data?.total % per === 0 ? data.data?.total / per : (data.data?.total % per) + 1
+              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
             }
             setPage={setPage}
           />

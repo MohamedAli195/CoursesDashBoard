@@ -17,13 +17,14 @@ import UpdateCustomerForm from 'components/updatePacageForm/updateCustomer';
 import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
+import SearchForm from 'components/searchForm';
 
 // Fetch packages function
 
 function CustomersPage() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
-
+  const [search, setSearch] = useState("");
   const { t, i18n } = useTranslation();
   // states
   const navigate = useNavigate();
@@ -110,8 +111,8 @@ function CustomersPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`customers-${page}-${per}`],
-    queryFn: () => fetchCustomers(page, per),
+    queryKey: [`customers-${page}-${per}-${search}`],
+    queryFn: () => fetchCustomers(page, per,search),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -120,7 +121,7 @@ function CustomersPage() {
   // Prepare rows for DataGrid
   console.log(data.data?.total);
   const rows =
-    data.data.data.length > 0
+    data?.data?.data?.length > 0
       ? data.data.data.map(
           (packageItem: {
             id: number;
@@ -136,8 +137,8 @@ function CustomersPage() {
             partner_code: packageItem.partner_code,
           }),
         )
-      : '';
-
+      : [];
+      const totalItems = data.data?.total
   return (
     <>
       <Stack
@@ -156,6 +157,10 @@ function CustomersPage() {
       </Stack>
 
       <Paper sx={{ height: '800px', width: '100%' }}>
+      <Stack flexDirection={"row"} alignItems={"center"} >
+          <SearchForm setsearch={setSearch} />
+
+        </Stack>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -172,10 +177,11 @@ function CustomersPage() {
           hideFooterPagination={true}
         />
         <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+
           <PaginationComponent
             page={page}
             pageCounter={
-              data.data?.total % per === 0 ? data.data?.total / per : (data.data?.total % per) + 1
+              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
             }
             setPage={setPage}
           />
