@@ -1,11 +1,10 @@
 
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { fetchLectuer } from 'components/lectuerTable/LectuerFunct';
-import { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
@@ -28,10 +27,8 @@ interface IFormInput {
 function ViewLectuerForm() {
   const {
     register,
-    handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<IFormInput>();
   const { t } = useTranslation();
   const { id } = useParams();
@@ -42,7 +39,7 @@ function ViewLectuerForm() {
   });
 // console.log(data?.data)
 
-const courseID = data?.data.course.id
+const courseID = data?.data?.course?.id
 
     useEffect(() => {
       if (data?.data) {
@@ -58,7 +55,8 @@ const courseID = data?.data.course.id
       }
     }, [data?.data, setValue]);
 
-
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) return <p>Error: {error.message}</p>;
 
   return (
     <Box
@@ -67,6 +65,8 @@ const courseID = data?.data.course.id
       }}
       component="form"
     >
+
+
       <Stack spacing={3}>
         {/* Arabic Name */}
         <TextField

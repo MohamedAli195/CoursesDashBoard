@@ -3,18 +3,12 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
-import AddPackageForm from 'components/addPacageForm';
-import UpdatePackageForm from 'components/updatePacageForm';
 import { deleteLectuer, fetchLectuers } from './LectuerFunct';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import paths from 'routes/path';
-import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
-import { ICourseLectuer, IPackage, IPackageLectuerSelected, IPackageSelected } from 'interfaces';
-import { deletePackage } from 'pages/packages/packagesFunct';
-import UpdateLectuerForm from 'components/updateLectuerForm';
+import { IPackageLectuerSelected } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
@@ -23,32 +17,15 @@ import SearchForm from 'components/searchForm';
 // Fetch packages function
 
 function LectuerTable() {
+    // states
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
   const [search, setSearch] = useState('');
   const { id } = useParams();
   const { t, i18n } = useTranslation();
-  // states
+
   const navigate = useNavigate();
-  // add modal
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
-  // update modal
-  const [openU, setOpenU] = useState(false);
-  const handleOpenU = () => setOpenU(true);
-  const handleCloseU = () => setOpenU(false);
-  // Define a state to store selected package data
-  const [selectedLectuer, setSelectedLectuer] = useState<null | ICourseLectuer>(null);
-
-  const handleEditOpen = (packageData: ICourseLectuer) => {
-    setSelectedLectuer(packageData); // Set selected package data
-    handleOpenU(); // Open the update modal
-  };
-
-  // fetch from api
-  // fetchLectuers(id);
 
   // Columns configuration
   const columns: GridColDef[] = [
@@ -157,13 +134,6 @@ function LectuerTable() {
           <SelectPerPage perPage={per} setPerPage={setper} />
         </Stack>
       </Paper>
-
-      {/* add modal
-      <BasicModal open={open} handleClose={handleClose}>
-        <h2>{t('addPackage')}</h2>
-
-        <AddPackageForm handleClose={handleClose} refetch={refetch} />
-      </BasicModal> */}
 
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

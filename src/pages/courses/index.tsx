@@ -37,7 +37,7 @@ function CoursesPage() {
   };
 
   // fetch from api
-  fetchCourses();
+  // fetchCourses();
 
   // Columns configuration
   const columns: GridColDef[] = [

@@ -5,10 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import BasicModal from 'components/modal/ShareModal';
 import { deleteCategory, fetchCategories } from './categoriesFunct';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
-import i18n from 'i18n';
 import AddCategoryForm from 'components/addCategoryForm';
 import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
 import { useTranslation } from 'react-i18next';
@@ -104,8 +103,7 @@ function CategoriesPage() {
     },
   ];
 
-  // Pagination settings
-  const paginationModel = { page: 0, pageSize: 5 };
+
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
@@ -115,8 +113,7 @@ function CategoriesPage() {
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
-  // console.log(data.data);
-  // Prepare rows for DataGrid
+
   const rows =
     data?.data?.data?.length > 0
       ? data.data.data.map((packageItem: ICategory) => ({
@@ -171,7 +168,6 @@ function CategoriesPage() {
         </Stack>
       </Paper>
 
-      {/* <CustomDataGridFooter labelRowsPerPage={0}  />
 
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>

@@ -141,3 +141,11 @@ export interface ICourseSelect {
     vedioUrl: string;
     vedioDuration: string | null;
   }
+
+  export interface ICustomer{
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    partner_code: string;
+  }

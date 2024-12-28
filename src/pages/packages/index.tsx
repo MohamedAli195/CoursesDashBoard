@@ -7,10 +7,9 @@ import BasicModal from 'components/modal/ShareModal';
 import AddPackageForm from 'components/addPacageForm';
 import UpdatePackageForm from 'components/updatePacageForm';
 import { deletePackage, fetchPackages } from './packagesFunct';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
-import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
 import { IPackage, IPackageSelected } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
@@ -45,8 +44,6 @@ function PackagesPage() {
     handleOpenU(); // Open the update modal
   };
 
-  // fetch from api
-  fetchPackages();
 
   // Columns configuration
   const columns: GridColDef[] = [
@@ -91,7 +88,7 @@ function PackagesPage() {
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
           >
             {/* {t('view')} */}
-            <Eye />
+            <Pencil />
           </Button>
           <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
             {/* {t('edit')} */}
@@ -102,8 +99,7 @@ function PackagesPage() {
     },
   ];
 
-  // Pagination settings
-  // const paginationModel = { page: 0, pageSize: 5 };
+
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
@@ -113,7 +109,7 @@ function PackagesPage() {
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
-  // console.log(data.data);
+
   // Prepare rows for DataGrid
   const rows =
     data?.data?.data?.length > 0

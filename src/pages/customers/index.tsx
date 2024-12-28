@@ -4,13 +4,10 @@ import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import BasicModal from 'components/modal/ShareModal';
-import AddPackageForm from 'components/addPacageForm';
-import UpdatePackageForm from 'components/updatePacageForm';
-import { deleteCustomer, fetchCustomer, fetchCustomers } from './costumersFunct';
-import { useEffect, useState } from 'react';
+import { deleteCustomer, fetchCustomers } from './costumersFunct';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
-import i18n from 'i18n';
 import { useTranslation } from 'react-i18next';
 import AddCustomer from 'components/addCustomer';
 import UpdateCustomerForm from 'components/updatePacageForm/updateCustomer';
@@ -18,6 +15,7 @@ import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
+import { ICustomer } from 'interfaces';
 
 // Fetch packages function
 
@@ -38,27 +36,15 @@ function CustomersPage() {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    partner_code: string;
-  }>(null);
+  const [selectedPackage, setSelectedPackage] = useState<null | ICustomer>(null);
 
-  const handleEditOpen = (packageData: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    partner_code: string;
-  }) => {
+  const handleEditOpen = (packageData: ICustomer) => {
     setSelectedPackage(packageData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
 
   // fetch from api
-  fetchCustomers();
+  // fetchCustomers();
 
   // Columns configuration
   const columns: GridColDef[] = [
