@@ -49,19 +49,19 @@ function CategoriesPage() {
 
   // Columns configuration
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID'},
     i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'الاسم' }
-      : { field: 'nameEn', headerName: 'Name' },
-    i18n.language === 'ar'
-      ? { field: 'descriptionAr', headerName: 'الوصف' }
-      : { field: 'descriptionEn', headerName: 'description' },
+      ? { field: 'nameAr', headerName: 'الاسم' , flex: 1,}
+      : { field: 'nameEn', headerName: 'Name' , flex: 1,},
+    // i18n.language === 'ar'
+    //   ? { field: 'descriptionAr', headerName: 'الوصف' }
+    //   : { field: 'descriptionEn', headerName: 'description' },
 
     {
       field: 'image',
       headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
 
-      flex: 1,
+      flex: 2,
       renderCell: (params) =>
         params.value ? (
           <img src={params.value} alt={params.row.name} style={{ width: '100%', height: '100%' }} />
@@ -74,7 +74,6 @@ function CategoriesPage() {
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      width: 130,
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
@@ -120,8 +119,8 @@ function CategoriesPage() {
           id: packageItem.id,
           nameEn: packageItem.name?.en,
           nameAr: packageItem.name?.ar,
-          descriptionEn: packageItem.description?.en,
-          descriptionAr: packageItem.description?.ar,
+          // descriptionEn: packageItem.description?.en,
+          // descriptionAr: packageItem.description?.ar,
           image: packageItem.image,
         }))
       : [];

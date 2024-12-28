@@ -54,9 +54,9 @@ function CoursesPage() {
     i18n.language === 'ar'
       ? { field: 'packageAr', headerName: 'الباقة' }
       : { field: 'packageEn', headerName: 'package ' },
-    i18n.language === 'ar'
-      ? { field: 'descriptionAr', headerName: 'الوصف' }
-      : { field: 'descriptionEn', headerName: 'description ' },
+    // i18n.language === 'ar'
+    //   ? { field: 'descriptionAr', headerName: 'الوصف' }
+    //   : { field: 'descriptionEn', headerName: 'description ' },
 
     {
       field: 'image',
@@ -139,8 +139,8 @@ function CoursesPage() {
           categoryAr: packageItem.category?.name?.ar,
           packageEn: packageItem.package?.name?.en,
           packageAr: packageItem.package?.name?.ar,
-          descriptionEn: packageItem.description.en,
-          descriptionAr: packageItem.description.ar,
+          // descriptionEn: packageItem.description.en,
+          // descriptionAr: packageItem.description.ar,
         }))
       : [];
   if (isLoading) return <p>Loading...</p>;

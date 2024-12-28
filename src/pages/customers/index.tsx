@@ -48,22 +48,21 @@ function CustomersPage() {
 
   // Columns configuration
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID' },
     i18n.language === 'ar'
-      ? { field: 'name', headerName: 'الاسم' }
-      : { field: 'name', headerName: 'Name' },
-    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email' },
+      ? { field: 'name', headerName: 'الاسم' ,flex: 1, }
+      : { field: 'name', headerName: 'Name' , flex: 1,},
+    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email' , flex: 1,},
 
-    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', width: 130 },
+    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1, },
     {
       field: 'partner_code',
-      headerName: i18n.language === 'ar' ? 'رقم الشريك' : 'partner_code',
-      width: 130,
+      headerName: i18n.language === 'ar' ? 'رقم الشريك' : 'partner_code', flex: 1,
+
     },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      width: 130,
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
@@ -109,13 +108,7 @@ function CustomersPage() {
   const rows =
     data?.data?.data?.length > 0
       ? data.data.data.map(
-          (packageItem: {
-            id: number;
-            name: string;
-            email: string;
-            phone: string;
-            partner_code: string;
-          }) => ({
+          (packageItem: ICustomer) => ({
             id: packageItem.id,
             name: packageItem.name,
             email: packageItem.email,

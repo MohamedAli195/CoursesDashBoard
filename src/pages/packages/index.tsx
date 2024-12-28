@@ -47,10 +47,10 @@ function PackagesPage() {
 
   // Columns configuration
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID'},
     i18n.language === 'ar'
       ? { field: 'nameAr', headerName: 'الاسم' }
-      : { field: 'nameEn', headerName: 'Name' },
+      : { field: 'nameEn', headerName: 'Name'},
     { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
     {
       field: 'image',
@@ -66,11 +66,10 @@ function PackagesPage() {
           </Typography>
         ),
     },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      width: 130,
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>

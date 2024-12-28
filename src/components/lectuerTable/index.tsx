@@ -31,17 +31,17 @@ function LectuerTable() {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'الاسم' }
-      : { field: 'nameEn', headerName: 'Name' },
-    i18n.language === 'ar'
-      ? { field: 'descriptionAr', headerName: 'الوصف' }
-      : { field: 'descriptionEn', headerName: 'description' },
-    { field: 'vedioUrl', headerName: i18n.language === 'ar' ? 'الرابط' : 'Link', width: 130 },
-    { field: 'vedioDuration', headerName: i18n.language === 'ar' ? 'المدة' : 'time', width: 130 },
+      ? { field: 'nameAr', headerName: 'الاسم'  ,flex: 1,}
+      : { field: 'nameEn', headerName: 'Name' ,flex: 1, },
+    // i18n.language === 'ar'
+    //   ? { field: 'descriptionAr', headerName: 'الوصف' }
+    //   : { field: 'descriptionEn', headerName: 'description' },
+    { field: 'vedioUrl', headerName: i18n.language === 'ar' ? 'الرابط' : 'Link',flex: 1, },
+    { field: 'vedioDuration', headerName: i18n.language === 'ar' ? 'المدة' : 'time '},
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      width: 130,
+
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
@@ -92,8 +92,8 @@ function LectuerTable() {
           id: lecturItem.id,
           nameEn: lecturItem.title?.en,
           nameAr: lecturItem.title?.ar,
-          descriptionEn: lecturItem.description.en,
-          descriptionAr: lecturItem.description.ar,
+          // descriptionEn: lecturItem.description.en,
+          // descriptionAr: lecturItem.description.ar,
 
           vedioUrl: lecturItem.video_url,
           vedioDuration: lecturItem.duration,
