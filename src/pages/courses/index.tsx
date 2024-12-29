@@ -177,8 +177,9 @@ function CoursesPage() {
 
       <Paper sx={{ width: '100%' }}>
         <Stack flexDirection={'row'} alignItems={'center'}>
+        <SelectSort setSort={setSort} sort={sort} />
           <SearchForm setsearch={setSearch} />
-          <SelectSort setSort={setSort} sort={sort} />
+          
         </Stack>
         <DataGrid
           rows={rows}
