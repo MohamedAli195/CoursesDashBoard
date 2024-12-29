@@ -14,6 +14,7 @@ import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
+import BasicModal from 'components/modal/ShareModal';
 
 // Fetch packages function
 
@@ -23,13 +24,17 @@ function CoursesPage() {
   const [per, setper] = useState(1);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
-
+  const [tempId, setTempId] = useState(1);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   // update modal
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
+  // delete modal
+  const [opend, setOpend] = useState(false);
+  const handleOpend = () => setOpend(true);
+  const handleClosed = () => setOpend(false);
   // Define a state to store selected package data
   const [selectedCourse, setSelectedCourse] = useState<null | IFormInputCourses | undefined>(null);
 
@@ -86,7 +91,13 @@ function CoursesPage() {
           <Button
             variant="contained"
             color="error"
-            onClick={() => deleteCourse(params.row.id, refetch)}
+            // onClick={() => deleteCourse(params.row.id, refetch)}
+            onClick={
+              ()=>{
+              handleOpend()
+              setTempId(params.row.id)
+            }
+          }
           >
             {/* {t("delete")} */}
             <Trash2 />
@@ -164,7 +175,7 @@ function CoursesPage() {
         </Button>
       </Stack>
 
-      <Paper sx={{width: '100%' }}>
+      <Paper sx={{ width: '100%' }}>
         <Stack flexDirection={'row'} alignItems={'center'}>
           <SearchForm setsearch={setSearch} />
           <SelectSort setSort={setSort} sort={sort} />
@@ -199,6 +210,29 @@ function CoursesPage() {
           <SelectPerPage perPage={per} setPerPage={setper} />
         </Stack>
       </Paper>
+      {/* delete modal */}
+            <BasicModal open={opend} handleClose={handleClosed}>
+            <Typography variant="h6" component="h2" gutterBottom>
+                Delete
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Are you sure you want to delete this package?
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+                <Button variant="outlined" onClick={handleClosed}>
+                  Close
+                </Button>
+                <Button variant="contained" color="error" onClick={() => {
+                  
+                  deleteCourse(tempId, refetch)
+                  handleClosed()
+                  
+                  }}>
+                  Delete 
+                </Button>
+              </Box>
+             
+            </BasicModal>
 
       {/* update modal */}
       {/*       

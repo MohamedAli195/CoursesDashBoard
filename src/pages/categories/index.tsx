@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
@@ -29,6 +29,8 @@ function CategoriesPage() {
   const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const [tempId, setTempId] = useState(1);
+
   // add modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -38,6 +40,10 @@ function CategoriesPage() {
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
+      // delete modal
+      const [opend, setOpend] = useState(false);
+      const handleOpend = () => setOpend(true);
+      const handleClosed = () => setOpend(false);
   // Define a state to store selected package data
   const [selectedCategory, setSelectedCategory] = useState<null | ISelectCategory>(null);
 
@@ -82,7 +88,12 @@ function CategoriesPage() {
           <Button
             variant="contained"
             color="error"
-            onClick={() => deleteCategory(params.row.id, refetch)}
+            // onClick={() => deleteCategory(params.row.id, refetch)}
+            onClick={
+              ()=>{
+              handleOpend()
+              setTempId(params.row.id)
+            }}
           >
             {/* {t("delete")} */}
             <Trash2 />
@@ -178,6 +189,30 @@ function CategoriesPage() {
         <AddCategoryForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
+
+      {/* delete modal */}
+      <BasicModal open={opend} handleClose={handleClosed}>
+      <Typography variant="h6" component="h2" gutterBottom>
+          Delete
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Are you sure you want to delete this package?
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+          <Button variant="outlined" onClick={handleClosed}>
+            Close
+          </Button>
+          <Button variant="contained" color="error" onClick={() => {
+            
+            deleteCategory(tempId, refetch)
+            handleClosed()
+            
+            }}>
+            Delete 
+          </Button>
+        </Box>
+       
+      </BasicModal>
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>{t('updateCategory')}</h2>

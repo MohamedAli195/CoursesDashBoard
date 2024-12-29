@@ -4,6 +4,21 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { styled } from '@mui/material/styles';
+
+import { CloudUpload } from 'lucide-react';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 interface IFormInput {
   name: {
@@ -129,7 +144,7 @@ function UpdateCategoryForm({
           {...register('description.en', { required: t('descEnReq') })}
         />
 
-        <TextField
+        {/* <TextField
           fullWidth
           variant="outlined"
           id="image"
@@ -138,7 +153,22 @@ function UpdateCategoryForm({
           InputLabelProps={{ shrink: true }}
           inputProps={{ accept: 'image/*' }}
           {...register('image')}
-        />
+        /> */}
+        <Button
+          component="label"
+          role={undefined}
+          variant="outlined"
+          tabIndex={-1}
+          startIcon={<CloudUpload />}
+          
+        >
+          Upload Image
+          <VisuallyHiddenInput
+            type="file"
+            {...register('image')}
+            multiple
+          />
+        </Button>
 
         {previewImage && (
           <Box sx={{ mt: 2 }}>

@@ -4,7 +4,20 @@ import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { styled } from '@mui/material/styles';
 
+import { CloudUpload } from 'lucide-react';
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 interface IFormInput {
   name: {
     en: string;
@@ -18,11 +31,28 @@ interface IFormInput {
 function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; refetch: () => void }) {
   const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
   const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<IFormInput>();
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const selectedImage = watch('image');
+
+  
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -110,7 +140,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
             },
           })}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           variant="outlined"
           id="image"
@@ -127,7 +157,32 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
             onChange: (e) =>
               setFileName(e.target.files?.[0]?.name || 'No file selected'),
           })}
-        />
+        /> */}
+        <Button
+          component="label"
+          role={undefined}
+          variant="outlined"
+          tabIndex={-1}
+          startIcon={<CloudUpload />}
+          
+        >
+          Upload Image
+          <VisuallyHiddenInput
+            type="file"
+            {...register('image')}
+            multiple
+            onChange={handleFileChange}
+          />
+        </Button>
+        {preview  && (
+          <Box sx={{ mt: 2 }}>
+            <img
+              src={preview}
+              alt={t('Preview')}
+              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+            />
+          </Box>
+        )}
       </Stack>
       <Button
         color="primary"

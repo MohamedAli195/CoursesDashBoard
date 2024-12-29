@@ -1,20 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import { fetchCategories } from 'pages/categories/categoriesFunct';
-import { fetchPackages } from 'pages/packages/packagesFunct';
+import { fetchCategories, fetchCategoriesForCourses } from 'pages/categories/categoriesFunct';
+import { fetchPackages, fetchPackagesForCourses } from 'pages/packages/packagesFunct';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { t } from 'i18next';
 // import { IFormInputCourses } from 'interfaces';
+import { styled } from '@mui/material/styles';
+
+import { CloudUpload } from 'lucide-react';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 export interface IPackageRes {
   code: number;
-  data: {
-    id: number;
-
-    name: { ar: string; en: string; fr: string };
-  }[];
+  data:{
+    data: {
+      id: number;
+      image: string;
+      name: { ar: string; en: string; fr: string };
+      price: string;
+      status: string;
+    }[];
+  }
+  
 }
 
 interface IFormInputCourses {
@@ -62,12 +82,17 @@ function UpdateCourse(props: IFormInputCourses) {
   // console.log(catState);
   const [categories, setCategories] = useState<IPackageRes>({
     code: 0,
-    data: [],
+    data:{
+      data: [],
+    }
+    
   });
 
   const [packages, setPackages] = useState<IPackageRes>({
     code: 0,
-    data: [],
+    data:{
+      data: [],
+    }
   });
 
   const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
@@ -89,7 +114,7 @@ function UpdateCourse(props: IFormInputCourses) {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const categoryData = await fetchCategories();
+        const categoryData = await fetchCategoriesForCourses();
         setCategories(categoryData);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -98,7 +123,7 @@ function UpdateCourse(props: IFormInputCourses) {
 
     const loadPackages = async () => {
       try {
-        const packageData = await fetchPackages();
+        const packageData = await fetchPackagesForCourses();
         setPackages(packageData);
       } catch (error) {
         console.error('Error fetching packages:', error);
@@ -181,7 +206,8 @@ function UpdateCourse(props: IFormInputCourses) {
       toast.error('Failed to add course, please check your input.');
     }
   };
-  // console.log(errors)
+  console.log(packages.data.data)
+  console.log(categories)
 
   return (
     <>
@@ -281,21 +307,31 @@ function UpdateCourse(props: IFormInputCourses) {
             ))}
           </TextField>
 
-          {/* Image Upload */}
-          <TextField
-            fullWidth
-            variant="outlined"
+          <Button
+          component="label"
+          role={undefined}
+          variant="outlined"
+          tabIndex={-1}
+          startIcon={<CloudUpload />}
+          
+        >
+          Upload Image
+          <VisuallyHiddenInput
             type="file"
-            label={t('image')}
-            InputLabelProps={{ shrink: true }}
-            inputProps={{ accept: 'image/*' }}
-            error={!!errors.image}
-            helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
-            {...register('image', {
-              
-              onChange: (e) => setFileName(e.target.files?.[0]?.name || 'No file selected'),
-            })}
+            {...register('image')}
+            multiple
           />
+        </Button>
+
+        {previewImage && (
+          <Box sx={{ mt: 2 }}>
+            <img
+              src={previewImage}
+              alt={t('Preview')}
+              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+            />
+          </Box>
+        )}
 
           {/* Other Inputs */}
           <TextField
@@ -389,7 +425,7 @@ function UpdateCourse(props: IFormInputCourses) {
               },
             }}
           >
-            {categories.data.map((cat) => (
+            {categories?.data?.data?.map((cat) => (
               <MenuItem key={cat.id} value={cat.id}>
                 {cat.name.en}
               </MenuItem>
@@ -409,7 +445,7 @@ function UpdateCourse(props: IFormInputCourses) {
               },
             }}
           >
-            {packages.data.map((pkg) => (
+            {packages?.data?.data?.map((pkg) => (
               <MenuItem key={pkg.id} value={pkg.id}>
                 {pkg.name.en}
               </MenuItem>

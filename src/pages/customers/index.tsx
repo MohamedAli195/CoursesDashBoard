@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
@@ -23,9 +23,14 @@ import SelectSort from 'components/selectSort';
 function CustomersPage() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();
+  const [tempId, setTempId] = useState(1);
+  // delete modal
+  const [opend, setOpend] = useState(false);
+  const handleOpend = () => setOpend(true);
+  const handleClosed = () => setOpend(false);
   // states
   const navigate = useNavigate();
   // add modal
@@ -52,15 +57,15 @@ function CustomersPage() {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID' },
     i18n.language === 'ar'
-      ? { field: 'name', headerName: 'الاسم' ,flex: 1, }
-      : { field: 'name', headerName: 'Name' , flex: 1,},
-    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email' , flex: 1,},
+      ? { field: 'name', headerName: 'الاسم', flex: 1 }
+      : { field: 'name', headerName: 'Name', flex: 1 },
+    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
 
-    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1, },
+    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1 },
     {
       field: 'partner_code',
-      headerName: i18n.language === 'ar' ? 'رقم الشريك' : 'partner_code', flex: 1,
-
+      headerName: i18n.language === 'ar' ? 'رقم الشريك' : 'partner_code',
+      flex: 1,
     },
     {
       field: 'actions',
@@ -71,7 +76,13 @@ function CustomersPage() {
           <Button
             variant="contained"
             color="error"
-            onClick={() => deleteCustomer(params.row.id, refetch)}
+            // onClick={() => deleteCustomer(params.row.id, refetch)}
+            onClick={
+              ()=>{
+              handleOpend()
+              setTempId(params.row.id)
+            }
+          }
           >
             {/* {t('delete')} */}
             <Trash2 />
@@ -79,7 +90,7 @@ function CustomersPage() {
           <Button
             variant="contained"
             color="info"
-            onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
+            onClick={() => navigate(`${paths.customers}/${params.row.id}`)}
           >
             {/* {t('view')} */}
             <Eye />
@@ -99,7 +110,7 @@ function CustomersPage() {
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`customers-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchCustomers(page, per,search,sort),
+    queryFn: () => fetchCustomers(page, per, search, sort),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -109,17 +120,15 @@ function CustomersPage() {
   console.log(data.data?.total);
   const rows =
     data?.data?.data?.length > 0
-      ? data.data.data.map(
-          (packageItem: ICustomer) => ({
-            id: packageItem.id,
-            name: packageItem.name,
-            email: packageItem.email,
-            phone: packageItem.phone,
-            partner_code: packageItem.partner_code,
-          }),
-        )
+      ? data.data.data.map((packageItem: ICustomer) => ({
+          id: packageItem.id,
+          name: packageItem.name,
+          email: packageItem.email,
+          phone: packageItem.phone,
+          partner_code: packageItem.partner_code,
+        }))
       : [];
-      const totalItems = data.data?.total
+  const totalItems = data.data?.total;
   return (
     <>
       <Stack
@@ -137,11 +146,10 @@ function CustomersPage() {
         </Button>
       </Stack>
 
-      <Paper sx={{width: '100%' }}>
-      <Stack flexDirection={"row"} alignItems={"center"} >
+      <Paper sx={{ width: '100%' }}>
+        <Stack flexDirection={'row'} alignItems={'center'}>
           <SearchForm setsearch={setSearch} />
-          <SelectSort setSort={setSort}  sort={sort} />
-
+          <SelectSort setSort={setSort} sort={sort} />
         </Stack>
         <DataGrid
           rows={rows}
@@ -158,13 +166,15 @@ function CustomersPage() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
-
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{ marginTop: 2, mx: 2 }}
+        >
           <PaginationComponent
             page={page}
-            pageCounter={
-              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
-            }
+            pageCounter={totalItems / per <= 1 ? 1 : Math.round(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />
@@ -176,6 +186,29 @@ function CustomersPage() {
         <h2>{t('Addcustomers')}</h2>
 
         <AddCustomer handleClose={handleClose} refetch={refetch} />
+      </BasicModal>
+            {/* delete modal */}
+            <BasicModal open={opend} handleClose={handleClosed}>
+      <Typography variant="h6" component="h2" gutterBottom>
+          Delete
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Are you sure you want to delete this Customer?
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+          <Button variant="outlined" onClick={handleClosed}>
+            Close
+          </Button>
+          <Button variant="contained" color="error" onClick={() => {
+            
+            deleteCustomer(tempId, refetch)
+            handleClosed()
+            
+            }}>
+            Delete 
+          </Button>
+        </Box>
+       
       </BasicModal>
 
       {/* update modal */}

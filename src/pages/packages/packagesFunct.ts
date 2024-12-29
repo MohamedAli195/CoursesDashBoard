@@ -31,7 +31,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchPackages = async (page=1,perpage=2,search='',sort_dir='') => {
+    export const fetchPackages = async (page=1,perpage=2,search='',sort_dir:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -40,6 +40,27 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
     const response = await axios.get(
       `https://market-mentor.flexi-code.com/public/api/admin/packages?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept:'application/json',
+          lang:i18n.language
+        },
+      },
+    );
+
+    return response.data;
+  };
+  /// Api requestes
+  export const fetchPackagesForCourses = async () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+
+    const response = await axios.get(
+      `https://market-mentor.flexi-code.com/public/api/admin/packages`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

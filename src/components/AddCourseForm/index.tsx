@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import { fetchCategories } from 'pages/categories/categoriesFunct';
-import { fetchPackages } from 'pages/packages/packagesFunct';
+import { fetchCategories, fetchCategoriesForCourses } from 'pages/categories/categoriesFunct';
+import { fetchPackages, fetchPackagesForCourses } from 'pages/packages/packagesFunct';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { t } from 'i18next';
 import { IFormInputCourses } from 'interfaces';
+import { styled } from '@mui/material/styles';
+
+import { CloudUpload } from 'lucide-react';
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 
 
@@ -40,18 +54,29 @@ function AddCourseForm() {
     }
   });
 
-  const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInputCourses>();
+  const [preview, setPreview] = useState<string | null>(null);
+  
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
 
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const categoryData = await fetchCategories();
+        const categoryData = await fetchCategoriesForCourses();
         setCategories(categoryData);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -60,7 +85,7 @@ function AddCourseForm() {
 
     const loadPackages = async () => {
       try {
-        const packageData = await fetchPackages();
+        const packageData = await fetchPackagesForCourses();
         setPackages(packageData);
       } catch (error) {
         console.error('Error fetching packages:', error);
@@ -107,8 +132,8 @@ function AddCourseForm() {
       toast.error('Failed to add course, please check your input.');
     }
   };
-console.log(categories.data.data)
-console.log(packages.data.data)
+console.log(categories)
+console.log(packages)
   return (
     <>
       <Box
@@ -206,20 +231,31 @@ console.log(packages.data.data)
           </TextField>
 
           {/* Image Upload */}
-          <TextField
-            fullWidth
-            variant="outlined"
+          <Button
+          component="label"
+          role={undefined}
+          variant="outlined"
+          tabIndex={-1}
+          startIcon={<CloudUpload />}
+          
+        >
+          Upload Image
+          <VisuallyHiddenInput
             type="file"
-            label={t("image")}
-            InputLabelProps={{ shrink: true }}
-            inputProps={{ accept: 'image/*' }}
-            error={!!errors.image}
-            helperText={errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')}
-            {...register('image', {
-              required: t("imageReq"),
-              onChange: (e) => setFileName(e.target.files?.[0]?.name || 'No file selected'),
-            })}
+            {...register('image')}
+            multiple
+            onChange={handleFileChange}
           />
+        </Button>
+        {preview  && (
+          <Box sx={{ mt: 2 }}>
+            <img
+              src={preview}
+              alt={t('Preview')}
+              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+            />
+          </Box>
+        )}
 
           {/* Other Inputs */}
           <TextField

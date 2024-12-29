@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
@@ -26,6 +26,7 @@ function PackagesPage() {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const [per, setper] = useState(1);
+  const [tempId, setTempId] = useState(1);
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
@@ -33,6 +34,11 @@ function PackagesPage() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+    // delete modal
+    const [opend, setOpend] = useState(false);
+    const handleOpend = () => setOpend(true);
+    const handleClosed = () => setOpend(false);
 
   // update modal
   const [openU, setOpenU] = useState(false);
@@ -77,22 +83,28 @@ function PackagesPage() {
           <Button
             variant="contained"
             color="error"
-            onClick={() => deletePackage(params.row.id, refetch)}
+            
+            onClick={
+              ()=>{
+              handleOpend()
+              setTempId(params.row.id)
+            }
+          }
           >
             {/* {t('delete')} */}
             <Trash2 />
           </Button>
           <Button
             variant="contained"
-            color="info"
+            color="primary"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
           >
             {/* {t('view')} */}
-            <Pencil />
-          </Button>
-          <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            {/* {t('edit')} */}
             <Eye />
+          </Button>
+          <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
+            {/* {t('edit')} */}
+            <Pencil />
           </Button>
         </Stack>
       ),
@@ -176,6 +188,30 @@ function PackagesPage() {
         <h2>{t('addPackage')}</h2>
 
         <AddPackageForm handleClose={handleClose} refetch={refetch} />
+      </BasicModal>
+
+      {/* delete modal */}
+      <BasicModal open={opend} handleClose={handleClosed}>
+      <Typography variant="h6" component="h2" gutterBottom>
+          Delete
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Are you sure you want to delete this package?
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+          <Button variant="outlined" onClick={handleClosed}>
+            Close
+          </Button>
+          <Button variant="contained" color="error" onClick={() => {
+            
+            deletePackage(tempId, refetch)
+            handleClosed()
+            
+            }}>
+            Delete 
+          </Button>
+        </Box>
+       
       </BasicModal>
 
       {/* update modal */}

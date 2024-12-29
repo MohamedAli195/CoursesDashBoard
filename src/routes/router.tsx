@@ -15,6 +15,7 @@ import AddCourseLectuerPage from 'pages/courses/AddCourseLectuerPage';
 import CourseUpdate from 'pages/courses/CourseUpdate';
 import UpdateLectuerForm from 'components/updateLectuerForm';
 import LectuerDetails from 'components/lectuerTable/LectuerDetails';
+import ViewCustomer from 'components/ViewCustomer';
 
 
 // Lazy-loaded components
@@ -85,6 +86,7 @@ export const routes = [
               </ProtectedRoute>
             ),
           },
+          
           {
             path: paths.orders,
             element: (
@@ -195,6 +197,14 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <UpdateLectuerForm />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.customers}/:id`,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ViewCustomer />
               </ProtectedRoute>
             ),
           },

@@ -1,9 +1,25 @@
 import { Box, Button, Stack, TextField } from '@mui/material';
 import axios from 'axios';
+import InputFileUpload from 'components/UploadImage';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { styled } from '@mui/material/styles';
+
+import { CloudUpload } from 'lucide-react';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 interface IFormInput {
   name: {
@@ -68,7 +84,7 @@ function UpdatePackageForm({
       const response = await axios.post(
         `https://market-mentor.flexi-code.com/public/api/admin/packages/${initialData?.id}/update`,
         formData,
-        { headers }
+        { headers },
       );
 
       toast.success(t('Package updated successfully'));
@@ -113,7 +129,7 @@ function UpdatePackageForm({
           label={t('price')}
           {...register('price', { required: t('priceReq2') })}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           variant="outlined"
           id="image"
@@ -122,7 +138,22 @@ function UpdatePackageForm({
           InputLabelProps={{ shrink: true }}
           inputProps={{ accept: 'image/*' }}
           {...register('image')}
-        />
+        /> */}
+        <Button
+          component="label"
+          role={undefined}
+          variant="outlined"
+          tabIndex={-1}
+          startIcon={<CloudUpload />}
+          
+        >
+          Upload Image
+          <VisuallyHiddenInput
+            type="file"
+            {...register('image')}
+            multiple
+          />
+        </Button>
 
         {previewImage && (
           <Box sx={{ mt: 2 }}>
