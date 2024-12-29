@@ -26,7 +26,7 @@ const SidebarItems = () => {
 
   return (
     <Box sx={{ p: 2 }}>
-      <List sx={{ pt: 0 }}>
+      <List sx={{ pt: 0}}>
         {menuItems.map((item) => {
           if (item.subheader) {
             return <NavItemGroup subheader={item.subheader} key={item.subheader} />;

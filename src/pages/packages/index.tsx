@@ -16,13 +16,15 @@ import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
+import SelectSort from 'components/selectSort';
 
 // Fetch packages function
 
 function PackagesPage() {
   // states
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('desc');
   const [per, setper] = useState(1);
   const { t, i18n } = useTranslation();
 
@@ -44,13 +46,12 @@ function PackagesPage() {
     handleOpenU(); // Open the update modal
   };
 
-
   // Columns configuration
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID'},
+    { field: 'id', headerName: 'ID' },
     i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'الاسم' }
-      : { field: 'nameEn', headerName: 'Name'},
+      ? { field: 'nameAr', headerName: 'الاسم',flex: 1, }
+      : { field: 'nameEn', headerName: 'Name' ,flex: 1,},
     { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
     {
       field: 'image',
@@ -66,7 +67,7 @@ function PackagesPage() {
           </Typography>
         ),
     },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status' },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
@@ -98,12 +99,10 @@ function PackagesPage() {
     },
   ];
 
-
-
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`packages-${page}-${per}-${search}`],
-    queryFn: () => fetchPackages(page, per,search),
+    queryKey: [`packages-${page}-${per}-${search}-${sort}`],
+    queryFn: () => fetchPackages(page, per, search, sort),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -121,7 +120,7 @@ function PackagesPage() {
           status: packageItem.status,
         }))
       : [];
-const totalItems = data.data?.total
+  const totalItems = data.data?.total;
   return (
     <>
       <Stack
@@ -139,10 +138,10 @@ const totalItems = data.data?.total
         </Button>
       </Stack>
 
-      <Paper sx={{ height: '800px', width: '100%' }}>
-        <Stack flexDirection={"row"} alignItems={"center"} >
+      <Paper sx={{ width: '100%' }}>
+        <Stack flexDirection={'row'} alignItems={'center'}>
           <SearchForm setsearch={setSearch} />
-
+          <SelectSort setSort={setSort} sort={sort} />
         </Stack>
         <DataGrid
           rows={rows}
@@ -157,12 +156,15 @@ const totalItems = data.data?.total
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{ marginTop: 2, mx: 2 }}
+        >
           <PaginationComponent
             page={page}
-            pageCounter={
-              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
-            }
+            pageCounter={totalItems / per <= 1 ? 1 : Math.round(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />

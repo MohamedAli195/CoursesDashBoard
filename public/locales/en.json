@@ -70,7 +70,9 @@
       "CoursesTable" : "Courses Table",
       "LectuerPage":"Lectuer Page",
       "UpdateLecter":"Update Lectuer",
-      "updateCourse":"Update Course"
+      "updateCourse":"Update Course",
+      "asc":"sort from oldest to newest",
+      "desc":"sort from newest to oldest"
 
 
       

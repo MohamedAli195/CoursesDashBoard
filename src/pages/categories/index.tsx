@@ -16,6 +16,7 @@ import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
+import SelectSort from 'components/selectSort';
 // import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
 
 // Fetch packages function
@@ -25,6 +26,7 @@ function CategoriesPage() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
   const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   // add modal
@@ -106,8 +108,8 @@ function CategoriesPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`packages-${page}-${per}-${search}`],
-    queryFn: () => fetchCategories(page, per, search),
+    queryKey: [`packages-${page}-${per}-${search}-${sort}`],
+    queryFn: () => fetchCategories(page, per, search,sort),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -136,9 +138,10 @@ function CategoriesPage() {
         </Button>
       </Stack>
 
-      <Paper sx={{ height: '800px', width: '100%' }}>
+      <Paper sx={{ width: '100%' }}>
         <Stack flexDirection={'row'} alignItems={'center'}>
           <SearchForm setsearch={setSearch} />
+          <SelectSort setSort={setSort}  sort={sort} />
         </Stack>
         <DataGrid
           rows={rows}
@@ -155,7 +158,7 @@ function CategoriesPage() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
           <PaginationComponent
             page={page}
             pageCounter={

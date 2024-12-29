@@ -13,6 +13,7 @@ import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
+import SelectSort from 'components/selectSort';
 
 // Fetch packages function
 
@@ -21,6 +22,8 @@ function LectuerTable() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
   const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('desc');
+
   const { id } = useParams();
   const { t, i18n } = useTranslation();
 
@@ -78,8 +81,8 @@ function LectuerTable() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`Lectuers-${page}-${per}-${search}`],
-    queryFn: () => fetchLectuers(id, page, per, search),
+    queryKey: [`Lectuers-${page}-${per}-${search}-${sort}`],
+    queryFn: () => fetchLectuers(id, page, per, search,sort),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -106,9 +109,11 @@ function LectuerTable() {
         {t('CoursesTable')}
       </Typography>
 
-      <Paper sx={{ height: '800px', width: '100%', marginTop: '20px' }}>
+      <Paper sx={{ width: '100%', marginTop: '20px' }}>
         <Stack flexDirection={'row'} alignItems={'center'}>
           <SearchForm setsearch={setSearch} />
+                    <SelectSort setSort={setSort} sort={sort} />
+          
         </Stack>
         <DataGrid
           rows={rows}
@@ -125,7 +130,7 @@ function LectuerTable() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
           <PaginationComponent
             page={page}
             pageCounter={totalItems / per <= 1 ? 1 : Math.round(totalItems / per)}

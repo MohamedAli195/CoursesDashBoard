@@ -16,6 +16,7 @@ import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import { ICustomer } from 'interfaces';
+import SelectSort from 'components/selectSort';
 
 // Fetch packages function
 
@@ -23,6 +24,7 @@ function CustomersPage() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();
   // states
   const navigate = useNavigate();
@@ -96,8 +98,8 @@ function CustomersPage() {
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`customers-${page}-${per}-${search}`],
-    queryFn: () => fetchCustomers(page, per,search),
+    queryKey: [`customers-${page}-${per}-${search}-${sort}`],
+    queryFn: () => fetchCustomers(page, per,search,sort),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -135,9 +137,10 @@ function CustomersPage() {
         </Button>
       </Stack>
 
-      <Paper sx={{ height: '800px', width: '100%' }}>
+      <Paper sx={{width: '100%' }}>
       <Stack flexDirection={"row"} alignItems={"center"} >
           <SearchForm setsearch={setSearch} />
+          <SelectSort setSort={setSort}  sort={sort} />
 
         </Stack>
         <DataGrid
@@ -155,7 +158,7 @@ function CustomersPage() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
 
           <PaginationComponent
             page={page}

@@ -4,25 +4,24 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { t } from 'i18next';
 
 interface Iprops {
-  perPage: number;
-  setPerPage: (val: number) => void;
+  sort: string;
+  setSort: (val: string) => void;
 }
-export default function SelectPerPage({ perPage, setPerPage }: Iprops) {
+export default function SelectSort({ sort, setSort }: Iprops) {
   const handleChange = (event: SelectChangeEvent) => {
-    setPerPage(+event.target.value);
+    setSort(event.target.value);
   };
 
   return (
     <Box>
       <FormControl fullWidth sx={{display:"flex",flexDirection:"row", gap:2 ,justifyContent:"space-between",alignItems:"center"}}>
-        <InputLabel id="demo-simple-select-label" sx={{ minWidth: 90 }}>Row Per Page</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={`${perPage}`}
-          label="page Count"
+          value={`${sort}`}
           onChange={handleChange}
           sx={{
             '.MuiSelect-select': {
@@ -31,10 +30,10 @@ export default function SelectPerPage({ perPage, setPerPage }: Iprops) {
             },
           }}
         >
-          {[10, 20, 30, 40, 50].map((item) => {
+          {['asc', 'desc'].map((item) => {
             return (
               <MenuItem key={item} value={item}>
-                {item}
+                {item ==='asc' ? t("asc") :t('desc')}
               </MenuItem>
             );
           })}

@@ -1,9 +1,8 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Box } from '@mui/material';
 import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
@@ -14,6 +13,7 @@ import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
+import SelectSort from 'components/selectSort';
 
 // Fetch packages function
 
@@ -22,6 +22,8 @@ function CoursesPage() {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
   const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('desc');
+
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   // update modal
@@ -41,19 +43,19 @@ function CoursesPage() {
 
   // Columns configuration
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 30 },
     i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'اسم الكورس' }
-      : { field: 'nameEn', headerName: 'Name ' },
+      ? { field: 'nameAr', headerName: 'اسم الكورس', flex: 1 }
+      : { field: 'nameEn', headerName: 'Name ', flex: 1 },
 
     { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
     i18n.language === 'ar'
-      ? { field: 'categoryAr', headerName: 'القسم' }
-      : { field: 'categoryEn', headerName: 'category ' },
+      ? { field: 'categoryAr', headerName: 'القسم', flex: 1 }
+      : { field: 'categoryEn', headerName: 'category ', flex: 1 },
 
-    i18n.language === 'ar'
-      ? { field: 'packageAr', headerName: 'الباقة' }
-      : { field: 'packageEn', headerName: 'package ' },
+    // i18n.language === 'ar'
+    //   ? { field: 'packageAr', headerName: 'الباقة' }
+    //   : { field: 'packageEn', headerName: 'package ' },
     // i18n.language === 'ar'
     //   ? { field: 'descriptionAr', headerName: 'الوصف' }
     //   : { field: 'descriptionEn', headerName: 'description ' },
@@ -63,7 +65,7 @@ function CoursesPage() {
 
       headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
 
-      flex: 1,
+      flex: 1.5,
       renderCell: (params) =>
         params.value ? (
           <img src={params.value} alt={params.row.name} style={{ width: '100%', height: 'auto' }} />
@@ -116,11 +118,10 @@ function CoursesPage() {
 
   // Pagination settings
 
-
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`courses-${page}-${per}-${search}`],
-    queryFn: () => fetchCourses(page, per, search),
+    queryKey: [`courses-${page}-${per}-${search}-${sort}`],
+    queryFn: () => fetchCourses(page, per, search, sort),
   });
 
   // console.log(data?.data.data)
@@ -163,10 +164,10 @@ function CoursesPage() {
         </Button>
       </Stack>
 
-      <Paper sx={{ height: '800px', width: '100%' }}>
-      <Stack flexDirection={"row"} alignItems={"center"} >
+      <Paper sx={{width: '100%' }}>
+        <Stack flexDirection={'row'} alignItems={'center'}>
           <SearchForm setsearch={setSearch} />
-
+          <SelectSort setSort={setSort} sort={sort} />
         </Stack>
         <DataGrid
           rows={rows}
@@ -183,16 +184,20 @@ function CoursesPage() {
           disableMultipleRowSelection
           hideFooterPagination={true}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{ marginTop: 2, mx: 2 }}
+        >
           <PaginationComponent
             page={page}
-            pageCounter={
-              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
-            }
+            pageCounter={totalItems / per <= 1 ? 1 : Math.round(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />
-        </Stack>{' '}
+        </Stack>
       </Paper>
 
       {/* update modal */}

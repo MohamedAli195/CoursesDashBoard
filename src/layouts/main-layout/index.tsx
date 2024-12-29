@@ -53,7 +53,7 @@ const MainLayout = () => {
       >
         <MainNavbar onDrawerToggle={handleDrawerToggle} />
         <Container>
-          <Box>
+          <Box height={"auto"}>
             <Outlet />
           </Box>
         </Container>

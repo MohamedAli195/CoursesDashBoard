@@ -15,16 +15,19 @@ interface NavMenuItemType {
   item: IMenuitems;
   pathTo: string;
 }
+
 const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
   const { icon: Icon } = item;
   const itemIcon = Icon ? <Icon /> : null;
 
   const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
-    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
   }, [i18n.language]);
+
   return (
     <List component="li" disablePadding key={item?.id && item.title}>
       <ListItemButton
@@ -32,6 +35,7 @@ const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
         href={item?.href}
         disabled={item?.disabled}
         selected={pathTo === item?.href}
+        sx={{ direction: isArabic ? 'rtl' : 'ltr' }}
       >
         <ListItemIcon
           sx={{
@@ -41,6 +45,7 @@ const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
               color: 'action.active',
               opacity: 0.9,
             }),
+            ...(isArabic && { marginLeft: 'auto', marginRight: 0 }),
           }}
         >
           {itemIcon}
@@ -51,9 +56,10 @@ const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
               color: 'action.active',
               opacity: 0.9,
             }),
+            textAlign: isArabic ? 'right' : 'left',
           }}
         >
-          {<>{`${item?.title}`}</>}
+          <>{`${item?.title}`}</>
           <br />
           {item?.subtitle ? <Typography variant="caption">{item.subtitle}</Typography> : ''}
         </ListItemText>
@@ -76,7 +82,6 @@ const NavMenuItem = ({ item, pathTo }: NavMenuItemType) => {
                     bgcolor: palette.text.primary,
                     color: palette.common.white,
                   }),
-                  
             })}
           />
         )}

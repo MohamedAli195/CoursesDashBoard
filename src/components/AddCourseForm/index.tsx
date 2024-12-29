@@ -12,24 +12,32 @@ import { IFormInputCourses } from 'interfaces';
 
 export interface IPackageRes {
   code: number;
-  data: {
-    id: number;
-    image: string;
-    name: { ar: string; en: string; fr: string };
-    price: string;
-    status: string;
-  }[];
+  data:{
+    data: {
+      id: number;
+      image: string;
+      name: { ar: string; en: string; fr: string };
+      price: string;
+      status: string;
+    }[];
+  }
+  
 }
 
 function AddCourseForm() {
   const [categories, setCategories] = useState<IPackageRes>({
     code: 0,
-    data: [],
+    data:{
+      data: [],
+    }
+    
   });
 
   const [packages, setPackages] = useState<IPackageRes>({
     code: 0,
-    data: [],
+    data:{
+      data: [],
+    }
   });
 
   const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
@@ -99,7 +107,8 @@ function AddCourseForm() {
       toast.error('Failed to add course, please check your input.');
     }
   };
-
+console.log(categories.data.data)
+console.log(packages.data.data)
   return (
     <>
       <Box
@@ -235,7 +244,7 @@ function AddCourseForm() {
               },
             }}
           >
-            {packages.data.map((pkg) => (
+            {packages?.data?.data?.map((pkg) => (
               <MenuItem key={pkg.id} value={pkg.id}>
                 {pkg.name.en}
               </MenuItem>
@@ -315,7 +324,7 @@ function AddCourseForm() {
       },
     }}
   >
-    {categories.data.map((cat) => (
+    {categories?.data?.data?.map((cat) => (
       <MenuItem key={cat.id} value={cat.id}>
         {cat.name.en}
       </MenuItem>
