@@ -11,7 +11,7 @@ interface StatisticsCardProps {
 }
 
 const StatisticsCardItem = ({ cardData, index }: StatisticsCardProps) => {
-  const { title, subtitle, percentage, icon: IconComponent } = cardData || {};
+  const { title, subtitle, icon: IconComponent } = cardData || {};
   const { up } = useBreakpoints();
   const upXl = up('xl');
   const upSm = up('sm');
@@ -51,13 +51,13 @@ const StatisticsCardItem = ({ cardData, index }: StatisticsCardProps) => {
             <Grid item xs={8}>
               <Box ml={0} lineHeight={1}>
                 <Typography variant="h5" textTransform="uppercase" color="text.primary">
-                  {currencyFormat(parseFloat(title))}
+                  {parseFloat(title)}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" mb={1}>
                   {subtitle}
                 </Typography>
               </Box>
-              <Stack direction="row" alignItems="center">
+              {/* <Stack direction="row" alignItems="center">
                 <Typography variant="subtitle1" color={`${percentage.color}.dark`}>
                   {percentageFormat(parseFloat(percentage.count))}
                 </Typography>
@@ -76,7 +76,7 @@ const StatisticsCardItem = ({ cardData, index }: StatisticsCardProps) => {
                     height={24}
                   />
                 )}
-              </Stack>
+              </Stack> */}
             </Grid>
             <Grid item xs={4}>
               <Stack direction="row" justifyContent="flex-end" alignItems="center" ml="auto">

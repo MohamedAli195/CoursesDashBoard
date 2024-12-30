@@ -9,6 +9,7 @@ import StatisticsCards from 'components/sections/dashboard/statistics/StatisticC
 import TodoList from 'components/sections/dashboard/todos/TodoList';
 import TopProductsTable from 'components/sections/dashboard/topProducts/TopProductsTable';
 import TransactionTable from 'components/sections/dashboard/transactions/TransactionTable';
+import CoursesPage from 'pages/courses';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -44,7 +45,7 @@ const Dashboard = () => {
       {/* /* ------------- Table section ---------------- */}
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} xl={6} zIndex={1}>
-          <TransactionTable />
+          <CoursesPage isDashBoard={true} />
         </Grid>
         <Grid item xs={12} xl={6}>
           <TopProductsTable />

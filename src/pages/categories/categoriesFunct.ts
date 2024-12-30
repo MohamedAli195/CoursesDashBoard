@@ -3,6 +3,7 @@ import i18n from "i18n";
 import toast from "react-hot-toast";
 
 
+const url = 'https://market-mentor.flexi-code.com/public/api/admin/'
 
   // Delete package function
 export   const deleteCategory = async (id: number,refetch:()=>void) => {
@@ -14,7 +15,7 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
 
     try {
       await axios.delete(
-        `https://market-mentor.flexi-code.com/public/api/admin/categories/${id}/destroy`,
+        `${url}categories/${id}/destroy`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +40,7 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `https://market-mentor.flexi-code.com/public/api/admin/categories?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
+      `${url}categories?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,7 +62,7 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `https://market-mentor.flexi-code.com/public/api/admin/categories`,
+      `${url}categories`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -81,7 +82,7 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
     
         try {
             const response = await axios.get(
-                `https://market-mentor.flexi-code.com/public/api/admin/categories/${id}`,
+                `${url}categories/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

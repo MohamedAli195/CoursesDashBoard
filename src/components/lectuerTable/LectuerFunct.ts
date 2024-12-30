@@ -2,6 +2,7 @@ import axios from "axios";
 import i18n from "i18n";
 import toast from "react-hot-toast";
 
+const url = 'https://market-mentor.flexi-code.com/public/api/admin/'
 
 
   // Delete package function
@@ -14,7 +15,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
 
     try {
       await axios.delete(
-        `https://market-mentor.flexi-code.com/public/api/admin/course-lectures/${id}/destroy`,
+        `${url}course-lectures/${id}/destroy`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +40,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `https://market-mentor.flexi-code.com/public/api/admin/course-lectures/course/${id}?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
+      `${url}course-lectures/course/${id}?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +60,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
     
         try {
             const response = await axios.get(
-                `https://market-mentor.flexi-code.com/public/api/admin/course-lectures/${id}`,
+                `${url}course-lectures/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

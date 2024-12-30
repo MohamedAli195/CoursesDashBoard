@@ -17,8 +17,10 @@ import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
 
 // Fetch packages function
-
-function CoursesPage() {
+interface IProps {
+  isDashBoard:boolean
+}
+function CoursesPage({isDashBoard}:IProps) {
   // states
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
@@ -64,7 +66,7 @@ function CoursesPage() {
     // i18n.language === 'ar'
     //   ? { field: 'descriptionAr', headerName: 'الوصف' }
     //   : { field: 'descriptionEn', headerName: 'description ' },
-
+    
     {
       field: 'image',
 
@@ -80,6 +82,8 @@ function CoursesPage() {
           </Typography>
         ),
     },
+
+    
     { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 },
     {
       field: 'actions',
@@ -160,27 +164,33 @@ function CoursesPage() {
   const totalItems = data.data?.total;
   return (
     <>
-      <Stack
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        mb={3}
-        height={''}
-      >
-        <Typography variant="h1" color="initial">
-          {t('courses')}
-        </Typography>
-        <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
-          {t('AddCourse')}
-        </Button>
-      </Stack>
+    {
+      isDashBoard? '': <Stack
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
+      mb={3}
+      height={''}
+    >
+      <Typography variant="h1" color="initial">
+        {t('courses')}
+      </Typography>
+      <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
+        {t('AddCourse')}
+      </Button>
+    </Stack>
+    }
+      
 
       <Paper sx={{ width: '100%' }}>
-        <Stack flexDirection={'row'} alignItems={'center'}>
-        <SelectSort setSort={setSort} sort={sort} />
-          <SearchForm setsearch={setSearch} />
-          
-        </Stack>
+        {
+          isDashBoard?'':<Stack flexDirection={'row'} alignItems={'center'}>
+          <SelectSort setSort={setSort} sort={sort} />
+            <SearchForm setsearch={setSearch} />
+            
+          </Stack>
+        }
+        
         <DataGrid
           rows={rows}
           columns={columns}

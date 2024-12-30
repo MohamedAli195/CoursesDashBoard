@@ -115,7 +115,7 @@ export const routes = [
             path: paths.courses,
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <CoursesPage />
+                <CoursesPage isDashBoard={false}/>
               </ProtectedRoute>
             ),
           },
