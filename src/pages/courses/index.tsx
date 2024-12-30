@@ -49,7 +49,8 @@ function CoursesPage({isDashBoard}:IProps) {
   // fetchCourses();
 
   // Columns configuration
-  const columns: GridColDef[] = [
+  const columns: GridColDef[] = !isDashBoard ?
+  [
     { field: 'id', headerName: 'ID', width: 30 },
     i18n.language === 'ar'
       ? { field: 'nameAr', headerName: 'اسم الكورس', flex: 1 }
@@ -129,7 +130,18 @@ function CoursesPage({isDashBoard}:IProps) {
         </Stack>
       ),
     },
-  ];
+  ]:[
+    { field: 'id', headerName: 'ID', width: 30 },
+    i18n.language === 'ar'
+      ? { field: 'nameAr', headerName: 'اسم الكورس', flex: 1 }
+      : { field: 'nameEn', headerName: 'Name ', flex: 1 },
+
+    { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
+    i18n.language === 'ar'
+      ? { field: 'categoryAr', headerName: 'القسم', flex: 1 }
+      : { field: 'categoryEn', headerName: 'category ', flex: 1 },
+      { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 },
+  ]
 
   // Pagination settings
 
@@ -183,10 +195,14 @@ function CoursesPage({isDashBoard}:IProps) {
       
 
       <Paper sx={{ width: '100%' }}>
+      {isDashBoard &&
+        <Typography variant="h1" color="initial" >
+          {t('courses')}
+        </Typography>}
         {
-          isDashBoard?'':<Stack flexDirection={'row'} alignItems={'center'}>
+          <Stack flexDirection={'row'} alignItems={'center'}>
           <SelectSort setSort={setSort} sort={sort} />
-            <SearchForm setsearch={setSearch} />
+            <SearchForm isDashBoard={isDashBoard} setsearch={setSearch} />
             
           </Stack>
         }
@@ -198,7 +214,7 @@ function CoursesPage({isDashBoard}:IProps) {
           // pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
           autoHeight
-          getRowHeight={() => 200} // Set each row's height to 200px
+          getRowHeight={() => !isDashBoard ? 200: 'auto'} // Set each row's height to 200px
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }

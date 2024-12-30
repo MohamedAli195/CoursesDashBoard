@@ -45,6 +45,7 @@ const Dashboard = () => {
       {/* /* ------------- Table section ---------------- */}
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} xl={6} zIndex={1}>
+          
           <CoursesPage isDashBoard={true} />
         </Grid>
         <Grid item xs={12} xl={6}>

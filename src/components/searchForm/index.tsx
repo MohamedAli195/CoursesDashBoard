@@ -14,9 +14,10 @@ interface SearchFormInputs {
 
 interface IProps {
   setsearch: (val: string) => void;
+  isDashBoard:boolean
 }
 
-const SearchForm = ({ setsearch }: IProps) => {
+const SearchForm = ({ setsearch ,isDashBoard}: IProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<SearchFormInputs>();
 
   const onSubmit: SubmitHandler<SearchFormInputs> = (data) => {
@@ -47,7 +48,7 @@ const SearchForm = ({ setsearch }: IProps) => {
               </InputAdornment>
             ),
           }}
-          sx={{width:"500px"}}
+          sx={{width:isDashBoard ? "350px":"500px"}}
         />
       </FormControl>
 
