@@ -15,6 +15,7 @@ import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
+import SwitchStatus from 'components/switch';
 
 // Fetch packages function
 interface IProps {
@@ -85,7 +86,10 @@ function CoursesPage({isDashBoard}:IProps) {
     },
 
     
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 ,renderCell: (params) => (
+      <SwitchStatus id={params.row.id} url={"courses"} apiStatus={params.row.status} />
+     
+    ), },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
@@ -173,6 +177,7 @@ function CoursesPage({isDashBoard}:IProps) {
       : [];
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
+  console.log(data)
   const totalItems = data.data?.total;
   return (
     <>
@@ -271,7 +276,10 @@ function CoursesPage({isDashBoard}:IProps) {
           refetch={refetch}
         />
       </BasicModal> */}
+      
       <Toaster position="bottom-center" reverseOrder={false} />
+
+      
     </>
   );
 }

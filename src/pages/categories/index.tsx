@@ -20,8 +20,10 @@ import SelectSort from 'components/selectSort';
 // import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
 
 // Fetch packages function
-
-function CategoriesPage() {
+interface IProps {
+  isDashBoard:boolean
+}
+function CategoriesPage({isDashBoard}:IProps) {
   // states
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
@@ -140,6 +142,7 @@ function CategoriesPage() {
       const totalItems = data.data?.total
   return (
     <>
+   {!isDashBoard &&
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" mb={3}>
         <Typography variant="h1" color="initial">
           {t('categories')}
@@ -148,11 +151,16 @@ function CategoriesPage() {
           {t('AddCategory')}
         </Button>
       </Stack>
+}
 
       <Paper sx={{ width: '100%' }}>
+      {isDashBoard &&
+        <Typography variant="h1" color="initial" >
+          {t('categories')}
+        </Typography>}
         <Stack flexDirection={'row'} alignItems={'center'}>
         <SelectSort setSort={setSort}  sort={sort} />
-          <SearchForm setsearch={setSearch} />
+          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
           
         </Stack>
         <DataGrid

@@ -19,8 +19,10 @@ import { ICustomer } from 'interfaces';
 import SelectSort from 'components/selectSort';
 
 // Fetch packages function
-
-function CustomersPage() {
+interface IProps {
+  isDashBoard:boolean
+}
+function CustomersPage({isDashBoard}:IProps) {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
   const [search, setSearch] = useState('');
@@ -131,25 +133,34 @@ function CustomersPage() {
   const totalItems = data.data?.total;
   return (
     <>
-      <Stack
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        mb={3}
-        height={''}
-      >
-        <Typography variant="h1" color="initial">
-          {t('customers')}
-        </Typography>
-        <Button variant="contained" color="info" onClick={handleOpen}>
-          {t('Addcustomers')}
-        </Button>
-      </Stack>
+    {
+      !isDashBoard &&<Stack
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
+      mb={3}
+      height={''}
+    >
+      <Typography variant="h1" color="initial">
+        {t('customers')}
+      </Typography>
+      <Button variant="contained" color="info" onClick={handleOpen}>
+        {t('Addcustomers')}
+      </Button>
+    </Stack> 
+    }
+      
 
       <Paper sx={{ width: '100%' }}>
+
+        {
+          isDashBoard && <Typography variant="h1" color="initial">
+          {t('customers')}
+        </Typography>
+        }
         <Stack flexDirection={'row'} alignItems={'center'}>
         <SelectSort setSort={setSort} sort={sort} />
-          <SearchForm setsearch={setSearch} />
+          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard}/>
         </Stack>
         <DataGrid
           rows={rows}

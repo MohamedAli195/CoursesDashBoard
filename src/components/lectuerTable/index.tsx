@@ -17,8 +17,10 @@ import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
 
 // Fetch packages function
-
-function LectuerTable() {
+interface IProps {
+  isDashBoard:boolean
+}
+function LectuerTable({isDashBoard}:IProps) {
     // states
   const [page, setPage] = useState(1);
   const [per, setper] = useState(1);
@@ -121,7 +123,7 @@ function LectuerTable() {
       <Paper sx={{ width: '100%', marginTop: '20px' }}>
         <Stack flexDirection={'row'} alignItems={'center'}>
         <SelectSort setSort={setSort} sort={sort} />
-          <SearchForm setsearch={setSearch} />
+          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
                  
           
         </Stack>

@@ -66,7 +66,7 @@ export const routes = [
             path: paths.categories,
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <CategoriesPage />
+                <CategoriesPage isDashBoard={false}/>
               </ProtectedRoute>
             ),
           },
@@ -82,7 +82,7 @@ export const routes = [
             path: paths.customers,
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <CustomersPage />
+                <CustomersPage isDashBoard={false} />
               </ProtectedRoute>
             ),
           },
@@ -147,7 +147,7 @@ export const routes = [
             path: paths.packages, // Fixed typo
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <PackagesPage />
+                <PackagesPage isDashBoard={false} />
               </ProtectedRoute>
             ),
           },

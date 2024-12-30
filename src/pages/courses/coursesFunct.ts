@@ -73,3 +73,25 @@ export   const deleteCourse = async (id: number,refetch:()=>void) => {
             throw error; // Rethrow to handle in useQuery's error state
         }
     };
+
+        /// Api requestes
+        export const updateStatus = async (id:number|undefined,path:string,status2:boolean) => {
+          const token = localStorage.getItem("token");
+          if (!token) throw new Error("Authorization token is missing");
+      
+          try {
+              const response = await axios.post(
+                  `${url}${path}/${id}/change-status`,
+                  {status : status2 ? 1 :0},
+                  {
+                      headers: {
+                          Authorization: `Bearer ${token}`,
+                      },
+                  }
+              );
+              console.log(response)
+          } catch (error) {
+              console.error("Error fetching package details:", error); // Log full error
+              throw error; // Rethrow to handle in useQuery's error state
+          }
+      };

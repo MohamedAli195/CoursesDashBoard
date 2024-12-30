@@ -9,7 +9,10 @@ import StatisticsCards from 'components/sections/dashboard/statistics/StatisticC
 import TodoList from 'components/sections/dashboard/todos/TodoList';
 import TopProductsTable from 'components/sections/dashboard/topProducts/TopProductsTable';
 import TransactionTable from 'components/sections/dashboard/transactions/TransactionTable';
+import CategoriesPage from 'pages/categories';
 import CoursesPage from 'pages/courses';
+import CustomersPage from 'pages/customers';
+import PackagesPage from 'pages/packages';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -49,13 +52,23 @@ const Dashboard = () => {
           <CoursesPage isDashBoard={true} />
         </Grid>
         <Grid item xs={12} xl={6}>
-          <TopProductsTable />
+          <CategoriesPage  isDashBoard={true}/>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3} mb={3}>
+        <Grid item xs={12} xl={6} zIndex={1}>
+          
+          <PackagesPage isDashBoard={true} />
+        </Grid>
+        <Grid item xs={12} xl={6}>
+          <CustomersPage  isDashBoard={true}/>
         </Grid>
       </Grid>
       {/* /* ------------- Team section ---------------- */}
-      <Grid container spacing={3} mb={3}>
+      {/* <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={12} xl={4}>
-          <TeamMembers />
+          <PackagesPage isDashBoard={true} />
         </Grid>
         <Grid item xs={12} md={6} xl={4}>
           <TodoList />
@@ -63,8 +76,8 @@ const Dashboard = () => {
         <Grid item xs={12} md={6} xl={4}>
           <ProgressTracker />
         </Grid>
-      </Grid>
-      {/* /* ------------- Table section ---------------- **/}
+      </Grid> */}
+      {/* /* ------------- Table section ---------------- * */}
     </Box>
   );
 };

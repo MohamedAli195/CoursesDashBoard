@@ -19,8 +19,10 @@ import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 
 // Fetch packages function
-
-function PackagesPage() {
+interface IProps {
+  isDashBoard:boolean
+}
+function PackagesPage({isDashBoard}:IProps) {
   // states
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -135,25 +137,33 @@ function PackagesPage() {
   const totalItems = data.data?.total;
   return (
     <>
-      <Stack
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        mb={3}
-        height={''}
-      >
-        <Typography variant="h1" color="initial">
-          {t('packages')}
-        </Typography>
-        <Button variant="contained" color="info" onClick={handleOpen}>
-          {t('addPackage')}
-        </Button>
-      </Stack>
+    {
+      !isDashBoard && <Stack
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
+      mb={3}
+      height={''}
+    >
+      <Typography variant="h1" color="initial">
+        {t('packages')}
+      </Typography>
+      <Button variant="contained" color="info" onClick={handleOpen}>
+        {t('addPackage')}
+      </Button>
+    </Stack>
+    }
+      
 
       <Paper sx={{ width: '100%' }}>
+        {
+          isDashBoard && <Typography variant="h1" color="initial">
+          {t('packages')}
+        </Typography>
+        }
         <Stack flexDirection={'row'} alignItems={'center'}>
         <SelectSort setSort={setSort} sort={sort} />
-          <SearchForm setsearch={setSearch} />
+          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
           
         </Stack>
         <DataGrid

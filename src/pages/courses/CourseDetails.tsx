@@ -41,7 +41,7 @@ function CourseDetails() {
       <ViewCoursForm initialData={data?.data} />
       <Box>
 
-      <LectuerTable />
+      <LectuerTable isDashBoard={false}  />
       </Box>
     </>
   );
