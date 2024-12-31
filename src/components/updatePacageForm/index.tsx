@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPackage } from 'pages/packages/packagesFunct';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -25,51 +27,74 @@ interface IFormInput {
   name: {
     en: string;
     ar: string;
+    fr: string;
   };
-  image: FileList | null;
+  image: FileList | string;
   price: string;
 }
 
 function UpdatePackageForm({
   handleClose,
-  initialData,
   refetch,
+  id,
 }: {
   handleClose: () => void;
   refetch: () => void;
-  initialData?: null | {
-    id: number;
-    nameAr: string;
-    nameEn: string;
-    price: string;
-    imageUrl: string;
-  };
+
+  id: number;
 }) {
   const { register, setValue, handleSubmit, watch } = useForm<IFormInput>();
   const { t } = useTranslation();
-  const [previewImage, setPreviewImage] = useState<string | null>(initialData?.imageUrl || null);
-  const selectedImage = watch('image');
+
+  // Fetch packages using React Query
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: [`packages-${id}`],
+    queryFn: () => fetchPackage(id),
+  });
+
+  // const [previewImage, setPreviewImage] = useState<string | null>(data?.data?.image|| null);
+  // const selectedImage = watch('image');
+  const ImageFromApi = data?.data?.image;
+  console.log(ImageFromApi);
+  const [preview, setPreview] = useState<string | undefined | null>(ImageFromApi);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // if (isLoading) return <p>Loading...</p>;
+  // if (isError) return <p>Error: {error.message}</p>;
+
+  // console.log(data.data.image)
 
   useEffect(() => {
-    if (initialData) {
-      setValue('name.en', initialData.nameEn);
-      setValue('name.ar', initialData.nameAr);
-      setValue('price', initialData.price);
+    if (data) {
+      setValue('name.en', data?.data?.name.en);
+      setValue('name.ar', data?.data?.name.ar);
+      setValue('name.fr', data?.data?.name.fr);
+      setValue('price', data?.data?.price);
     }
-  }, [initialData, setValue]);
+  }, [data?.data, setValue]);
 
-  useEffect(() => {
-    if (selectedImage && selectedImage.length > 0) {
-      const file = selectedImage[0];
-      setPreviewImage(URL.createObjectURL(file));
-    }
-  }, [selectedImage]);
+  // useEffect(() => {
+  //   if (selectedImage && selectedImage.length > 0) {
+  //     const file = selectedImage[0];
+  //     setPreviewImage(URL.createObjectURL(file));
+  //   }
+  // }, [selectedImage]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
       formData.append('name[ar]', data.name.ar);
+      formData.append('name[fr]', data.name.ar);
       formData.append('price', data.price);
 
       if (data.image && data.image.length > 0) {
@@ -82,7 +107,7 @@ function UpdatePackageForm({
       };
 
       const response = await axios.post(
-        `https://market-mentor.flexi-code.com/public/api/admin/packages/${initialData?.id}/update`,
+        `https://market-mentor.flexi-code.com/public/api/admin/packages/${id}/update`,
         formData,
         { headers },
       );
@@ -105,22 +130,33 @@ function UpdatePackageForm({
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack spacing={3}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="name-ar"
-          type="text"
-          label={t('ArabicName')}
-          {...register('name.ar', { required: t('ArabicNameReq') })}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="name-en"
-          type="text"
-          label={t('EnglishName')}
-          {...register('name.en', { required: t('EnglishNameReq') })}
-        />
+        <Stack flexDirection={'row'} gap={2}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="name-ar"
+            type="text"
+            label={t('ArabicName')}
+            {...register('name.ar', { required: t('ArabicNameReq') })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="name-en"
+            type="text"
+            label={t('EnglishName')}
+            {...register('name.en', { required: t('EnglishNameReq') })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="name-fr"
+            type="text"
+            label={t('fr.name')}
+            {...register('name.fr', { required: t('EnglishNameReq') })}
+          />
+        </Stack>
+
         <TextField
           fullWidth
           variant="outlined"
@@ -129,41 +165,34 @@ function UpdatePackageForm({
           label={t('price')}
           {...register('price', { required: t('priceReq2') })}
         />
-        {/* <TextField
-          fullWidth
-          variant="outlined"
-          id="image"
-          type="file"
-          label={t('image')}
-          InputLabelProps={{ shrink: true }}
-          inputProps={{ accept: 'image/*' }}
-          {...register('image')}
-        /> */}
-        <Button
-          component="label"
-          role={undefined}
-          variant="outlined"
-          tabIndex={-1}
-          startIcon={<CloudUpload />}
-          
-        >
-          Upload Image
-          <VisuallyHiddenInput
-            type="file"
-            {...register('image')}
-            multiple
-          />
-        </Button>
-
-        {previewImage && (
-          <Box sx={{ mt: 2 }}>
-            <img
-              src={previewImage}
-              alt={t('Preview')}
-              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+        <Stack flexDirection={'row'} gap={2} alignItems={"center"}>
+          <Button
+            component="label"
+            role={undefined}
+            variant="outlined"
+            tabIndex={-1}
+            startIcon={<CloudUpload />}
+            sx={{ height: '100%' }}
+          >
+            Upload Image
+            <VisuallyHiddenInput
+              type="file"
+              {...register('image')}
+              multiple
+              onChange={handleFileChange}
             />
-          </Box>
-        )}
+          </Button>
+
+          {preview && (
+            <Box sx={{ mt: 2 }}>
+              <img
+                src={preview}
+                alt={t('Preview')}
+                style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+              />
+            </Box>
+          )}
+        </Stack>
       </Stack>
 
       <Button

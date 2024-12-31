@@ -22,9 +22,9 @@ interface IFormInput {
   name: {
     en: string;
     ar: string;
-    fr:string
+    fr: string;
   };
-  image: FileList;
+  image: FileList | string;
   price: string;
 }
 
@@ -86,7 +86,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
   };
 
   return (
-    <Box
+  <Box
       sx={{
         mt: { sm: 5, xs: 2.5 },
       }}
@@ -94,96 +94,71 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack spacing={3}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="names.ar"
-          type="text"
-          label={t("ArabicName")}
-          error={!!errors.name?.ar}
-          helperText={errors.name?.ar?.message}
-          {...register('name.ar', { required: t("ArabicNameReq") })}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="names.en"
-          type="text"
-          label={t("EnglishName")}
-          error={!!errors.name?.en}
-          helperText={errors.name?.en?.message}
-          {...register('name.en', { required: t("EnglishNameReq") })}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="names.fr"
-          type="text"
-          label={t("francName")}
-          error={!!errors.name?.en}
-          helperText={errors.name?.en?.message}
-          {...register('name.fr', { required: t("francNameReq") })}
-        />
+        <Stack flexDirection={'row'} gap={2}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="name-ar"
+            type="text"
+            label={t('ArabicName')}
+            {...register('name.ar', { required: t('ArabicNameReq') })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="name-en"
+            type="text"
+            label={t('EnglishName')}
+            {...register('name.en', { required: t('EnglishNameReq') })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="name-fr"
+            type="text"
+            label={t('fr.name')}
+            {...register('name.fr', { required: t('EnglishNameReq') })}
+          />
+        </Stack>
+
         <TextField
           fullWidth
           variant="outlined"
           id="price"
           type="text"
-          label={t("price")}
-          error={!!errors.price}
-          helperText={errors.price?.message}
-          {...register('price', {
-            required: t("priceReq2"),
-            pattern: {
-              value: /^[0-9]+(\.[0-9]{1,2})?$/,
-              message: t("priceReq") ,
-            },
-          })}
+          label={t('price')}
+          {...register('price', { required: t('priceReq2') })}
         />
-        {/* <TextField
-          fullWidth
-          variant="outlined"
-          id="image"
-          type="file"
-          label={t("image")}
-          InputLabelProps={{ shrink: true }}
-          inputProps={{ accept: 'image/*' }}
-          error={!!errors.image}
-          helperText={
-            errors.image?.message || (fileName ? `Selected file: ${fileName}` : '')
-          }
-          {...register('image', {
-            required: t("imageReq"),
-            onChange: (e) =>
-              setFileName(e.target.files?.[0]?.name || 'No file selected'),
-          })}
-        /> */}
-        <Button
-          component="label"
-          role={undefined}
-          variant="outlined"
-          tabIndex={-1}
-          startIcon={<CloudUpload />}
-          
-        >
-          Upload Image
-          <VisuallyHiddenInput
-            type="file"
-            {...register('image')}
-            multiple
-            onChange={handleFileChange}
-          />
-        </Button>
-        {preview  && (
-          <Box sx={{ mt: 2 }}>
-            <img
-              src={preview}
-              alt={t('Preview')}
-              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+        <Stack flexDirection={'row'} gap={2} alignItems={"center"}>
+          <Button
+            component="label"
+            role={undefined}
+            variant="outlined"
+            tabIndex={-1}
+            startIcon={<CloudUpload />}
+            sx={{ height: '100%' }}
+          >
+            Upload Image
+            <VisuallyHiddenInput
+              type="file"
+              {...register('image')}
+              multiple
+              onChange={handleFileChange}
             />
-          </Box>
-        )}
+          </Button>
+
+          {preview && (
+            <Box sx={{ mt: 2 }}>
+              <img
+                src={preview}
+                alt={t('Preview')}
+                style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+              />
+            </Box>
+          )}
+        </Stack>
       </Stack>
+
       <Button
         color="primary"
         variant="contained"
@@ -192,7 +167,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
         type="submit"
         sx={{ mt: 3, fontSize: '18px' }}
       >
-        {t("addPackage")}
+        {t('UpdatePackage')}
       </Button>
     </Box>
   );

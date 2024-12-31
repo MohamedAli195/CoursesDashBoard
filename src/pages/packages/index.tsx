@@ -30,6 +30,7 @@ function PackagesPage({isDashBoard}:IProps) {
   const [sort, setSort] = useState('desc');
   const [per, setper] = useState(10);
   const [tempId, setTempId] = useState(1);
+  const [tempIdUpdate, setTempIdUpdate] = useState(1);
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ function PackagesPage({isDashBoard}:IProps) {
   const [selectedPackage, setSelectedPackage] = useState<null | IPackageSelected>(null);
 
   const handleEditOpen = (packageData: IPackageSelected) => {
-    setSelectedPackage(packageData); // Set selected package data
+    setTempIdUpdate(packageData.id); // Set selected package data
     handleOpenU(); // Open the update modal
   };
 
@@ -234,8 +235,8 @@ function PackagesPage({isDashBoard}:IProps) {
         <h2>{t('editPackage')}</h2>
         <UpdatePackageForm
           handleClose={handleCloseU}
-          initialData={selectedPackage}
           refetch={refetch}
+          id={tempIdUpdate}
         />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />

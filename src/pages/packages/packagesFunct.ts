@@ -74,7 +74,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
   };
 
       /// Api requestes
-      export const fetchPackage = async (id:string|undefined) => {
+      export const fetchPackage = async (id:number|undefined|string) => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authorization token is missing");
     
