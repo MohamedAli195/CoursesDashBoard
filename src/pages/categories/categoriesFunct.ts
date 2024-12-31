@@ -32,7 +32,7 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchCategories = async (page=1,perpage=1,search='',sort_dir:string) => {
+    export const fetchCategories = async (page=1,perpage=10,search='',sort_dir:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {

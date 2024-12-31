@@ -24,7 +24,7 @@ interface IProps {
 }
 function CustomersPage({isDashBoard}:IProps) {
   const [page, setPage] = useState(1);
-  const [per, setper] = useState(1);
+  const [per, setper] = useState(10);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();
@@ -56,14 +56,16 @@ function CustomersPage({isDashBoard}:IProps) {
   // fetchCustomers();
 
   // Columns configuration
-  const columns: GridColDef[] = [
+  const columns: GridColDef[] = 
+  !isDashBoard ?
+  [
     { field: 'id', headerName: 'ID' },
     i18n.language === 'ar'
       ? { field: 'name', headerName: 'الاسم', flex: 1 }
       : { field: 'name', headerName: 'Name', flex: 1 },
     { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
 
-    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1 },
+    { field: 'phone', headerName: i18n.language === 'ar' ? 'رقم الموبايل' : 'phone', flex: 1 },
     {
       field: 'partner_code',
       headerName: i18n.language === 'ar' ? 'رقم الشريك' : 'partner_code',
@@ -104,7 +106,13 @@ function CustomersPage({isDashBoard}:IProps) {
         </Stack>
       ),
     },
-  ];
+  ]:[ { field: 'id', headerName: 'ID' },
+    i18n.language === 'ar'
+      ? { field: 'name', headerName: 'الاسم', flex: 1 }
+      : { field: 'name', headerName: 'Name', flex: 1 },
+    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
+
+    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1 },];
 
   // Pagination settings
   // const paginationModel = { page: 0, pageSize: 5 };
@@ -133,6 +141,7 @@ function CustomersPage({isDashBoard}:IProps) {
   const totalItems = data.data?.total;
   return (
     <>
+
     {
       !isDashBoard &&<Stack
       flexDirection="row"
@@ -154,14 +163,16 @@ function CustomersPage({isDashBoard}:IProps) {
       <Paper sx={{ width: '100%' }}>
 
         {
-          isDashBoard && <Typography variant="h1" color="initial">
+          isDashBoard && <Typography variant="h1" color="initial" sx={{m:2}}>
           {t('customers')}
         </Typography>
         }
-        <Stack flexDirection={'row'} alignItems={'center'}>
-        <SelectSort setSort={setSort} sort={sort} />
-          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard}/>
-        </Stack>
+        {
+          !isDashBoard && <Stack flexDirection={'row'} alignItems={'center'}>
+          <SelectSort setSort={setSort} sort={sort} />
+            <SearchForm setsearch={setSearch} isDashBoard={isDashBoard}/>
+          </Stack>
+        }
         <DataGrid
           rows={rows}
           columns={columns}
@@ -169,7 +180,7 @@ function CustomersPage({isDashBoard}:IProps) {
           // pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
           autoHeight
-          getRowHeight={() => 200} // Set each row's height to 200px
+          getRowHeight={() => !isDashBoard ? 200: 'auto'} 
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }

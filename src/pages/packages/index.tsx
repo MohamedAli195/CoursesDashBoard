@@ -17,6 +17,7 @@ import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
+import SwitchStatus from 'components/switch';
 
 // Fetch packages function
 interface IProps {
@@ -27,7 +28,7 @@ function PackagesPage({isDashBoard}:IProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
-  const [per, setper] = useState(1);
+  const [per, setper] = useState(10);
   const [tempId, setTempId] = useState(1);
   const { t, i18n } = useTranslation();
 
@@ -75,7 +76,10 @@ function PackagesPage({isDashBoard}:IProps) {
           </Typography>
         ),
     },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status' },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 ,renderCell: (params) => (
+          <SwitchStatus id={params.row.id} url={"packages"} apiStatus={params.row.status} />
+         
+        ), },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',

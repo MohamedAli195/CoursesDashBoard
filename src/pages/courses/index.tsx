@@ -24,7 +24,7 @@ interface IProps {
 function CoursesPage({isDashBoard}:IProps) {
   // states
   const [page, setPage] = useState(1);
-  const [per, setper] = useState(1);
+  const [per, setper] = useState(10);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const [tempId, setTempId] = useState(1);
@@ -144,7 +144,6 @@ function CoursesPage({isDashBoard}:IProps) {
     i18n.language === 'ar'
       ? { field: 'categoryAr', headerName: 'القسم', flex: 1 }
       : { field: 'categoryEn', headerName: 'category ', flex: 1 },
-      { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 },
   ]
 
   // Pagination settings
@@ -201,10 +200,11 @@ function CoursesPage({isDashBoard}:IProps) {
 
       <Paper sx={{ width: '100%' }}>
       {isDashBoard &&
-        <Typography variant="h1" color="initial" >
+        <Typography variant="h1" color="initial" sx={{m:2}} >
           {t('courses')}
         </Typography>}
         {
+           !isDashBoard &&
           <Stack flexDirection={'row'} alignItems={'center'}>
           <SelectSort setSort={setSort} sort={sort} />
             <SearchForm isDashBoard={isDashBoard} setsearch={setSearch} />

@@ -32,7 +32,7 @@ export   const deleteCourse = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchCourses = async (page=1,perpage=1,search='',sort_dir='') => {
+    export const fetchCourses = async (page=1,perpage=10,search='',sort_dir='') => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -75,14 +75,14 @@ export   const deleteCourse = async (id: number,refetch:()=>void) => {
     };
 
         /// Api requestes
-        export const updateStatus = async (id:number|undefined,path:string,status2:boolean) => {
+        export const updateStatus = async (id:number|undefined,path:string,status2:string) => {
           const token = localStorage.getItem("token");
           if (!token) throw new Error("Authorization token is missing");
       
           try {
               const response = await axios.post(
                   `${url}${path}/${id}/change-status`,
-                  {status : status2 ? 1 :0},
+                  {status : status2},
                   {
                       headers: {
                           Authorization: `Bearer ${token}`,

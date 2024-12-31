@@ -37,14 +37,14 @@ const Dashboard = () => {
         </Grid>
       </Grid>
       {/* /* ------------- Chart section ---------------- */}
-      <Grid container spacing={3} mb={3}>
+      {/* <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={7} lg={8} zIndex={1}>
           <OrdersSection />
         </Grid>
         <Grid item xs={12} md={5} lg={4}>
           <SalesSection />
         </Grid>
-      </Grid>
+      </Grid> */}
       {/* /* ------------- Table section ---------------- */}
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} xl={6} zIndex={1}>
@@ -52,19 +52,21 @@ const Dashboard = () => {
           <CoursesPage isDashBoard={true} />
         </Grid>
         <Grid item xs={12} xl={6}>
-          <CategoriesPage  isDashBoard={true}/>
+          <CustomersPage  isDashBoard={true}/>
         </Grid>
+       
       </Grid>
-
+{/* 
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} xl={6} zIndex={1}>
           
           <PackagesPage isDashBoard={true} />
         </Grid>
         <Grid item xs={12} xl={6}>
-          <CustomersPage  isDashBoard={true}/>
+          <CategoriesPage  isDashBoard={true}/>
         </Grid>
-      </Grid>
+        
+      </Grid> */}
       {/* /* ------------- Team section ---------------- */}
       {/* <Grid container spacing={3} mb={3}>
         <Grid item xs={12} md={12} xl={4}>

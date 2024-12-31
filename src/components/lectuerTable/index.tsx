@@ -23,7 +23,7 @@ interface IProps {
 function LectuerTable({isDashBoard}:IProps) {
     // states
   const [page, setPage] = useState(1);
-  const [per, setper] = useState(1);
+  const [per, setper] = useState(10);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const [tempId, setTempId] = useState(1);

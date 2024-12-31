@@ -32,7 +32,7 @@ export   const deleteCustomer = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchCustomers = async (page=1,perpage=1,search='',sort_dir='') => {
+    export const fetchCustomers = async (page=1,perpage=10,search='',sort_dir='') => {
     const token = localStorage.getItem('token');
 
     if (!token) {

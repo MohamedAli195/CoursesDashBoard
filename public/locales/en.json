@@ -72,7 +72,11 @@
       "UpdateLecter":"Update Lectuer",
       "updateCourse":"Update Course",
       "asc":"sort from oldest to newest",
-      "desc":"sort from newest to oldest"
+      "desc":"sort from newest to oldest",
+      "TotalCourses" : "Total Courses",
+      "orders":"Orders",
+      "Active":"Active",
+      "Inactive":"Inactive"
 
 
       

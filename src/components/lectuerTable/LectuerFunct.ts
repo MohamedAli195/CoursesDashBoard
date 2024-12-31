@@ -32,7 +32,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchLectuers = async (id:string|undefined,page=1,perpage=1,search='',sort_dir='') => {
+    export const fetchLectuers = async (id:string|undefined,page=10,perpage=1,search='',sort_dir='') => {
     const token = localStorage.getItem('token');
 
     if (!token) {

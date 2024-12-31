@@ -24,12 +24,14 @@ interface IFormInput {
   name: {
     en: string;
     ar: string;
+    fr: string;
   };
   description: {
     en: string;
     ar: string;
+    fr: string;
   };
-  image: FileList | null;
+  image: FileList;
 }
 
 function UpdateCategoryForm({
@@ -46,12 +48,25 @@ function UpdateCategoryForm({
     descriptionAr: string;
     descriptionEn: string;
     imageUrl: string;
+    image?:string
   };
 }) {
-  const { register, setValue, handleSubmit, watch } = useForm<IFormInput>();
+  const { register, setValue, handleSubmit, watch , formState: { errors },} = useForm<IFormInput>();
   const { t } = useTranslation();
-  const [previewImage, setPreviewImage] = useState<string | null>(initialData?.imageUrl || null);
-  const selectedImage = watch('image');
+  const ImageFromApi = initialData?.image
+  console.log(ImageFromApi)
+  const [preview, setPreview] = useState<string | undefined |null>(ImageFromApi);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -62,12 +77,12 @@ function UpdateCategoryForm({
     }
   }, [initialData, setValue]);
 
-  useEffect(() => {
-    if (selectedImage && selectedImage.length > 0) {
-      const file = selectedImage[0];
-      setPreviewImage(URL.createObjectURL(file));
-    }
-  }, [selectedImage]);
+  // useEffect(() => {
+  //   if (selectedImage && selectedImage.length > 0) {
+  //     const file = selectedImage[0];
+  //     setPreviewImage(URL.createObjectURL(file));
+  //   }
+  // }, [selectedImage]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -110,76 +125,119 @@ function UpdateCategoryForm({
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack spacing={3}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="name-ar"
-          type="text"
-          label={t('ArabicName')}
-          {...register('name.ar', { required: t('ArabicNameReq') })}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="name-en"
-          type="text"
-          label={t('EnglishName')}
-          {...register('name.en', { required: t('EnglishNameReq') })}
-        />
-
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="description-ar"
-          type="text"
-          label={t('descAr')}
-          {...register('description.ar', { required: t('descArReq') })}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          id="description-en"
-          type="text"
-          label={t('descEn')}
-          {...register('description.en', { required: t('descEnReq') })}
-        />
-
-        {/* <TextField
-          fullWidth
-          variant="outlined"
-          id="image"
-          type="file"
-          label={t('image')}
-          InputLabelProps={{ shrink: true }}
-          inputProps={{ accept: 'image/*' }}
-          {...register('image')}
-        /> */}
-        <Button
-          component="label"
-          role={undefined}
-          variant="outlined"
-          tabIndex={-1}
-          startIcon={<CloudUpload />}
-          
-        >
-          Upload Image
-          <VisuallyHiddenInput
-            type="file"
-            {...register('image')}
-            multiple
-          />
-        </Button>
-
-        {previewImage && (
-          <Box sx={{ mt: 2 }}>
-            <img
-              src={previewImage}
-              alt={t('Preview')}
-              style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
-            />
-          </Box>
-        )}
-      </Stack>
+                <Stack flexDirection={"row"} gap={2}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="names.ar"
+                  type="text"
+                  label={t("ArabicName")}
+                  error={!!errors.name?.ar}
+                  helperText={errors.name?.ar?.message}
+                  {...register('name.ar', { required: t("ArabicNameReq") })}
+                />
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="names.en"
+                  type="text"
+                  label={t("EnglishName")}
+                  error={!!errors.name?.en}
+                  helperText={errors.name?.en?.message}
+                  {...register('name.en', { required: t("EnglishNameReq") })}
+                />
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="names.fr"
+                  type="text"
+                  label="fr name"
+                  error={!!errors.name?.fr}
+                  helperText={errors.name?.fr?.message}
+                  {...register('name.fr', { required: "fr name is requried" })}
+                />
+                </Stack>
+                <Stack flexDirection={"row"} gap={2}>
+                <TextField
+                multiline
+                  fullWidth
+                  variant="outlined"
+                  id="description.ar"
+                  type="text"
+                  label={t("descAr")}
+                  error={!!errors.description?.ar}
+                  helperText={errors.description?.ar?.message}
+                  {...register('description.ar', { required: t("descArReq")  })}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      lineHeight: '1.2', // Adjust line height
+                    },
+                  }}
+                />
+                <TextField
+                multiline
+                  fullWidth
+                  variant="outlined"
+                  id="description.en"
+                  type="text"
+                  label={t("descEn")}
+                  error={!!errors.description?.en}
+                  helperText={errors.description?.en?.message}
+                  {...register('description.en', { required: t("descEnReq")   })}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      lineHeight: '1.2', // Adjust line height
+                    },
+                  }}
+                />
+                <TextField
+                multiline
+                  fullWidth
+                  variant="outlined"
+                  id="description.fr"
+                  type="text"
+                  label="fr desc"
+                  error={!!errors.description?.fr}
+                  helperText={errors.description?.fr?.message}
+                  {...register('description.fr', { required: "fr desc is required"   })}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      lineHeight: '1.2', // Adjust line height
+                    },
+                  }}
+                />
+                </Stack>
+                <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="outlined"
+                  tabIndex={-1}
+                  startIcon={<CloudUpload />}
+                  sx={{height:"100%"}}
+                >
+                  Upload Image 
+                  <VisuallyHiddenInput
+                    type="file"
+                    {...register('image')}
+                    multiple
+                    onChange={handleFileChange}
+                  />
+                </Button>
+                {preview  && (
+                  <Box sx={{ mt: 2 }}>
+                    <img
+                      src={preview}
+                      alt={t('Preview')}
+                      style={{ maxWidth: '100%', maxHeight: 200, objectFit: 'cover' }}
+                    />
+                  </Box>
+                )}
+                </Stack>
+                
+        
+        
+              </Stack>
 
       <Button
         color="primary"

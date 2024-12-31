@@ -94,11 +94,13 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
     <Box
       sx={{
         mt: { sm: 5, xs: 2.5 },
+        
       }}
       component="form"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Stack spacing={3}>
+      <Stack spacing={3} gap={2}>
+        <Stack flexDirection={"row"} gap={2}>
         <TextField
           fullWidth
           variant="outlined"
@@ -129,7 +131,10 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           helperText={errors.name?.fr?.message}
           {...register('name.fr', { required: "fr name is requried" })}
         />
+        </Stack>
+        <Stack flexDirection={"row"} gap={2}>
         <TextField
+        multiline
           fullWidth
           variant="outlined"
           id="description.ar"
@@ -138,8 +143,14 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           error={!!errors.description?.ar}
           helperText={errors.description?.ar?.message}
           {...register('description.ar', { required: t("descArReq")  })}
+          sx={{
+            '& .MuiInputBase-input': {
+              lineHeight: '1.2', // Adjust line height
+            },
+          }}
         />
         <TextField
+        multiline
           fullWidth
           variant="outlined"
           id="description.en"
@@ -148,8 +159,14 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           error={!!errors.description?.en}
           helperText={errors.description?.en?.message}
           {...register('description.en', { required: t("descEnReq")   })}
+          sx={{
+            '& .MuiInputBase-input': {
+              lineHeight: '1.2', // Adjust line height
+            },
+          }}
         />
         <TextField
+        multiline
           fullWidth
           variant="outlined"
           id="description.fr"
@@ -158,16 +175,23 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
           error={!!errors.description?.fr}
           helperText={errors.description?.fr?.message}
           {...register('description.fr', { required: "fr desc is required"   })}
+          sx={{
+            '& .MuiInputBase-input': {
+              lineHeight: '1.2', // Adjust line height
+            },
+          }}
         />
+        </Stack>
+        <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
         <Button
           component="label"
           role={undefined}
           variant="outlined"
           tabIndex={-1}
           startIcon={<CloudUpload />}
-          
+          sx={{height:"100%"}}
         >
-          Upload Image
+          Upload Image 
           <VisuallyHiddenInput
             type="file"
             {...register('image')}
@@ -184,6 +208,10 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
             />
           </Box>
         )}
+        </Stack>
+        
+
+
       </Stack>
       <Button
         color="primary"

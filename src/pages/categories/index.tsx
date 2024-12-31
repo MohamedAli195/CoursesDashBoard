@@ -26,7 +26,7 @@ interface IProps {
 function CategoriesPage({isDashBoard}:IProps) {
   // states
   const [page, setPage] = useState(1);
-  const [per, setper] = useState(1);
+  const [per, setper] = useState(10);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();

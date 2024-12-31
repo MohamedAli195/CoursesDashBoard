@@ -11,6 +11,7 @@ import CategoriesIcon from 'components/icons/menu-icons/CategoriesIcon';
 import ProductsIcon from 'components/icons/menu-icons/ProductsIcon';
 import KnowledgebaseIcon from 'components/icons/menu-icons/KnowledgebaseIcon';
 import CouponsIcon from 'components/icons/menu-icons/CouponsIcon';
+import { t } from 'i18next';
 
 // interface PercentageProps {
 //   color: string;
@@ -75,7 +76,7 @@ const StatisticsCards = () => {
       // percentage: { color: 'success', count: '22.45%' },
       icon: CategoriesIcon,
       title: data?.data?.count_of_courses,
-      subtitle: 'Total Courses',
+      subtitle: t("TotalCourses"),
     },
   
     {
@@ -83,21 +84,21 @@ const StatisticsCards = () => {
       // percentage: { color: 'success', count: '22.45%' },
       icon: CartIcon,
       title: data?.data?.count_of_orders,
-      subtitle: 'Orders',
+      subtitle: t('orders'),
     },
     {
       id: 2,
       // percentage: { color: 'error', count: '02.45%' },
       icon: CouponsIcon,
       title: data?.data?.count_of_packages,
-      subtitle: 'Packages',
+      subtitle: t('packages'),
     },
     {
       id: 3,
       // percentage: { color: 'error', count: '00.45%' },
       icon: CustomersIcon,
       title: data?.data?.count_of_customers,
-      subtitle: 'Customers',
+      subtitle: t('customers'),
     },
   ];
 

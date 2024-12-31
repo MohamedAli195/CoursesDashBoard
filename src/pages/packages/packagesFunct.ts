@@ -31,7 +31,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchPackages = async (page=1,perpage=2,search='',sort_dir:string) => {
+    export const fetchPackages = async (page=1,perpage=10,search='',sort_dir:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
