@@ -17,6 +17,7 @@ import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import { ICustomer } from 'interfaces';
 import SelectSort from 'components/selectSort';
+import DeleteModal from 'components/deleteModal';
 
 // Fetch packages function
 interface IProps {
@@ -209,8 +210,10 @@ function CustomersPage({isDashBoard}:IProps) {
 
         <AddCustomer handleClose={handleClose} refetch={refetch} />
       </BasicModal>
+
+
             {/* delete modal */}
-            <BasicModal open={opend} handleClose={handleClosed}>
+            {/* <BasicModal open={opend} handleClose={handleClosed}>
       <Typography variant="h6" component="h2" gutterBottom>
           Delete
         </Typography>
@@ -231,7 +234,9 @@ function CustomersPage({isDashBoard}:IProps) {
           </Button>
         </Box>
        
-      </BasicModal>
+      </BasicModal> */}
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCustomer(tempId,refetch)}}/>
+
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>

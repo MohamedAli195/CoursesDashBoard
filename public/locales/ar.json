@@ -74,7 +74,9 @@
       "TotalCourses" : "عدد الكورسات",
       "orders":"الطلبات",
            "Active":"نشط",
-      "Inactive":"غير نشط"
+      "Inactive":"غير نشط",
+      "deleteMsg":"هل انت متأكد من الحذف",
+      "Delete":"حذف"
 
       
   }

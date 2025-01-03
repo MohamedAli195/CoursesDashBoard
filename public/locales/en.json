@@ -76,7 +76,10 @@
       "TotalCourses" : "Total Courses",
       "orders":"Orders",
       "Active":"Active",
-      "Inactive":"Inactive"
+      "Inactive":"Inactive",
+      "deleteMsg":"Are You Sure You Want To Delete?",
+      "Delete":"Delete"
+
 
 
       

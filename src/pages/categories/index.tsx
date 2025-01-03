@@ -18,6 +18,9 @@ import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 // import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
+import Lottie from "lottie-react";
+import deleteAnimation from "./../../../src/components/animations/delete.json";
+import DeleteModal from 'components/deleteModal';
 
 // Fetch packages function
 interface IProps {
@@ -200,7 +203,10 @@ function CategoriesPage({isDashBoard}:IProps) {
 
 
       {/* delete modal */}
-      <BasicModal open={opend} handleClose={handleClosed}>
+      {/* <BasicModal open={opend} handleClose={handleClosed}>
+        <Box>
+        <Lottie style={{height:350}}  animationData={deleteAnimation} />
+        </Box>
       <Typography variant="h6" component="h2" gutterBottom>
           Delete
         </Typography>
@@ -221,7 +227,8 @@ function CategoriesPage({isDashBoard}:IProps) {
           </Button>
         </Box>
        
-      </BasicModal>
+      </BasicModal> */}
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCategory(tempId,refetch)}}/>
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>{t('updateCategory')}</h2>

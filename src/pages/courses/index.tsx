@@ -16,6 +16,7 @@ import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
 import SwitchStatus from 'components/switch';
+import DeleteModal from 'components/deleteModal';
 
 // Fetch packages function
 interface IProps {
@@ -60,15 +61,7 @@ function CoursesPage({isDashBoard}:IProps) {
     { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
     i18n.language === 'ar'
       ? { field: 'categoryAr', headerName: 'القسم', flex: 1 }
-      : { field: 'categoryEn', headerName: 'category ', flex: 1 },
-
-    // i18n.language === 'ar'
-    //   ? { field: 'packageAr', headerName: 'الباقة' }
-    //   : { field: 'packageEn', headerName: 'package ' },
-    // i18n.language === 'ar'
-    //   ? { field: 'descriptionAr', headerName: 'الوصف' }
-    //   : { field: 'descriptionEn', headerName: 'description ' },
-    
+      : { field: 'categoryEn', headerName: 'category ', flex: 1 },    
     {
       field: 'image',
 
@@ -242,40 +235,12 @@ function CoursesPage({isDashBoard}:IProps) {
           <SelectPerPage perPage={per} setPerPage={setper} />
         </Stack>
       </Paper>
-      {/* delete modal */}
-            <BasicModal open={opend} handleClose={handleClosed}>
-            <Typography variant="h6" component="h2" gutterBottom>
-                Delete
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Are you sure you want to delete this package?
-              </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
-                <Button variant="outlined" onClick={handleClosed}>
-                  Close
-                </Button>
-                <Button variant="contained" color="error" onClick={() => {
-                  
-                  deleteCourse(tempId, refetch)
-                  handleClosed()
-                  
-                  }}>
-                  Delete 
-                </Button>
-              </Box>
-             
-            </BasicModal>
 
-      {/* update modal */}
-      {/*       
-      <BasicModal open={openU} handleClose={handleCloseU}>
-        <h2>update pacage</h2>
-        <UpdateCourseForm
-          handleClose={handleCloseU}
-          initialData={selectedCourse}
-          refetch={refetch}
-        />
-      </BasicModal> */}
+
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCourse(tempId,refetch)}}/>
+
+
+
       
       <Toaster position="bottom-center" reverseOrder={false} />
 
