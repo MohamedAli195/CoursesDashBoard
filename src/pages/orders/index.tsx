@@ -64,9 +64,9 @@ function OrdersPage({isDashBoard}:IProps) {
   !isDashBoard ?
   [
     { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'name', flex: 1 },
-    { field: 'order_type', headerName: i18n.language === 'ar' ? 'نوع الطلب' : 'order type'},
-    { field: 'created_at', headerName: i18n.language === 'ar' ? 'تاريخ الطلب' : 'created at', flex: 1 },
+    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'name', flex: 0.5 },
+    { field: 'order_type', headerName: i18n.language === 'ar' ? 'نوع الطلب' : 'order type', flex: 0.5},
+    { field: 'created_at', headerName: i18n.language === 'ar' ? 'تاريخ الطلب' : 'created at', flex: 0.5 },
 
     { field: 'total', headerName: i18n.language === 'ar' ? 'الاجمالى' : 'total ' },
     { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status ' },
@@ -78,27 +78,13 @@ function OrdersPage({isDashBoard}:IProps) {
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 1,
+      flex: 0.5,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
           <Button
             variant="contained"
-            color="error"
-            // onClick={() => deleteCustomer(params.row.id, refetch)}
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }
-          }
-          >
-            {/* {t('delete')} */}
-            <Trash2 />
-          </Button>
-          <Button
-            variant="contained"
             color="info"
-            onClick={() => navigate(`${paths.customers}/${params.row.id}`)}
+            // onClick={() => navigate(`${paths.customers}/${params.row.id}`)}
           >
             {/* {t('view')} */}
             <Eye />
