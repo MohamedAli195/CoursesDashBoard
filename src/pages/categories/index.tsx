@@ -74,7 +74,7 @@ function CategoriesPage({isDashBoard}:IProps) {
       field: 'image',
       headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
 
-      flex: 2,
+      flex: 1,
       renderCell: (params) =>
         params.value ? (
           <img src={params.value} alt={params.row.name} style={{ width: '100%', height: '100%' }} />

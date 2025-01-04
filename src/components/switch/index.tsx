@@ -29,7 +29,7 @@ export default function SwitchStatus({ id, url, apiStatus }: IProps) {
             onChange={handleChange}
           />
         }
-        label={status === 'active' ? t('Active') : t('Inactive')}
+        label={status === 'active' ? '' : ''}
       />
     </FormGroup>
   );

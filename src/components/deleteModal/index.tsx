@@ -14,7 +14,7 @@ interface IProps {
 }
 function DeleteModal({opend,handleClosed,refetch,tempId,deleteFunc}:IProps) {
   return (
-    <BasicModal open={opend} handleClose={handleClosed}>
+    <BasicModal open={opend} handleClose={handleClosed} isDeleteModal={true}>
         <Box>
         <Lottie style={{height:350}}  animationData={deleteAnimation} />
         </Box>
