@@ -168,7 +168,8 @@ function PackagesPage({isDashBoard}:IProps) {
         </Typography>
         }
         <Stack flexDirection={'row'} alignItems={'center'}>
-        <SelectSort setSort={setSort} sort={sort} />
+        <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
+        
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
           
         </Stack>

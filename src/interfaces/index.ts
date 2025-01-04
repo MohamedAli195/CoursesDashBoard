@@ -149,3 +149,18 @@ export interface ICourseSelect {
     phone: string;
     partner_code: string;
   }
+
+export interface IOrder  {
+    id: number,
+    status: string,
+    payment_method: string,
+    total: number,
+    created_at: string,
+    order_type: string,
+    user: {
+        id: number,
+        name: string,
+        email: string,
+        status: string
+    }
+}

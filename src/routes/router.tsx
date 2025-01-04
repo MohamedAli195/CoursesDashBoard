@@ -91,7 +91,7 @@ export const routes = [
             path: paths.orders,
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <OrdersPage />
+              <OrdersPage isDashBoard={false} />
               </ProtectedRoute>
             ),
           },

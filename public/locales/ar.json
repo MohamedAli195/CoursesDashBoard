@@ -76,7 +76,9 @@
            "Active":"نشط",
       "Inactive":"غير نشط",
       "deleteMsg":"هل انت متأكد من الحذف",
-      "Delete":"حذف"
+      "Delete":"حذف",
+      "Orders":"الطلبات"
+
 
       
   }

@@ -7,12 +7,13 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { t } from 'i18next';
 
 interface Iprops {
-  sort: string;
-  setSort: (val: string) => void;
+  sortVal: string;
+  setSortFun: (val: string) => void;
+  data:string[]
 }
-export default function SelectSort({ sort, setSort }: Iprops) {
+export default function SelectSort({ sortVal, setSortFun ,data}: Iprops) {
   const handleChange = (event: SelectChangeEvent) => {
-    setSort(event.target.value);
+    setSortFun(event.target.value);
   };
 
   return (
@@ -21,7 +22,7 @@ export default function SelectSort({ sort, setSort }: Iprops) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={`${sort}`}
+          value={`${sortVal}`}
           onChange={handleChange}
           sx={{
             '.MuiSelect-select': {
@@ -30,10 +31,14 @@ export default function SelectSort({ sort, setSort }: Iprops) {
             },
           }}
         >
-          {['asc', 'desc'].map((item) => {
+          {data.map((item) => {
             return (
               <MenuItem key={item} value={item}>
-                {item ==='asc' ? t("asc") :t('desc')}
+                {
+                item ==='asc' ? t("asc") : item ==='desc' ? t('desc') :
+               item ==='course' ? t("course") :t('package')
+               } 
+               
               </MenuItem>
             );
           })}
