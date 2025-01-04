@@ -65,10 +65,11 @@ function OrdersPage({isDashBoard}:IProps) {
   [
     { field: 'id', headerName: 'ID' },
     { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'name', flex: 1 },
-    { field: 'order_type', headerName: i18n.language === 'ar' ? 'نوع الطلب' : 'order type', flex: 1 },
+    { field: 'order_type', headerName: i18n.language === 'ar' ? 'نوع الطلب' : 'order type'},
     { field: 'created_at', headerName: i18n.language === 'ar' ? 'تاريخ الطلب' : 'created at', flex: 1 },
 
     { field: 'total', headerName: i18n.language === 'ar' ? 'الاجمالى' : 'total ' },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status ' },
     {
       field: 'payment_method',
       headerName: i18n.language === 'ar' ? 'طريقة الدفع' : 'payment method',
@@ -138,6 +139,7 @@ function OrdersPage({isDashBoard}:IProps) {
           name: orderItem.user.name,
           order_type: orderItem.order_type,
           created_at: orderItem.created_at,
+          status: orderItem.status,
           payment_method: orderItem.payment_method,
           total: orderItem.payment_method,
         }))
