@@ -8,8 +8,6 @@ import { theme } from 'theme/theme.ts';
 import './index.css';
 import "./i18n"; // Import the i18n configuration
 import {
-
-
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
