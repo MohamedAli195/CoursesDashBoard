@@ -89,7 +89,7 @@ const ProfileDropdown = () => {
               display: { xs: 'none', sm: 'block' },
             }}
           >
-            X’eriya Ponald
+            Admin
           </Typography>
         </Stack>
       </ButtonBase>

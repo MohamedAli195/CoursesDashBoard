@@ -128,7 +128,7 @@ function CustomersPage({isDashBoard}:IProps) {
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
-  console.log(data.data?.total);
+  // console.log(data.data?.total);
   const rows =
     data?.data?.data?.length > 0
       ? data.data.data.map((packageItem: ICustomer) => ({

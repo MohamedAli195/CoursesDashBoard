@@ -206,8 +206,8 @@ function UpdateCourse(props: IFormInputCourses) {
       toast.error('Failed to add course, please check your input.');
     }
   };
-  console.log(packages.data.data)
-  console.log(categories)
+  // console.log(packages.data.data)
+  // console.log(categories)
 
   return (
     <>

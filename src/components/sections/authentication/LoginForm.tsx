@@ -44,7 +44,7 @@ const LoginForm = () => {
         data
       );
   
-      console.log('Token:', response.data.token); // Check if token exists
+      // console.log('Token:', response.data.token); // Check if token exists
   
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
@@ -64,7 +64,7 @@ const LoginForm = () => {
   
     } catch (err) {
       setError(err.response ? err.response.data.message : 'An error occurred');
-      console.log(err.response || err); // Logs the actual error for debugging
+      // console.log(err.response || err); // Logs the actual error for debugging
     }
   };
   

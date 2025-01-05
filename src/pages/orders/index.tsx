@@ -143,7 +143,7 @@ function OrdersPage({isDashBoard}:IProps) {
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
-  console.log(data.data.data);
+  // console.log(data.data.data);
   const rows =
   data?.data?.data?.length > 0
     ? data?.data?.data?.map((orderItem: IOrder) => ({
@@ -257,7 +257,7 @@ function OrdersPage({isDashBoard}:IProps) {
 
 
       {/* update modal */}
-      <BasicModal open={openU} handleClose={handleCloseU}>
+      <BasicModal open={openU} handleClose={handleCloseU} isDeleteModal={true}>
         <h2>{t('UpdateOrderstatus')}</h2>
         <UpdateOrderForm
           handleClose={handleCloseU}

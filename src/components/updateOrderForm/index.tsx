@@ -79,6 +79,7 @@ function UpdateOrderForm({
       <Box
         sx={{
           mt: { sm: 5, xs: 2.5 },
+          width:"500px"
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -102,6 +103,7 @@ function UpdateOrderForm({
             }}
           >
             <Select
+            fullWidth
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={`${status}`}
