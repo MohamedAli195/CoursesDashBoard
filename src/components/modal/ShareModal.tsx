@@ -20,6 +20,7 @@ export default function BasicModal({ open, handleClose, children, isDeleteModal 
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+          
       >
         <Box
           sx={{

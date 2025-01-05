@@ -20,6 +20,7 @@ import SelectSort from 'components/selectSort';
 import DeleteModal from 'components/deleteModal';
 import { deleteCustomer, fetchCustomers } from 'pages/customers/costumersFunct';
 import { fetchOrders } from './OrdersFunct';
+import UpdateOrderForm from 'components/updateOrderForm';
 
 // Fetch packages function
 interface IProps {
@@ -44,14 +45,22 @@ function OrdersPage({isDashBoard}:IProps) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
   // update modal
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | ICustomer>(null);
+  const [selectedPackage, setSelectedPackage] = useState<null | IOrder>(null);
 
-  const handleEditOpen = (packageData: ICustomer) => {
+  const handleEditOpen = (packageData: IOrder) => {
     setSelectedPackage(packageData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
@@ -69,7 +78,24 @@ function OrdersPage({isDashBoard}:IProps) {
     { field: 'created_at', headerName: i18n.language === 'ar' ? 'تاريخ الطلب' : 'created at', flex: 0.5 },
 
     { field: 'total', headerName: i18n.language === 'ar' ? 'الاجمالى' : 'total ' },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status ' },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status ',
+      flex: 0.5,
+
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value === 'accepted' ? 'green' : params.value === 'canceled' ? '#ffd7d7' :'blue',
+            backgroundColor: params.value === 'accepted' ? '#a8f1cd' : params.value === 'canceled' ? '#FF0000' :'#6691e7',
+            fontWeight: 'bold',
+            padding:10,
+            display:'inline-block',
+            borderRadius:10
+          }}
+        >
+          {params.value}
+        </span>
+      ),
+     },
     {
       field: 'payment_method',
       headerName: i18n.language === 'ar' ? 'طريقة الدفع' : 'payment method',
@@ -119,17 +145,17 @@ function OrdersPage({isDashBoard}:IProps) {
   // Prepare rows for DataGrid
   console.log(data.data.data);
   const rows =
-    data?.data?.data?.length > 0
-      ? data?.data?.data?.map((orderItem: IOrder) => ({
-          id: orderItem.id,
-          name: orderItem.user.name,
-          order_type: orderItem.order_type,
-          created_at: orderItem.created_at,
-          status: orderItem.status,
-          payment_method: orderItem.payment_method,
-          total: orderItem.payment_method,
-        }))
-      : [];
+  data?.data?.data?.length > 0
+    ? data?.data?.data?.map((orderItem: IOrder) => ({
+        id:  "#" + orderItem.id,
+        name: orderItem.user.name,
+        order_type: orderItem.order_type,
+        created_at: formatDate(orderItem.created_at), // Format created_at
+        status: orderItem.status,
+        payment_method: orderItem.payment_method,
+        total: orderItem.total,
+      }))
+    : [];
   const totalItems = data.data?.total;
   return (
     <>
@@ -232,8 +258,8 @@ function OrdersPage({isDashBoard}:IProps) {
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
-        <h2>{t('updateCustomer')}</h2>
-        <UpdateCustomerForm
+        <h2>{t('UpdateOrderstatus')}</h2>
+        <UpdateOrderForm
           handleClose={handleCloseU}
           initialData={selectedPackage}
           refetch={refetch}

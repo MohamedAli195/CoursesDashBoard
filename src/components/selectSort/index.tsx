@@ -27,7 +27,7 @@ export default function SelectSort({ sortVal, setSortFun ,data}: Iprops) {
           sx={{
             '.MuiSelect-select': {
               lineHeight: 1.1, // Match default height for MUI TextField
-              width: 'fit-content',
+              width: '100%',
             },
           }}
         >

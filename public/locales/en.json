@@ -80,7 +80,10 @@
       "Inactive":"Inactive",
       "deleteMsg":"Are You Sure You Want To Delete?",
       "Delete":"Delete",
-      "Orders":"Orders"
+      "Orders":"Orders",
+      "status":"Status",
+      "UpdateOrderstatus":"Update Order Status",
+      "Update":"Update"
 
 
 

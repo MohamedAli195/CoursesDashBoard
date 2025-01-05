@@ -153,7 +153,7 @@ function CoursesPage({isDashBoard}:IProps) {
   const rows =
     data?.data?.data?.length > 0
       ? data?.data?.data.map((packageItem: ICourse) => ({
-          id: packageItem.id,
+          id: "#" + packageItem.id,
           nameEn: packageItem.name?.en,
           nameAr: packageItem.name?.ar,
           price: packageItem.price,

@@ -78,7 +78,12 @@
       "deleteMsg":"هل انت متأكد من الحذف",
       "Delete":"حذف",
       "Orders":"الطلبات",
-      "course":"كورس"
+      "course":"كورس",
+      "status":"الحالة",
+      "UpdateOrderstatus":"تحديث حالة الاودر",
+      "Update":"نحديث"
+
+
 
 
       
