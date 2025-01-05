@@ -24,7 +24,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
       toast.success(`Package with ID ${id} deleted successfully`); 
       refetch()
     } catch (error) {
-      console.error('Failed to delete package:', error);
+      // console.error('Failed to delete package:', error);
       toast.error('Error deleting package');
     }
   };

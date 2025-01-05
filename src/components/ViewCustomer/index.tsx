@@ -36,7 +36,7 @@ function ViewCustomer() {
 // console.log(data?.data)
 
 // const courseID = data?.data?.course?.id
-console.log(data)
+// console.log(data)
     useEffect(() => {
       if (data?.data) {
         // setValue('name', data?.data.title.ar);

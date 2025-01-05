@@ -54,7 +54,7 @@ function UpdateCategoryForm({
   const { register, setValue, handleSubmit, watch , formState: { errors },} = useForm<IFormInput>();
   const { t } = useTranslation();
   const ImageFromApi = initialData?.image
-  console.log(ImageFromApi)
+  // console.log(ImageFromApi)
   const [preview, setPreview] = useState<string | undefined |null>(ImageFromApi);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,7 +111,7 @@ function UpdateCategoryForm({
       refetch();
       handleClose();
     } catch (err) {
-      console.error('Error updating category:', err);
+      // console.error('Error updating category:', err);
       toast.error(t('Failed to update category, please check your input.'));
     }
   };

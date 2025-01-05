@@ -42,7 +42,7 @@ function UpdateOrderForm({
       setValue('status', initialData?.status);
     }
   }, [initialData, setValue]);
-  console.log(initialData);
+  // console.log(initialData);
   const handleChange = (event: SelectChangeEvent) => {
     setStats(event.target.value);
   };
@@ -64,7 +64,7 @@ function UpdateOrderForm({
         { headers },
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       toast.success('Order Status successfully');
       refetch();
       handleClose();

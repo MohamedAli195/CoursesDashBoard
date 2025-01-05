@@ -54,7 +54,7 @@ const ProfileDropdown = () => {
     } catch (error) {
       // Handle errors
       toast.error('Logout failed. Please try again.');
-      console.error(error);
+      // console.error(error);
     }
   };
   return (

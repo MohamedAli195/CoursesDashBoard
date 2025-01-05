@@ -25,7 +25,7 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
       toast.success(`Package with ID ${id} deleted successfully`); 
       refetch()
     } catch (error) {
-      console.error('Failed to delete package:', error);
+      // console.error('Failed to delete package:', error);
       toast.error('Error deleting package');
     }
   };
@@ -91,7 +91,8 @@ export   const deleteCategory = async (id: number,refetch:()=>void) => {
             );
             return response.data;
         } catch (error) {
-            console.error("Error fetching category details:", error); // Log full error
+            console.error("Error fetching category details:", error); 
+            // Log full error
             throw error; // Rethrow to handle in useQuery's error state
         }
     };

@@ -72,13 +72,13 @@ import { useTranslation } from 'react-i18next';
           { headers }
         );
   
-        console.log(response.data);
+        // console.log(response.data);
         toast.success('Package updated successfully');
         refetch()
         handleClose();
   
       } catch (err) {
-        console.error('Error updating package:', err);
+        // console.error('Error updating package:', err);
         toast.error('Failed to update package, please check your input.');
       }
     };

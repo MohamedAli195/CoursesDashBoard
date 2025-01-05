@@ -25,7 +25,7 @@ export   const deleteCustomer = async (id: number,refetch:()=>void) => {
       toast.success(`customer with ID ${id} deleted successfully`); 
       refetch()
     } catch (error) {
-      console.error('Failed to delete customer:', error);
+      // console.error('Failed to delete customer:', error);
       toast.error('Error deleting customer');
     }
   };

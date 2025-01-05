@@ -80,7 +80,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
       handleClose();
       refetch();
     } catch (err) {
-      console.error('Error signing in:', err);
+      // console.error('Error signing in:', err);
       toast.error('Failed to add package, please check your input.');
     }
   };

@@ -84,7 +84,7 @@ function UpdateLectuerForm() {
       // console.log(response.data);
       toast.success('course lectuer updated successfully');
     } catch (err) {
-      console.error('Error adding course lectuer:', err);
+      // console.error('Error adding course lectuer:', err);
       toast.error('Failed to add course lectuer, please check your input.');
     }
   };

@@ -55,7 +55,7 @@ function UpdatePackageForm({
   // const [previewImage, setPreviewImage] = useState<string | null>(data?.data?.image|| null);
   // const selectedImage = watch('image');
   const ImageFromApi = data?.data?.image;
-  console.log(ImageFromApi);
+  // console.log(ImageFromApi);
   const [preview, setPreview] = useState<string | undefined | null>(ImageFromApi);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -116,7 +116,7 @@ function UpdatePackageForm({
       refetch();
       handleClose();
     } catch (err) {
-      console.error('Error updating package:', err);
+      // console.error('Error updating package:', err);
       toast.error(t('Failed to update package, please check your input.'));
     }
   };

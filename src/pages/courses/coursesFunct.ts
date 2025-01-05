@@ -25,7 +25,7 @@ export   const deleteCourse = async (id: number,refetch:()=>void) => {
       toast.success(`Package with ID ${id} deleted successfully`); 
       refetch()
     } catch (error) {
-      console.error('Failed to delete package:', error);
+      // console.error('Failed to delete package:', error);
       toast.error('Error deleting package');
     }
   };
@@ -89,7 +89,7 @@ export   const deleteCourse = async (id: number,refetch:()=>void) => {
                       },
                   }
               );
-              console.log(response)
+              // console.log(response)
           } catch (error) {
               console.error("Error fetching package details:", error); // Log full error
               throw error; // Rethrow to handle in useQuery's error state

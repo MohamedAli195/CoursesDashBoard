@@ -117,7 +117,7 @@ function UpdateCourse(props: IFormInputCourses) {
         const categoryData = await fetchCategoriesForCourses();
         setCategories(categoryData);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // console.error('Error fetching categories:', error);
       }
     };
 
@@ -126,7 +126,7 @@ function UpdateCourse(props: IFormInputCourses) {
         const packageData = await fetchPackagesForCourses();
         setPackages(packageData);
       } catch (error) {
-        console.error('Error fetching packages:', error);
+        // console.error('Error fetching packages:', error);
       }
     };
 
@@ -202,7 +202,7 @@ function UpdateCourse(props: IFormInputCourses) {
 
       toast.success('Course added successfully');
     } catch (err) {
-      console.error('Error adding course:', err);
+      // console.error('Error adding course:', err);
       toast.error('Failed to add course, please check your input.');
     }
   };

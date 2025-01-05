@@ -85,7 +85,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
       handleClose();
       refetch();
     } catch (err) {
-      console.error('Error:', err);
+      // console.error('Error:', err);
       toast.error('Failed to add category, please check your input.');
     }
   };

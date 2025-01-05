@@ -25,7 +25,7 @@ export   const deleteLectuer = async (id: number,refetch:()=>void) => {
       toast.success(`Lectuer with ID ${id} deleted successfully`); 
       refetch()
     } catch (error) {
-      console.error('Failed to delete Lectuer:', error);
+      // console.error('Failed to delete Lectuer:', error);
       toast.error('Error deleting Lectuer');
     }
   };

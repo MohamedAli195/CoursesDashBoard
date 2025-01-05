@@ -69,10 +69,10 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
         { headers },
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       toast.success('course lectuer added successfully');
     } catch (err) {
-      console.error('Error adding course lectuer:', err);
+      // console.error('Error adding course lectuer:', err);
       toast.error('Failed to add course lectuer, please check your input.');
     }
   };
