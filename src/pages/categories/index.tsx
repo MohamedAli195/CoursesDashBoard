@@ -134,7 +134,7 @@ function CategoriesPage({isDashBoard}:IProps) {
   const rows =
     data?.data?.data?.length > 0
       ? data.data.data.map((packageItem: ICategory) => ({
-          id: "#" + packageItem.id,
+          id: packageItem.id,
           nameEn: packageItem.name?.en,
           nameAr: packageItem.name?.ar,
           // descriptionEn: packageItem.description?.en,

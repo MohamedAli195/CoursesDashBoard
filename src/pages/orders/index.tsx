@@ -147,7 +147,7 @@ function OrdersPage({isDashBoard}:IProps) {
   const rows =
   data?.data?.data?.length > 0
     ? data?.data?.data?.map((orderItem: IOrder) => ({
-        id:  "#" + orderItem.id,
+        id:  orderItem.id,
         name: orderItem.user.name,
         order_type: orderItem.order_type,
         created_at: formatDate(orderItem.created_at), // Format created_at

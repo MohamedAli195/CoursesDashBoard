@@ -103,7 +103,7 @@ function LectuerTable({isDashBoard}:IProps) {
   const rows =
     data.data?.data?.length > 0
       ? data?.data?.data.map((lecturItem: IPackageLectuerSelected) => ({
-          id: "#" +  lecturItem.id,
+          id: lecturItem.id,
           nameEn: lecturItem.title?.en,
           nameAr: lecturItem.title?.ar,
           // descriptionEn: lecturItem.description.en,

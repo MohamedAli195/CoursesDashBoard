@@ -132,8 +132,8 @@ function AddCourseForm() {
       toast.error('Failed to add course, please check your input.');
     }
   };
-console.log(categories)
-console.log(packages)
+// console.log(categories)
+// console.log(packages)
   return (
     <>
       <Box

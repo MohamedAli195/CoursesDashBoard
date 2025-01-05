@@ -132,7 +132,7 @@ function CustomersPage({isDashBoard}:IProps) {
   const rows =
     data?.data?.data?.length > 0
       ? data.data.data.map((packageItem: ICustomer) => ({
-          id: "#" + packageItem.id,
+          id:packageItem.id,
           name: packageItem.name,
           email: packageItem.email,
           phone: packageItem.phone,
