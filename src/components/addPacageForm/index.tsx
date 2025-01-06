@@ -51,7 +51,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
     }
   };
   const selectedImage = watch('image');
-
+  const url = import.meta.env.VITE_API_URL;
   
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -71,7 +71,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
       };
 
       const response = await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/packages',
+        `${url}/admin/packages`,
         formData,
         { headers }
       );

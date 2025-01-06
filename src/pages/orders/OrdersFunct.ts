@@ -3,7 +3,7 @@ import i18n from "i18n";
 import toast from "react-hot-toast";
 
 
-const url = 'https://market-mentor.flexi-code.com/public/api/admin/'
+const url = import.meta.env.VITE_API_URL;
   // Delete package function
 export   const deletePackage = async (id: number,refetch:()=>void) => {
     const token = localStorage.getItem('token');
@@ -14,7 +14,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
     try {
       await axios.delete(
-        `${url}packages/${id}/destroy`,
+        `${url}/admin/packages/${id}/destroy`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `${url}orders?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}&type=${typeFilter}`,
+      `${url}/admin/orders?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}&type=${typeFilter}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `${url}packages`,
+      `${url}/admin/packages`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     
         try {
             const response = await axios.get(
-                `${url}orders/${id}`,
+                `${url}/admin/orders/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

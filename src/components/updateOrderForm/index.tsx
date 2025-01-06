@@ -34,6 +34,7 @@ function UpdateOrderForm({
   const { register, setValue, handleSubmit } = useForm<IFormInput>();
   const { t } = useTranslation();
   const [status, setStats] = useState(initialData?.status);
+  const url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     // console.log({initialData})
     if (initialData) {
@@ -59,7 +60,7 @@ function UpdateOrderForm({
       };
 
       const response = await axios.post(
-        `https://market-mentor.flexi-code.com/public/api/admin/orders/${initialData?.id}/change-status`,
+        `${url}/admin/orders/${initialData?.id}/change-status`,
         formData,
         { headers },
       );

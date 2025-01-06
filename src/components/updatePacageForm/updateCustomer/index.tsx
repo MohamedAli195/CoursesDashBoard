@@ -36,6 +36,7 @@ import { useTranslation } from 'react-i18next';
   }) {
     const { register, setValue, handleSubmit } = useForm<IFormInput>();
     const { t } = useTranslation();
+    const url = import.meta.env.VITE_API_URL;
     useEffect(() => {
         // console.log({initialData})
       if (initialData) {
@@ -67,7 +68,7 @@ import { useTranslation } from 'react-i18next';
         };
   
         const response = await axios.post(
-          `https://market-mentor.flexi-code.com/public/api/admin/customers/${initialData?.id}/update`,
+          `${url}/admin/customers/${initialData?.id}/update`,
           formData,
           { headers }
         );

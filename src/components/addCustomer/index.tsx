@@ -17,6 +17,7 @@ interface IFormInput {
 function AddCustomer({ handleClose, refetch }: { handleClose: () => void; refetch: () => void }) {
   const [fileName, setFileName] = useState<string | null>(null); // State to store the selected file name
   const { t } = useTranslation();
+  const url = import.meta.env.VITE_API_URL;
   const {
     register,
     handleSubmit,
@@ -40,7 +41,7 @@ function AddCustomer({ handleClose, refetch }: { handleClose: () => void; refetc
       };
 
       const response = await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/customers',
+        `${url}admin/customers`,
         formData,
         { headers }
       );

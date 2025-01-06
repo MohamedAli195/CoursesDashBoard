@@ -43,7 +43,7 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
     setValue,
     watch,
   } = useForm<IFormInput>();
-
+  const url = import.meta.env.VITE_API_URL;
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     // console.log(data);
     try {
@@ -64,7 +64,7 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
       };
 
       const response = await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/course-lectures',
+        `${url}/admin/course-lectures`,
         formData,
         { headers },
       );

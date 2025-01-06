@@ -42,7 +42,7 @@ function UpdateLectuerForm() {
   // console.log(data?.data);
 
   const courseID = data?.data.course.id;
-
+  const url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     if (data?.data) {
       setValue('title.ar', data?.data.title.ar);
@@ -76,7 +76,7 @@ function UpdateLectuerForm() {
       };
 
       const response = await axios.post(
-        `https://market-mentor.flexi-code.com/public/api/admin/course-lectures/${id}/update`,
+        `${url}/admin/course-lectures/${id}/update`,
         formData,
         { headers },
       );

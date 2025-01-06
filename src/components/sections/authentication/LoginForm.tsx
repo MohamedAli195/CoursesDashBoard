@@ -29,7 +29,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { register, handleSubmit } = useForm<IFormInput>();
-
+  const url = import.meta.env.VITE_API_URL;
   /**Handlers */
   const handleClickShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -40,7 +40,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       const response = await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/login',
+        `${url}/admin/login`,
         data
       );
   

@@ -110,7 +110,7 @@ function UpdateCourse(props: IFormInputCourses) {
   );
   const selectedImage = watch('image');
 
-
+  const url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const loadCategories = async () => {
       try {
@@ -195,7 +195,7 @@ function UpdateCourse(props: IFormInputCourses) {
       };
 
       const response = await axios.post(
-        `https://market-mentor.flexi-code.com/public/api/admin/courses/${props.id}/update`,
+        `${url}/admin/courses/${props.id}/update`,
         formData,
         { headers },
       );

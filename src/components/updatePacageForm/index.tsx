@@ -45,7 +45,7 @@ function UpdatePackageForm({
 }) {
   const { register, setValue, handleSubmit, watch } = useForm<IFormInput>();
   const { t } = useTranslation();
-
+  const url = import.meta.env.VITE_API_URL;
   // Fetch packages using React Query
   const { data, error, isLoading, isError } = useQuery({
     queryKey: [`packages-${id}`],
@@ -107,7 +107,7 @@ function UpdatePackageForm({
       };
 
       const response = await axios.post(
-        `https://market-mentor.flexi-code.com/public/api/admin/packages/${id}/update`,
+        `${url}/admin/packages/${id}/update`,
         formData,
         { headers },
       );

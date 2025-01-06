@@ -46,7 +46,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
   } = useForm<IFormInput>();
 
   const [preview, setPreview] = useState<string | null>(null);
-
+  const url = import.meta.env.VITE_API_URL;
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -75,7 +75,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
       };
 
       const response = await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/categories',
+        `${url}/admin/categories`,
         formData,
         { headers }
       );

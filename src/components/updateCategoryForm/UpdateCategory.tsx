@@ -56,7 +56,7 @@ function UpdateCategoryForm({
   const ImageFromApi = initialData?.image
   // console.log(ImageFromApi)
   const [preview, setPreview] = useState<string | undefined |null>(ImageFromApi);
-
+  const url = import.meta.env.VITE_API_URL;
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -102,7 +102,7 @@ function UpdateCategoryForm({
       };
 
       const response = await axios.post(
-        `https://market-mentor.flexi-code.com/public/api/admin/categories/${initialData?.id}/update`,
+        `${url}/admin/categories/${initialData?.id}/update`,
         formData,
         { headers }
       );
