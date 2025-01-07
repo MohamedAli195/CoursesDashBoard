@@ -3,7 +3,6 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import { deleteLectuer, fetchLectuers } from './LectuerFunct';
 import {  useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import paths from 'routes/path';
@@ -15,6 +14,8 @@ import SelectPerPage from 'components/selectPerPAge';
 import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
+import { deleteAnyThing, fetchLectuers } from 'functions';
+import DeleteModal from 'components/deleteModal';
 
 // Fetch packages function
 interface IProps {
@@ -153,7 +154,7 @@ function LectuerTable({isDashBoard}:IProps) {
         </Stack>
       </Paper>
             {/* delete modal */}
-            <BasicModal open={opend} handleClose={handleClosed}>
+            {/* <BasicModal open={opend} handleClose={handleClosed}>
       <Typography variant="h6" component="h2" gutterBottom>
           Delete
         </Typography>
@@ -174,7 +175,10 @@ function LectuerTable({isDashBoard}:IProps) {
           </Button>
         </Box>
        
-      </BasicModal>
+      </BasicModal> */}
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'course-lectures')}}/>
+
+      
 
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

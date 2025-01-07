@@ -1,7 +1,7 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { fetchLectuer } from 'components/lectuerTable/LectuerFunct';
+import { fetchOne } from 'functions';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
@@ -37,7 +37,7 @@ function UpdateLectuerForm() {
 
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`Lectuers-${id}`],
-    queryFn: () => fetchLectuer(id),
+    queryFn: () => fetchOne(id,'course-lectures'),
   });
   // console.log(data?.data);
 

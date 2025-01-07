@@ -30,7 +30,7 @@ function PackagesPage({isDashBoard}:IProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
-  const [per, setper] = useState(1);
+  const [per, setper] = useState(10);
   const [tempId, setTempId] = useState(1);
   const [tempIdUpdate, setTempIdUpdate] = useState(1);
   const { t, i18n } = useTranslation();

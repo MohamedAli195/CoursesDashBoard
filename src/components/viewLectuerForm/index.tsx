@@ -1,7 +1,8 @@
 
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { fetchLectuer } from 'components/lectuerTable/LectuerFunct';
+
+import { fetchOne } from 'functions';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -35,7 +36,7 @@ function ViewLectuerForm() {
 
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`Lectuers-${id}`],
-    queryFn: () => fetchLectuer(id),
+    queryFn: () => fetchOne(id,'course-lectures'),
   });
 // console.log(data?.data)
 

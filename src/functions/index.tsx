@@ -115,3 +115,24 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
           throw error; // Rethrow to handle in useQuery's error state
       }
   };
+
+  export const fetchLectuers = async (id:string|undefined,page=10,perpage=1,search='',sort_dir='') => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+
+    const response = await axios.get(
+      `${url}/admin/course-lectures/course/${id}?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept:'application/json',
+          lang:i18n.language
+        },
+      },
+    );
+
+    return response.data;
+  };
