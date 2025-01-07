@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { fetchCourse } from "./coursesFunct";
+// import { fetchCourse } from "./coursesFunct";
 import { useQuery } from "@tanstack/react-query";
 import ViewPackageForm from "components/viewpackageForm";
 import { useEffect } from "react";
@@ -9,6 +9,7 @@ import paths from "routes/path";
 import { useTranslation } from "react-i18next";
 import ViewCoursForm from "components/viewCoursForm";
 import UpdateCourse from "./Update";
+import { fetchOne } from "functions";
 // import EditCoursForm from "components/editCoursForm";
 
 function CourseUpdate() {
@@ -18,7 +19,7 @@ function CourseUpdate() {
 
     const { data, error, isLoading, isError } = useQuery({
         queryKey: ['packageDetail', id],
-        queryFn: () => fetchCourse(id),
+        queryFn: () => fetchOne(id,'courses'),
     });
 
     if (isLoading) return <p>Loading...</p>;

@@ -1,17 +1,18 @@
 import { useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchCategory } from "./categoriesFunct";
+// import { fetchCategory } from "./categoriesFunct";
 import ViewCategoryForm from "components/viewCategoriesForm/ViewCategoryForm";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { fetchOne } from "functions";
 
 function CategoriesDetails() {
     const { id } = useParams();
     const { t } = useTranslation();
     const { data, error, isLoading, isError } = useQuery({
         queryKey: ['packageDetail', id],
-        queryFn: () => fetchCategory(id),
+        queryFn: () => fetchOne(id,'categories'),
     });
 
     if (isLoading) return <p>Loading...</p>;

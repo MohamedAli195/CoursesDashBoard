@@ -9,7 +9,8 @@ import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchPackage } from 'pages/packages/packagesFunct';
+import { fetchOne } from 'functions';
+// import { fetchPackage } from 'pages/packages/packagesFunct';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -49,7 +50,7 @@ function UpdatePackageForm({
   // Fetch packages using React Query
   const { data, error, isLoading, isError } = useQuery({
     queryKey: [`packages-${id}`],
-    queryFn: () => fetchPackage(id),
+    queryFn: () => fetchOne(id,'packages'),
   });
 
   // const [previewImage, setPreviewImage] = useState<string | null>(data?.data?.image|| null);

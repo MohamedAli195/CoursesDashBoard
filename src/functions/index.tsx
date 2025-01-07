@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const url = import.meta.env.VITE_API_URL;
   // Delete package function
-export   const deletePackage = async (id: number,refetch:()=>void) => {
+export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -14,14 +14,14 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
     try {
       await axios.delete(
-        `${url}/admin/packages/${id}/destroy`,
+        `${url}/admin/${module}/${id}/destroy`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      toast.success(`Package with ID ${id} deleted successfully`); 
+      toast.success(`${module} with ID ${id} deleted successfully`); 
       refetch()
     } catch (error) {
       // console.error('Failed to delete package:', error);
@@ -31,7 +31,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
 
 
     /// Api requestes
-    export const fetchPackages = async (page=1,perpage=10,search='',sort_dir:string) => {
+    export const fetchAllData = async (page=1,perpage=10,search='',sort_dir:string,typeFilter='',module:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -39,7 +39,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `${url}/admin/packages?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}`,
+      `${url}/admin/${module}?per_page=${perpage}&page=${page}&search=${search}&sort_direction=${sort_dir}&type=${typeFilter}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     return response.data;
   };
   /// Api requestes
-  export const fetchPackagesForCourses = async () => {
+  export const fetchPackagesOrCAtegoriesForCourses = async (module:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -60,7 +60,7 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     }
 
     const response = await axios.get(
-      `${url}/admin/packages`,
+      `${url}/admin/${module}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,14 +73,14 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
     return response.data;
   };
 
-      /// Api requestes
-      export const fetchPackage = async (id:number|undefined|string) => {
+      /// Api requestes tomorow
+      export const fetchOne = async (id:number|undefined|string,module:string) => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authorization token is missing");
     
         try {
             const response = await axios.get(
-                `${url}/admin/packages/${id}`,
+                `${url}/admin/${module}/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -89,7 +89,29 @@ export   const deletePackage = async (id: number,refetch:()=>void) => {
             );
             return response.data;
         } catch (error) {
-            console.error("Error fetching package details:", error); // Log full error
+            console.error(`Error fetching ${module} details:`, error); // Log full error
             throw error; // Rethrow to handle in useQuery's error state
         }
     };
+
+
+    export const updateStatus = async (id:number|undefined,path:string,status2:string) => {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Authorization token is missing");
+  
+      try {
+          const response = await axios.post(
+              `${url}/admin/${path}/${id}/change-status`,
+              {status : status2},
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                  },
+              }
+          );
+          // console.log(response)
+      } catch (error) {
+          console.error("Error fetching package details:", error); // Log full error
+          throw error; // Rethrow to handle in useQuery's error state
+      }
+  };

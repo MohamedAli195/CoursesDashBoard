@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { t } from 'i18next';
-import { fetchCategories } from 'pages/categories/categoriesFunct';
-import { fetchPackages } from 'pages/packages/packagesFunct';
+// import { fetchCategories } from 'pages/categories/categoriesFunct';
+// import { fetchPackages } from 'pages/packages/packagesFunct';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';

@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import BasicModal from 'components/modal/ShareModal';
 import AddPackageForm from 'components/addPacageForm';
 import UpdatePackageForm from 'components/updatePacageForm';
-import { deletePackage, fetchPackages } from './packagesFunct';
+// import { fetchPackages } from './packagesFunct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
@@ -19,6 +19,7 @@ import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
+import { deleteAnyThing, fetchAllData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -122,7 +123,7 @@ function PackagesPage({isDashBoard}:IProps) {
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`packages-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchPackages(page, per, search, sort),
+    queryFn: () => fetchAllData(page, per, search, sort,'','packages'),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -231,7 +232,7 @@ function PackagesPage({isDashBoard}:IProps) {
         </Box>
        
       </BasicModal> */}
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deletePackage(tempId,refetch)}}/>
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'packages')}}/>
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>

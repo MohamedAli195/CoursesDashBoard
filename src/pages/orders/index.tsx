@@ -18,9 +18,9 @@ import SearchForm from 'components/searchForm';
 import { ICustomer, IOrder } from 'interfaces';
 import SelectSort from 'components/selectSort';
 import DeleteModal from 'components/deleteModal';
-import { deleteCustomer, fetchCustomers } from 'pages/customers/costumersFunct';
-import { fetchOrders } from './OrdersFunct';
+// import { fetchCustomers } from 'pages/customers/costumersFunct';
 import UpdateOrderForm from 'components/updateOrderForm';
+import { fetchAllData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -136,7 +136,7 @@ function OrdersPage({isDashBoard}:IProps) {
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`orders-${page}-${per}-${search}-${sort}-${typeFilter}`],
-    queryFn: () => fetchOrders(page, per, search, sort,typeFilter),
+    queryFn: () => fetchAllData(page, per, search, sort,typeFilter,'orders'),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -156,7 +156,7 @@ function OrdersPage({isDashBoard}:IProps) {
         total: orderItem.total,
       }))
     : [];
-  const totalItems = data.data?.total;
+  const totalItems = data?.data?.total;
   return (
     <>
 
@@ -253,7 +253,7 @@ function OrdersPage({isDashBoard}:IProps) {
         </Box>
        
       </BasicModal> */}
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCustomer(tempId,refetch)}}/>
+      {/* <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCustomer(tempId,refetch)}}/> */}
 
 
       {/* update modal */}

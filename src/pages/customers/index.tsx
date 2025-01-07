@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import BasicModal from 'components/modal/ShareModal';
-import { deleteCustomer, fetchCustomers } from './costumersFunct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
@@ -18,6 +17,7 @@ import SearchForm from 'components/searchForm';
 import { ICustomer } from 'interfaces';
 import SelectSort from 'components/selectSort';
 import DeleteModal from 'components/deleteModal';
+import { deleteAnyThing, fetchAllData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -121,7 +121,7 @@ function CustomersPage({isDashBoard}:IProps) {
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`customers-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchCustomers(page, per, search, sort),
+    queryFn: () => fetchAllData(page, per, search, sort,'','customers'),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -236,7 +236,7 @@ function CustomersPage({isDashBoard}:IProps) {
         </Box>
        
       </BasicModal> */}
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCustomer(tempId,refetch)}}/>
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'customers')}}/>
 
 
       {/* update modal */}

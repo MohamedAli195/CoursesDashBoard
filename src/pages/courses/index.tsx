@@ -6,7 +6,6 @@ import { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
-import { deleteCourse, fetchCourses } from './coursesFunct';
 import { useTranslation } from 'react-i18next';
 import { ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
@@ -17,6 +16,7 @@ import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
 import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
+import { deleteAnyThing, fetchAllData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -144,7 +144,7 @@ function CoursesPage({isDashBoard}:IProps) {
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`courses-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchCourses(page, per, search, sort),
+    queryFn: () => fetchAllData(page, per, search, sort,'','courses'),
   });
 
   // console.log(data?.data.data)
@@ -238,7 +238,7 @@ function CoursesPage({isDashBoard}:IProps) {
       </Paper>
 
 
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCourse(tempId,refetch)}}/>
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'courses')}}/>
 
 
 

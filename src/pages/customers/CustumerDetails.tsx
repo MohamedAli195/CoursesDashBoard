@@ -1,18 +1,19 @@
 import { useLocation, useParams } from "react-router-dom"
-import { fetchCustomer } from "./costumersFunct";
+
 import { useQuery } from "@tanstack/react-query";
 import ViewPackageForm from "components/viewpackageForm";
 import { useEffect } from "react";
 import i18n from "i18n";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { fetchOne } from "functions";
 
 function customerDetails() {
     const { id } = useParams();
     const { t } = useTranslation();
     const { data, error, isLoading, isError } = useQuery({
-        queryKey: ['packageDetail', id],
-        queryFn: () => fetchCustomer(id),
+        queryKey: ['customerDetails', id],
+        queryFn: () => fetchOne(id,'customers'),
     });
 
     if (isLoading) return <p>Loading...</p>;

@@ -2,8 +2,9 @@ import * as React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { updateStatus } from 'pages/courses/coursesFunct';
+// import { updateStatus } from 'pages/courses/coursesFunct';
 import { t } from 'i18next';
+import { updateStatus } from 'functions';
 
 interface IProps {
   id: number;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import { fetchCategories, fetchCategoriesForCourses } from 'pages/categories/categoriesFunct';
-import { fetchPackages, fetchPackagesForCourses } from 'pages/packages/packagesFunct';
+// import { fetchCategories, fetchCategoriesForCourses } from 'pages/categories/categoriesFunct';
+// import { fetchPackages, fetchPackagesForCourses } from 'pages/packages/packagesFunct';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { t } from 'i18next';
@@ -10,6 +10,7 @@ import { IFormInputCourses } from 'interfaces';
 import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
+import { fetchPackagesOrCAtegoriesForCourses } from 'functions';
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -76,7 +77,7 @@ function AddCourseForm() {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const categoryData = await fetchCategoriesForCourses();
+        const categoryData = await fetchPackagesOrCAtegoriesForCourses('categories');
         setCategories(categoryData);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -85,7 +86,7 @@ function AddCourseForm() {
 
     const loadPackages = async () => {
       try {
-        const packageData = await fetchPackagesForCourses();
+        const packageData = await fetchPackagesOrCAtegoriesForCourses('packages');
         setPackages(packageData);
       } catch (error) {
         console.error('Error fetching packages:', error);

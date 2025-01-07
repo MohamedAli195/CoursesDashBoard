@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { fetchCustomer } from 'pages/customers/costumersFunct';
+import { fetchOne } from 'functions';
 
 interface IFormInput {
     id: number;
@@ -31,7 +31,7 @@ function ViewCustomer() {
 
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`customer-${id}`],
-    queryFn: () => fetchCustomer(id),
+    queryFn: () => fetchOne(id,'customers'),
   });
 // console.log(data?.data)
 
