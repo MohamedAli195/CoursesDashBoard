@@ -54,7 +54,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
   const url = import.meta.env.VITE_API_URL;
   
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmitPackage: SubmitHandler<IFormInput> = async (data) => {
     try {
       // Create a FormData object and append the data
       const formData = new FormData();
@@ -91,7 +91,7 @@ function AddPackageForm({ handleClose, refetch }: { handleClose: () => void; ref
         mt: { sm: 5, xs: 2.5 },
       }}
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmitPackage)}
     >
       <Stack spacing={3}>
         <Stack flexDirection={'row'} gap={2}>
