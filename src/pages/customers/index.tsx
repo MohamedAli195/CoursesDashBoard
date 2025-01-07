@@ -198,7 +198,7 @@ function CustomersPage({isDashBoard}:IProps) {
         >
           <PaginationComponent
             page={page}
-            pageCounter={totalItems / per <= 1 ? 1 : Math.round(totalItems / per)}
+            pageCounter={totalItems / per <= 1 ? 1 :  Math.ceil(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />

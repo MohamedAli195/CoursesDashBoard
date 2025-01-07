@@ -185,9 +185,7 @@ function CategoriesPage({isDashBoard}:IProps) {
         <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
           <PaginationComponent
             page={page}
-            pageCounter={
-              totalItems / per <= 1 ? 1 : Math.round((totalItems / per))
-            }
+            pageCounter={totalItems / per <= 1 ? 1 :  Math.ceil(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />

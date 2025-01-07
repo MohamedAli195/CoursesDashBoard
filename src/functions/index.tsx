@@ -31,7 +31,7 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
 
 
     /// Api requestes
-    export const fetchAllData = async (page=1,perpage=10,search='',sort_dir:string,typeFilter='',module:string) => {
+    export const fetchAllData = async (page=1,perpage=1,search='',sort_dir:string,typeFilter='',module:string) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
