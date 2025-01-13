@@ -200,33 +200,6 @@ function CategoriesPage({isDashBoard}:IProps) {
         <AddCategoryForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
-
-      {/* delete modal */}
-      {/* <BasicModal open={opend} handleClose={handleClosed}>
-        <Box>
-        <Lottie style={{height:350}}  animationData={deleteAnimation} />
-        </Box>
-      <Typography variant="h6" component="h2" gutterBottom>
-          Delete
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Are you sure you want to delete this package?
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
-          <Button variant="outlined" onClick={handleClosed}>
-            Close
-          </Button>
-          <Button variant="contained" color="error" onClick={() => {
-            
-            deleteCategory(tempId, refetch)
-            handleClosed()
-            
-            }}>
-            Delete 
-          </Button>
-        </Box>
-       
-      </BasicModal> */}
       <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'categories')}}/>
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>

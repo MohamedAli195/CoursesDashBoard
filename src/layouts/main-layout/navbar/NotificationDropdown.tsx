@@ -10,8 +10,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+
+import img from "../../../../public/images/avatar.png"
+import { useQuery } from '@tanstack/react-query';
 import NotificationIcon from 'components/icons/NotificationIcon';
 import { notificationOptions } from 'data/navbar/menu-data';
+import { fetchNotifications } from 'functions';
+import i18n from 'i18n';
 import { useState } from 'react';
 import SimpleBar from 'simplebar-react';
 
@@ -35,6 +40,17 @@ const NotificationDropdown = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { data, error, isLoading, isError, refetch } = useQuery({
+    queryKey: [`Notifications`],
+    queryFn: () => fetchNotifications(),
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: {error.message}</p>;
+
+  // console.log(datadata)
+  //fetchNotifications
   return (
     <>
       <IconButton
@@ -73,9 +89,20 @@ const NotificationDropdown = () => {
           <Chip label="5 new" color="primary" size="small" />
         </Stack>
         <SimpleBar style={{ height: '385px' }}>
-          {notificationOptions.map((notification) => (
+          {data.data.map((item:{
+            data:{
+              id:number;
+                body:{
+                      ar:string;
+                      en:string;
+                    },
+                title:{
+                      ar:string;
+                      en:string;
+                      }
+          }}) => (
             <MenuItem
-              key={notification.id}
+              key={item.data.id}
               sx={{
                 py: 2,
                 px: 4,
@@ -84,8 +111,8 @@ const NotificationDropdown = () => {
             >
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Avatar
-                  src={notification.avatar}
-                  alt={notification.avatar}
+                  src={img}
+                  alt={img}
                   sx={{
                     width: 36,
                     height: 36,
@@ -96,15 +123,18 @@ const NotificationDropdown = () => {
                     width: 200,
                   }}
                 >
-                  <Typography variant="subtitle2" color="textPrimary" fontWeight="medium" noWrap>
-                    {notification.title}
+                  <Typography variant="subtitle2" color="textPrimary" fontWeight="medium">
+                    {
+                      i18n.language === 'ar' ?item.data.title.ar:item.data.title.en
+                    }
                   </Typography>
-                  <Typography color="textSecondary" variant="subtitle2" noWrap>
-                    {notification.subtitle}
+                  <Typography color="textSecondary" variant="subtitle2">
+                    {i18n.language === 'ar' ?item.data.body.ar:item.data.body.en}
                   </Typography>
                 </Box>
               </Stack>
             </MenuItem>
+
           ))}
         </SimpleBar>
         <Stack direction="row" sx={{ width: 1, justifyContent: 'center' }}>

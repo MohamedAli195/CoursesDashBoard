@@ -140,3 +140,25 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
 
   /// add package Function 
   
+
+  // fetchNotifications 
+
+  export const fetchNotifications = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Authorization token is missing");
+
+    try {
+        const response = await axios.get(
+            `${url}/admin/admin-notifications`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching notifications details:`, error); // Log full error
+        throw error; // Rethrow to handle in useQuery's error state
+    }
+};
