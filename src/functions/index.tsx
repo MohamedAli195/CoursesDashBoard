@@ -4,10 +4,10 @@ import toast from "react-hot-toast";
 
 
 const url = import.meta.env.VITE_API_URL;
+const token = localStorage.getItem('token');
   // Delete package function
-export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:string) => {
-    const token = localStorage.getItem('token');
-
+export  const deleteAnyThing = async (id: number,refetch:()=>void ,module:string) => {
+    
     if (!token) {
       throw new Error('Authorization token is missing');
     }
@@ -32,7 +32,6 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
 
     /// Api requestes
     export const fetchAllData = async (page=1,perpage=1,search='',sort_dir:string,typeFilter='',module:string) => {
-    const token = localStorage.getItem('token');
 
     if (!token) {
       throw new Error('Authorization token is missing');
@@ -53,7 +52,6 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
   };
   /// Api requestes
   export const fetchPackagesOrCAtegoriesForCourses = async (module:string) => {
-    const token = localStorage.getItem('token');
 
     if (!token) {
       throw new Error('Authorization token is missing');
@@ -96,7 +94,6 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
 
 
     export const updateStatus = async (id:number|undefined,path:string,status2:string) => {
-      const token = localStorage.getItem("token");
       if (!token) throw new Error("Authorization token is missing");
   
       try {
@@ -117,7 +114,6 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
   };
 
   export const fetchLectuers = async (id:string|undefined,page=10,perpage=1,search='',sort_dir='') => {
-    const token = localStorage.getItem('token');
 
     if (!token) {
       throw new Error('Authorization token is missing');
@@ -144,7 +140,6 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
   // fetchNotifications 
 
   export const fetchNotifications = async () => {
-    const token = localStorage.getItem("token");
     if (!token) throw new Error("Authorization token is missing");
 
     try {
@@ -161,4 +156,48 @@ export   const deleteAnyThing = async (id: number,refetch:()=>void ,module:strin
         console.error(`Error fetching notifications details:`, error); // Log full error
         throw error; // Rethrow to handle in useQuery's error state
     }
+};
+
+export const fetchCountOfNotifications = async () => {
+  if (!token) throw new Error("Authorization token is missing");
+
+  try {
+      const response = await axios.get(
+          `${url}/admin/admin-count-of-notifications`,
+          {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          }
+      );
+      return response.data;
+  } catch (error) {
+      console.error(`Error fetching notifications details:`, error); // Log full error
+      throw error; // Rethrow to handle in useQuery's error state
+  }
+};
+
+export const readNotification = async (id:number) => {
+
+  const token2 = localStorage.getItem('token');
+  if (!token2) throw new Error("Authorization token is missing");
+  console.log(token)
+  try {
+      const response = await axios.post(
+          `${url}/admin/admin-read-of-notification/${id}`,
+          {
+
+          },
+          {
+              headers: {
+                  Authorization: `Bearer ${token2}`,
+              },
+          }
+      );
+      console.log(response.data)
+      return response.data;
+  } catch (error) {
+      console.error(`Error reading notifications details:`, error); // Log full error
+      throw error; // Rethrow to handle in useQuery's error state
+  }
 };

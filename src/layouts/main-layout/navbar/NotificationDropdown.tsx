@@ -15,7 +15,7 @@ import img from "../../../../public/images/avatar.png"
 import { useQuery } from '@tanstack/react-query';
 import NotificationIcon from 'components/icons/NotificationIcon';
 import { notificationOptions } from 'data/navbar/menu-data';
-import { fetchNotifications } from 'functions';
+import { fetchCountOfNotifications, fetchNotifications, readNotification } from 'functions';
 import i18n from 'i18n';
 import { useState } from 'react';
 import SimpleBar from 'simplebar-react';
@@ -41,15 +41,23 @@ const NotificationDropdown = () => {
     setAnchorEl(null);
   };
 
-  const { data, error, isLoading, isError, refetch } = useQuery({
+
+
+  const { data, error, isLoading, isError, refetch:refetchNotfication } = useQuery({
     queryKey: [`Notifications`],
     queryFn: () => fetchNotifications(),
   });
 
+  const { data:countOfNotifactions, error:errorOfNotifactions, isLoading:isLoadingOfNotifactions, isError:isErrorOfNotifactions, refetch:refetchOfNotifactions } = useQuery({
+    queryKey: [`CountOfNotifactions`],
+    queryFn: () => fetchCountOfNotifications(),
+  });
+
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
 
-  // console.log(datadata)
+
   //fetchNotifications
   return (
     <>
@@ -61,7 +69,7 @@ const NotificationDropdown = () => {
           color: 'grey.200',
         }}
       >
-        <Badge color="primary" badgeContent={5}>
+        <Badge color="primary" badgeContent={countOfNotifactions?.data}>
           <NotificationIcon />
         </Badge>
       </IconButton>
@@ -85,13 +93,18 @@ const NotificationDropdown = () => {
         }}
       >
         <Stack direction="row" py={2} px={4} justifyContent="space-between" alignItems="center">
+
+          {/* Notifications and new  */}
           <Typography variant="h6">Notifications</Typography>
-          <Chip label="5 new" color="primary" size="small" />
+          <Chip label={` ${countOfNotifactions?.data} new`} color="primary" size="small" /> 
         </Stack>
         <SimpleBar style={{ height: '385px' }}>
-          {data.data.map((item:{
+          {
+          !isLoading &&
+          data?.data?.map((item:{
+            id:number ,
             data:{
-              id:number;
+         
                 body:{
                       ar:string;
                       en:string;
@@ -99,15 +112,23 @@ const NotificationDropdown = () => {
                 title:{
                       ar:string;
                       en:string;
-                      }
-          }}) => (
+                      },
+                    
+          }} , index:number) => (
             <MenuItem
-              key={item.data.id}
+              key={item?.id}
               sx={{
                 py: 2,
                 px: 4,
               }}
-              onClick={handleClose}
+              // onClick={handleClose}
+              onClick={()=>{
+                console.log(item.id)
+                readNotification(item?.id)
+                refetchNotfication()
+              }
+              
+              }
             >
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Avatar

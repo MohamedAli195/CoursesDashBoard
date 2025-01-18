@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
 import { fetchPackagesOrCAtegoriesForCourses } from 'functions';
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -96,6 +97,7 @@ function AddCourseForm() {
     loadCategories();
     loadPackages();
   }, []);
+
 
   const onSubmit: SubmitHandler<IFormInputCourses> = async (data) => {
     try {
