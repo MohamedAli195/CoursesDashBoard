@@ -66,7 +66,23 @@ function SubAdminsPage({isDashBoard}:IProps) {
     { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name',flex: 1, },
     { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email',flex: 1,  },
     { field: 'avatar', headerName: i18n.language === 'ar' ? 'الصورة' : 'avatar' ,flex: 1, },
-    { field: 'role', headerName: i18n.language === 'ar' ? 'صلاحية' : 'role',flex: 1,  },
+    // { field: 'role', headerName: i18n.language === 'ar' ? 'صلاحية' : 'role',flex: 1,  },
+    { field: 'roles', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'roles',flex: 2,renderCell: (params) => (
+      <Box   sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          overflowX: 'auto', // Optional: adds horizontal scrolling if content overflows
+        }}>
+        {params.row.role.map((item:string)=>{
+          return(
+          
+            <Box component="div" sx={{ display: 'inline-block',backgroundColor:"#dfdfdf", m:0.5 ,borderRadius:1,p:0.5}}>{item}</Box>
+      
+          )
+        })}
+      </Box>
+          ), 
+        },
     { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status',renderCell: (params) => (
           <SwitchStatus id={params.row.id} url={"packages"} apiStatus={params.row.status} />
          

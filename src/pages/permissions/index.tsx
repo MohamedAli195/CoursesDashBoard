@@ -72,12 +72,13 @@ function PermissionsPage({isDashBoard}:IProps) {
   {params.row.permissions.map((item:{name:string})=>{
     return(
     
-      <Box component="div" sx={{ display: 'inline-block',backgroundColor:"#999", m:0.5 ,borderRadius:1,p:0.5}}>{item.name}</Box>
+      <Box component="div" sx={{ display: 'inline-block',backgroundColor:"#dfdfdf", m:0.5 ,borderRadius:1,p:0.5}}>{item.name}</Box>
 
     )
   })}
 </Box>
-    ), },
+    ), 
+  },
     i18n.language === 'ar'
     ? { field: 'display_nameAr', headerName: 'الاسم المعروض',flex: 1, }
     : { field: 'display_nameEn', headerName: 'display name En' ,flex: 1,},
