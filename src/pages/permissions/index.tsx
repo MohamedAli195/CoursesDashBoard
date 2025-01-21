@@ -63,7 +63,7 @@ function PermissionsPage({isDashBoard}:IProps) {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID' },
     { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name' },
-    { field: 'permissions', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'permissions',flex: 2,renderCell: (params) => (
+    { field: 'permissions', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'permissions',flex: 1,renderCell: (params) => (
 <Box   sx={{
     display: 'flex',
     flexWrap: 'wrap',
