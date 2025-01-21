@@ -73,7 +73,7 @@
       "desc":"الترتيب من الاحدث الى الاقدم",
       "TotalCourses" : "عدد الكورسات",
       "orders":"الطلبات",
-           "Active":"نشط",
+     "Active":"نشط",
       "Inactive":"غير نشط",
       "deleteMsg":"هل انت متأكد من الحذف",
       "Delete":"حذف",
@@ -81,7 +81,10 @@
       "course":"كورس",
       "status":"الحالة",
       "UpdateOrderstatus":"تحديث حالة الاودر",
-      "Update":"نحديث"
+      "Update":"نحديث",
+           "Permissions":"الصلاحيات",
+                 "addPermissions":"اضافة صلاحية",
+                 "Sub-Admins":"المديرين الفرعيين","addSub-Admins":"اضافة مدير فرعى"
 
 
 

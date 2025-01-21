@@ -16,6 +16,8 @@ import CourseUpdate from 'pages/courses/CourseUpdate';
 import UpdateLectuerForm from 'components/updateLectuerForm';
 import LectuerDetails from 'components/lectuerTable/LectuerDetails';
 import ViewCustomer from 'components/ViewCustomer';
+import PermissionsPage from 'pages/permissions';
+import SubAdminsPage from 'pages/subadmins';
 
 
 // Lazy-loaded components
@@ -119,6 +121,7 @@ export const routes = [
               </ProtectedRoute>
             ),
           },
+
           {
             path: `${paths.courses}/add`,
             element: (
@@ -132,6 +135,22 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <AddCourseLectuerPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: paths.permissions,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <PermissionsPage isDashBoard={false}/>
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: paths.subAdmins,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <SubAdminsPage isDashBoard={false}/>
               </ProtectedRoute>
             ),
           },
