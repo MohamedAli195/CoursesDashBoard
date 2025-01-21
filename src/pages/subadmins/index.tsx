@@ -63,11 +63,11 @@ function SubAdminsPage({isDashBoard}:IProps) {
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name',flex: 1, },
+    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name',flex: 0.5, },
     { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email',flex: 1,  },
     { field: 'avatar', headerName: i18n.language === 'ar' ? 'الصورة' : 'avatar' ,flex: 1, },
     // { field: 'role', headerName: i18n.language === 'ar' ? 'صلاحية' : 'role',flex: 1,  },
-    { field: 'roles', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'roles',flex: 2,renderCell: (params) => (
+    { field: 'roles', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'roles',flex: 1,renderCell: (params) => (
       <Box   sx={{
           display: 'flex',
           flexWrap: 'wrap',
