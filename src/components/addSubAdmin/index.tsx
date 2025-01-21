@@ -22,11 +22,9 @@ const VisuallyHiddenInput = styled('input')({
 
 interface IFormInput {
   name: string;
-  display_name: {
-    ar: string;
-    en: string;
-  };
-  permissions: string[];
+  email:string
+  password: string;
+  roles: string[];
 }
 
 const ITEM_HEIGHT = 48;
@@ -48,7 +46,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void; refetch: () => void }) {
+function AddSubAdminForm({ handleClose, refetch }: { handleClose: () => void; refetch: () => void }) {
   const { t } = useTranslation();
   const theme = useTheme();
   const {
@@ -65,39 +63,33 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
 
   const url = import.meta.env.VITE_API_URL;
 
-  const { data: apiPermissions, error, isLoading, isError } = useQuery({
-    queryKey: [`permissions-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchAllData(page, per, search, sort, '', 'roles/permissions'),
+  const { data: apiRoles, error, isLoading, isError } = useQuery({
+    queryKey: [`roles-${page}-${per}-${search}-${sort}`],
+    queryFn: () => fetchAllData(page, per, search, sort, '', 'roles'),
   });
+
+//   console.log(apiRoles.data.data)
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      // const formData = new FormData();
-      // formData.append('display_name[en]', data.display_name.en);
-      // formData.append('display_name[ar]', data.display_name.ar);
-      // formData.append('name', data.name);
-  
-      // // Convert permissions array to the expected format (e.g., an array of IDs or JSON string)
-      // const permissionsArray = data.permissions; // Ensure `permissions` is an array of IDs or valid format
-      // formData.append('permissions', JSON.stringify(permissionsArray));
-  
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data',
       };
   
-      await axios.post(`${url}/admin/roles`, data, { headers });
+      await axios.post(`${url}/admin/sub-admins`, data, { headers });
       toast.success(t('roles added successfully'));
       handleClose();
       refetch();
     } catch (err) {
-      // console.error(err);
+    //   console.error(err);
       toast.error(t('Failed to add roles, please check your input.'));
     }
   };
   
 
   if (isLoading) {
+   
     return (
       <Box sx={{ width: '100%' }}>
         <Skeleton variant="rectangular" width="100%" height={40} />
@@ -122,39 +114,39 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
           <TextField
             fullWidth
             variant="outlined"
-            id="name-ar"
-            type="text"
-            label={t('display_name.ar')}
-            error={!!errors.display_name?.ar}
-            helperText={errors.display_name?.ar?.message}
-            {...control.register('display_name.ar', { required: t('display_nameNameReq') })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            id="name-en"
-            type="text"
-            label={t('display_name.en')}
-            error={!!errors.display_name?.en}
-            helperText={errors.display_name?.en?.message}
-            {...control.register('display_name.en', { required: t('EnglishNameReq') })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
             id="name"
             type="text"
             label={t('name')}
             error={!!errors.name}
-            helperText={errors.name?.message}
-            {...control.register('name', { required: t('NameReq') })}
+            helperText={errors?.name?.message}
+            {...control.register('name', { required: t('name') })}
           />
-                  <FormControl sx={{ m: 1, width: '100%' }}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="email"
+            type="text"
+            label={t('email')}
+            error={!!errors.email}
+            helperText={errors?.email?.message}
+            {...control.register('email', { required: t('email') })}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            id="password"
+            type="password"
+            label={t('password')}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            {...control.register('password', { required: t('password') })}
+          />
+        <FormControl sx={{ m: 1, width: '100%' }}>
           <InputLabel id="permissions-label">{t('Permissions')}</InputLabel>
           <Controller
-            name="permissions"
+            name="roles"
             control={control}
-            rules={{ required: t('permissionsReq') }}
+            rules={{ required: t('roles') }}
             render={({ field }) => (
               <Select
               sx={{ lineHeight:0}}
@@ -167,7 +159,7 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
                   setPersonName(newValue);
                   field.onChange(newValue);
                 }}
-                input={<OutlinedInput id="permissions" label="permissions" />}
+                input={<OutlinedInput id="roles" label="roles" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -177,8 +169,8 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
                 )}
                 MenuProps={MenuProps}
               >
-                {Array.isArray(apiPermissions?.data) &&
-                  apiPermissions.data.map((item: { id: number; name: string }) => (
+                {Array.isArray(apiRoles.data.data) &&
+                  apiRoles.data.data.map((item: { id: number; name: string }) => (
                     <MenuItem
                       key={item.name}
                       value={item.name}
@@ -210,4 +202,4 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
   );
 }
 
-export default AddPermissionsForm;
+export default AddSubAdminForm;

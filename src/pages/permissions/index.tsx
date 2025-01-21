@@ -150,6 +150,7 @@ console.log(data)
         }))
       : [];
   const totalItems = data.data?.total;
+  console.log(totalItems)
   return (
     <>
     {
@@ -161,7 +162,7 @@ console.log(data)
       height={''}
     >
       <Typography variant="h1" color="initial">
-        {t('permissions')}
+        {t('Permissions')}
       </Typography>
       <Button variant="contained" color="info" onClick={handleOpen}>
         {t('addPermissions')}

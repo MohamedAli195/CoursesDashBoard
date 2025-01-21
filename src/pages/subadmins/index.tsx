@@ -21,6 +21,7 @@ import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
 import { deleteAnyThing, fetchAllData } from 'functions';
 import AddPermissinsForm from 'components/addPermissions';
+import AddSubAdminForm from 'components/addSubAdmin';
 
 // Fetch packages function
 interface IProps {
@@ -130,7 +131,7 @@ console.log(data)
           // status: role?.status,
         }))
       : [];
-  const totalItems = data.data?.total;
+  const totalItems = data?.total;
   return (
     <>
     {
@@ -194,7 +195,7 @@ console.log(data)
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>
         <h2>{t('addPermissions')}</h2>
-        <AddPermissinsForm handleClose={handleClose} refetch={refetch} />
+        <AddSubAdminForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
       <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'sub-admins')}}/>
