@@ -25,7 +25,7 @@ const LoginForm = () => {
 
   /**States */
   const navigate = useNavigate();
-  const {pathname}= useLocation()
+  const {pathname}= useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { register, handleSubmit } = useForm<IFormInput>();
@@ -63,6 +63,8 @@ const LoginForm = () => {
       }
   
     } catch (err) {
+
+      // console.log(err)
       setError(err.response ? err.response.data.message : 'An error occurred');
       // console.log(err.response || err); // Logs the actual error for debugging
     }
