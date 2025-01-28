@@ -88,6 +88,13 @@ const generateMenuItems = (): IMenuitems[] => [
     href: paths.subAdmins,
     available: false,
   },
+  {
+    id: uniqueId(),
+    title: i18next.t("Recommendations"),
+    icon: CustomersIcon,
+    href: paths.recommendations,
+    available: false,
+  },
   
 ];
 

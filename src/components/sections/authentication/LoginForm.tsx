@@ -15,6 +15,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import paths from './../../../routes/path';
 import { redirect } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { userDataLogin } from 'app/features/user/userSlice';
+
 
 interface IFormInput {
   email: string;
@@ -22,11 +25,14 @@ interface IFormInput {
 }
 
 const LoginForm = () => {
+const dispatch = useDispatch()
 
+// const user = useSelector()
   /**States */
   const navigate = useNavigate();
   const {pathname}= useLocation();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { register, handleSubmit } = useForm<IFormInput>();
   const url = import.meta.env.VITE_API_URL;
@@ -37,40 +43,65 @@ const LoginForm = () => {
 
   
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    try {
-      const response = await axios.post(
-        `${url}/admin/login`,
-        data
-      );
+  // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${url}/admin/login`,
+  //       data
+  //     ).then((response)=>{
+  //       if (response.data.token) {
+
+  //         console.log(response)
+          
+  //         localStorage.setItem('token', response.data.token);
+  //         toast.success('Sign-in successful, redirecting to dashboard...');
+  //         dispatch(userDataLogin(response.data.token))
   
-      // console.log('Token:', response.data.token); // Check if token exists
+  //           navigate('/',{ replace: true, state: { from: 'previous-page' ,userData:response.data.data } });
+      
+  //       }
+  //       else {
+  //         setError('Login was successful, but no token was returned.');
+  //       }
+  //     }).catch((err)=>{
+  //       setError(err.response ? err.response.data.message : 'An error occurred');
+  //     })
+  
+  //     // console.log('Token:', response.data.token); // Check if token exists
+  
+
+  
+  //   } catch (err) {
+
+  //     console.log(err)
+  //     setError(err.response ? err.response.data.message : 'An error occurred');
+  //     // console.log(err.response || err); // Logs the actual error for debugging
+  //   }
+  // };
+  
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(`${url}/admin/login`, data);
   
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         toast.success('Sign-in successful, redirecting to dashboard...');
-          // Redirect to dashboard or home page
-      navigate('/');
-      
-      // Refresh the page after navigating
-      
-        window.location.reload();
-   
-        
-        // <Navigate to="/"  />
+        dispatch(userDataLogin(response.data.token));
+  
+        navigate('/', { replace: true, state: { from: pathname, userData: response.data.data } });
       } else {
         setError('Login was successful, but no token was returned.');
       }
-  
     } catch (err) {
-
-      // console.log(err)
-      setError(err.response ? err.response.data.message : 'An error occurred');
-      // console.log(err.response || err); // Logs the actual error for debugging
+      const errorMessage = err.response?.data?.message || 'An error occurred. Please try again.';
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
   
-
   return (
     <>
       <Box

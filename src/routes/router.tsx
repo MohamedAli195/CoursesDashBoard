@@ -18,6 +18,10 @@ import LectuerDetails from 'components/lectuerTable/LectuerDetails';
 import ViewCustomer from 'components/ViewCustomer';
 import PermissionsPage from 'pages/permissions';
 import SubAdminsPage from 'pages/subadmins';
+import { useSelector } from 'react-redux';
+import { useAppSelector } from 'app/store';
+import { selectUserToken } from 'app/features/user/userSlice';
+import RecommendationsPage from 'pages/recommendationsPage';
 
 
 // Lazy-loaded components
@@ -37,8 +41,16 @@ const CouponsPage = lazy(() => import('pages/coupons'));
 const InboxPage = lazy(() => import('pages/inbox'));
 const NotFoundPage = lazy(() => import('pages/not-found'));
 
+
 // Check if user is logged in
-const isLoggedIn = !!localStorage.getItem("token"); // example auth check
+
+// const token = useAppSelector((state)=>state.user.token)
+
+// const token =selectUserToken((state:RootState)=>state.user.token)
+const isLoggedIn = Boolean(localStorage.getItem("token"))
+
+
+
 
 export const routes = [
   {
@@ -143,6 +155,14 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <PermissionsPage isDashBoard={false}/>
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: paths.recommendations,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <RecommendationsPage isDashBoard={false}/>
               </ProtectedRoute>
             ),
           },

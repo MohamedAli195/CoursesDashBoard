@@ -20,6 +20,7 @@ const paths = {
   coupons: `${rootPaths.pagesRoot}coupons`,
   courses: `${rootPaths.pagesRoot}courses`,
   permissions: `${rootPaths.pagesRoot}permissions`,
+  recommendations: `${rootPaths.pagesRoot}recommendations`,
   subAdmins: `${rootPaths.pagesRoot}sub-admins`,
   inbox: `${rootPaths.pagesRoot}inbox`,
   login: `${rootPaths.authRoot}/login`,

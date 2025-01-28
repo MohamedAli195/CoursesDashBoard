@@ -82,9 +82,10 @@
       "status":"الحالة",
       "UpdateOrderstatus":"تحديث حالة الاودر",
       "Update":"نحديث",
-           "Permissions":"الصلاحيات",
+    "Permissions":"الصلاحيات",
                  "addPermissions":"اضافة صلاحية",
-                 "Sub-Admins":"المديرين الفرعيين","addSub-Admins":"اضافة مدير فرعى"
+                 "Sub-Admins":"المديرين الفرعيين","addSub-Admins":"اضافة مدير فرعى",
+                 "Recommendations":"التوصيات"
 
 
 
