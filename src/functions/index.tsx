@@ -1,10 +1,23 @@
 import axios from "axios";
 import i18n from "i18n";
+import { Ipermisson } from "interfaces";
 import toast from "react-hot-toast";
+
+
+
 
 
 const url = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem('token');
+
+const storedPermissions = localStorage.getItem('permissions');
+export let parsedData:Ipermisson[];
+if (storedPermissions) {
+  parsedData = JSON.parse(storedPermissions);
+    // console.log(parsedData);
+} else {
+    console.log('No data found!');
+}
   // Delete package function
 export  const deleteAnyThing = async (id: number,refetch:()=>void ,module:string) => {
     
@@ -200,4 +213,8 @@ export const readNotification = async (id:number) => {
       console.error(`Error reading notifications details:`, error); // Log full error
       throw error; // Rethrow to handle in useQuery's error state
   }
+};
+
+export const checkPermissions = (permissions: Ipermisson[], one: string | undefined): boolean => {
+  return permissions.some(item => item.name === one);
 };

@@ -19,7 +19,7 @@ import SearchForm from 'components/searchForm';
 import SelectSort from 'components/selectSort';
 import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
-import { deleteAnyThing, fetchAllData } from 'functions';
+import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -89,7 +89,8 @@ function PackagesPage({isDashBoard}:IProps) {
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
-          <Button
+          {
+            checkPermissions(parsedData,'delete-package') && <Button
             variant="contained"
             color="error"
             
@@ -103,7 +104,9 @@ function PackagesPage({isDashBoard}:IProps) {
             {/* {t('delete')} */}
             <Trash2 />
           </Button>
-          <Button
+          }
+          {
+            checkPermissions(parsedData,'show-packages') &&     <Button
             variant="contained"
             color="primary"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
@@ -111,10 +114,14 @@ function PackagesPage({isDashBoard}:IProps) {
             {/* {t('view')} */}
             <Eye />
           </Button>
-          <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
-            {/* {t('edit')} */}
-            <Pencil />
-          </Button>
+          }
+        {
+          checkPermissions(parsedData,'edit-package') && <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
+          {/* {t('edit')} */}
+          <Pencil />
+        </Button>
+        }
+
         </Stack>
       ),
     },
@@ -155,9 +162,14 @@ function PackagesPage({isDashBoard}:IProps) {
       <Typography variant="h1" color="initial">
         {t('packages')}
       </Typography>
-      <Button variant="contained" color="info" onClick={handleOpen}>
+
+      {
+        checkPermissions(parsedData,'add-package') && <Button variant="contained" color="info" onClick={handleOpen}>
         {t('addPackage')}
       </Button>
+      }
+    
+      
     </Stack>
     }
       

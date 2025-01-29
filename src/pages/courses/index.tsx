@@ -16,7 +16,7 @@ import SelectSort from 'components/selectSort';
 import BasicModal from 'components/modal/ShareModal';
 import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
-import { deleteAnyThing, fetchAllData } from 'functions';
+import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -88,7 +88,8 @@ function CoursesPage({ isDashBoard }: IProps) {
           flex: 1,
           renderCell: (params) => (
             <Stack direction="row" gap={1}>
-              <Button
+              {
+                checkPermissions(parsedData,'delete-course') &&  <Button
                 variant="contained"
                 color="error"
                 // onClick={() => deleteCourse(params.row.id, refetch)}
@@ -100,7 +101,9 @@ function CoursesPage({ isDashBoard }: IProps) {
                 {/* {t("delete")} */}
                 <Trash2 />
               </Button>
-              <Button
+              }
+              {
+                checkPermissions(parsedData,'show-courses') && <Button
                 variant="contained"
                 color="info"
                 onClick={() => navigate(`${paths.courses}/${params.row.id}`)}
@@ -108,14 +111,19 @@ function CoursesPage({ isDashBoard }: IProps) {
                 {/* {t("view")} */}
                 <Eye />
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => navigate(`${paths.courses}/update/${params.row.id}`)}
-              >
-                {/* {t("edit")} */}
-                <Pencil />
-              </Button>
+              }
+
+{
+   checkPermissions(parsedData,'edit-course') && <Button
+   variant="contained"
+   color="primary"
+   onClick={() => navigate(`${paths.courses}/update/${params.row.id}`)}
+ >
+   {/* {t("edit")} */}
+   <Pencil />
+ </Button>
+}
+
             </Stack>
           ),
         },
@@ -175,9 +183,13 @@ function CoursesPage({ isDashBoard }: IProps) {
           <Typography variant="h1" color="initial">
             {t('courses')}
           </Typography>
-          <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
+
+          {
+            checkPermissions(parsedData,'add-course') &&  <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
             {t('AddCourse')}
           </Button>
+          }
+         
         </Stack>
       )}
 

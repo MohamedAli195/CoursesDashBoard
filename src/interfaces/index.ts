@@ -164,3 +164,7 @@ export interface IOrder  {
         status: string
     }
 }
+
+export interface Ipermisson {
+  id:number,name:string,display_name:string
+}

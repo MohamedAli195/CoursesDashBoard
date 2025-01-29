@@ -17,7 +17,7 @@ import SearchForm from 'components/searchForm';
 import { ICustomer } from 'interfaces';
 import SelectSort from 'components/selectSort';
 import DeleteModal from 'components/deleteModal';
-import { deleteAnyThing, fetchAllData } from 'functions';
+import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -78,7 +78,9 @@ function CustomersPage({isDashBoard}:IProps) {
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
-          <Button
+
+          {
+            checkPermissions(parsedData,'delete-customer') &&           <Button
             variant="contained"
             color="error"
             // onClick={() => deleteCustomer(params.row.id, refetch)}
@@ -92,7 +94,9 @@ function CustomersPage({isDashBoard}:IProps) {
             {/* {t('delete')} */}
             <Trash2 />
           </Button>
-          <Button
+          }
+          {
+            checkPermissions(parsedData,'show-customers') && <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.customers}/${params.row.id}`)}
@@ -100,10 +104,14 @@ function CustomersPage({isDashBoard}:IProps) {
             {/* {t('view')} */}
             <Eye />
           </Button>
-          <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            {/* {t('edit')} */}
-            <Pencil />
-          </Button>
+          }
+      {
+        checkPermissions(parsedData,'edit-customer') && <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
+        {/* {t('edit')} */}
+        <Pencil />
+      </Button>
+      }
+
         </Stack>
       ),
     },
@@ -154,9 +162,13 @@ function CustomersPage({isDashBoard}:IProps) {
       <Typography variant="h1" color="initial">
         {t('customers')}
       </Typography>
-      <Button variant="contained" color="info" onClick={handleOpen}>
+
+      {
+        checkPermissions(parsedData,'add-customer') && <Button variant="contained" color="info" onClick={handleOpen}>
         {t('Addcustomers')}
       </Button>
+      }
+
     </Stack> 
     }
       

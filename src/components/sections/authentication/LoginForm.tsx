@@ -83,11 +83,18 @@ const dispatch = useDispatch()
     setLoading(true);
     try {
       const response = await axios.post(`${url}/admin/login`, data);
-  
+      
+
+      
+      
       if (response.data.token) {
+
+        // console.log(response.data.data.permissions)
         localStorage.setItem('token', response.data.token);
         toast.success('Sign-in successful, redirecting to dashboard...');
         dispatch(userDataLogin(response.data.token));
+        localStorage.setItem('permissions', JSON.stringify(response.data.data.permissions));
+
   
         navigate('/', { replace: true, state: { from: pathname, userData: response.data.data } });
       } else {

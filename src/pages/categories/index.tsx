@@ -20,7 +20,7 @@ import SelectSort from 'components/selectSort';
 import Lottie from "lottie-react";
 import deleteAnimation from "./../../../src/components/animations/delete.json";
 import DeleteModal from 'components/deleteModal';
-import { deleteAnyThing, fetchAllData } from 'functions';
+import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
 
 // Fetch packages function
 interface IProps {
@@ -90,20 +90,23 @@ function CategoriesPage({isDashBoard}:IProps) {
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
-          <Button
-            variant="contained"
-            color="error"
-            // onClick={() => deleteCategory(params.row.id, refetch)}
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }}
-          >
-            {/* {t("delete")} */}
-            <Trash2 />
-          </Button>
-          <Button
+          {
+             checkPermissions(parsedData,'delete-category') && <Button
+             variant="contained"
+             color="error"
+             // onClick={() => deleteCategory(params.row.id, refetch)}
+             onClick={
+               ()=>{
+               handleOpend()
+               setTempId(params.row.id)
+             }}
+           >
+             {/* {t("delete")} */}
+             <Trash2 />
+           </Button>
+          }
+          {
+            checkPermissions(parsedData,'show-categories') && <Button
             variant="contained"
             color="info"
             onClick={() => navigate(`${paths.categories}/${params.row.id}`)}
@@ -111,10 +114,14 @@ function CategoriesPage({isDashBoard}:IProps) {
             {/* {t("view")}  */}
             <Eye />
           </Button>
-          <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            {/* {t("edit")} */}
-            <Pencil />
-          </Button>
+          }
+  {
+    checkPermissions(parsedData,'edit-category') && <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
+    {/* {t("edit")} */}
+    <Pencil />
+  </Button>
+  }
+
         </Stack>
       ),
     },
@@ -150,9 +157,13 @@ function CategoriesPage({isDashBoard}:IProps) {
         <Typography variant="h1" color="initial">
           {t('categories')}
         </Typography>
-        <Button variant="contained" color="info" onClick={handleOpen}>
+
+        {
+          checkPermissions(parsedData,'add-category') && <Button variant="contained" color="info" onClick={handleOpen}>
           {t('AddCategory')}
         </Button>
+        }
+
       </Stack>
 }
 

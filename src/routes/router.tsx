@@ -47,8 +47,7 @@ const NotFoundPage = lazy(() => import('pages/not-found'));
 // const token = useAppSelector((state)=>state.user.token)
 
 // const token =selectUserToken((state:RootState)=>state.user.token)
-const isLoggedIn = Boolean(localStorage.getItem("token"))
-
+const isLoggedIn = localStorage.getItem("token") ? Boolean(localStorage.getItem("token")) :false
 
 
 

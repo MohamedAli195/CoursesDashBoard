@@ -1,26 +1,44 @@
 import { Box, Grid } from '@mui/material';
 import PageHeader from 'components/common/PageHeader';
-import TeamMembers from 'components/sections/dashboard/members/TeamMembers';
-import OrdersSection from 'components/sections/dashboard/orders/OrdersSection';
-import ProgressTracker from 'components/sections/dashboard/progressTracker/ProgressTracker';
-import SalesSection from 'components/sections/dashboard/sales/SalesSection';
+// import TeamMembers from 'components/sections/dashboard/members/TeamMembers';
+// import OrdersSection from 'components/sections/dashboard/orders/OrdersSection';
+// import ProgressTracker from 'components/sections/dashboard/progressTracker/ProgressTracker';
+// import SalesSection from 'components/sections/dashboard/sales/SalesSection';
 import StatisticsCards from 'components/sections/dashboard/statistics/StatisticCards';
 
-import TodoList from 'components/sections/dashboard/todos/TodoList';
-import TopProductsTable from 'components/sections/dashboard/topProducts/TopProductsTable';
-import TransactionTable from 'components/sections/dashboard/transactions/TransactionTable';
-import CategoriesPage from 'pages/categories';
+// import TodoList from 'components/sections/dashboard/todos/TodoList';
+// import TopProductsTable from 'components/sections/dashboard/topProducts/TopProductsTable';
+// import TransactionTable from 'components/sections/dashboard/transactions/TransactionTable';
+import { checkPermissions } from 'functions';
+// import CategoriesPage from 'pages/categories';
 import CoursesPage from 'pages/courses';
 import CustomersPage from 'pages/customers';
-import PackagesPage from 'pages/packages';
-import { useEffect } from 'react';
+// import PackagesPage from 'pages/packages';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { Ipermisson } from "interfaces";
 const Dashboard = () => {
+
+  // const storedPermissions= JSON.parse(localStorage.getItem('permissions'));
+// const [parsedDataRec,setParsedDataRec]=useState()
+  const storedPermissions = localStorage.getItem('permissions');
+  
+  let parsedData:Ipermisson[];
+if (storedPermissions) {
+  parsedData = JSON.parse(storedPermissions);
+    // console.log(parsedData);
+} else {
+    console.log('No data found!');
+}
+
+// console.log(parsedData)
+
   const { t, i18n } = useTranslation();
   useEffect(() => {
     document.documentElement.lang = i18n.language;
     document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+    console.log(parsedData)
+    
   }, [i18n.language]);
   return (
     <Box
@@ -46,7 +64,9 @@ const Dashboard = () => {
         </Grid>
       </Grid> */}
       {/* /* ------------- Table section ---------------- */}
-      <Grid container spacing={3} mb={3}>
+      
+        
+          <Grid container spacing={3} mb={3}>
         <Grid item xs={12} xl={6} zIndex={1}>
           
           <CoursesPage isDashBoard={true} />
@@ -56,6 +76,8 @@ const Dashboard = () => {
         </Grid>
        
       </Grid>
+
+      
 {/* 
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} xl={6} zIndex={1}>
