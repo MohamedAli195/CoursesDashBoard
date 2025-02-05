@@ -40,7 +40,7 @@ export interface IPackageRes {
   
 }
 
-function AddCourseForm() {
+function AddCourseForm({ handleClose, refetch }: {handleClose: () => void; refetch: () => void }) {
   const [categories, setCategories] = useState<IPackageRes>({
     code: 0,
     data:{
@@ -128,8 +128,10 @@ function AddCourseForm() {
         formData,
         { headers },
       );
-
+      
       toast.success('Course added successfully');
+      handleClose();
+      refetch();
     } catch (err) {
       console.error('Error adding course:', err);
       toast.error('Failed to add course, please check your input.');
@@ -142,14 +144,15 @@ function AddCourseForm() {
       <Box
         sx={{
           mt: { sm: 5, xs: 2.5 },
-          width: '50%',
+       
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Stack spacing={3}>
-          {/* Name Fields */}
-          <TextField
+          <Stack display={'flex'} flexDirection={'row'}>
+           {/* Name Fields */}
+           <TextField
             fullWidth
             variant="outlined"
             label={t("ArabicName")}
@@ -174,8 +177,11 @@ function AddCourseForm() {
             {...register('name.fr', { required: "name franc is requirded" })}
           />
 
-          {/* Description Fields */}
-          <TextField
+          
+          </Stack>
+          <Stack display={'flex'} flexDirection={'row'}>
+            {/* Description Fields */}
+         <TextField
             fullWidth
             variant="outlined"
             label={t("descAr")}
@@ -207,10 +213,10 @@ function AddCourseForm() {
               required: "desc france is required",
             })}
           />
-          
-           <TextField
+          </Stack>
+          <Stack display={'flex'} flexDirection={'row'} gap={3}>
+          <TextField
             select
-            fullWidth
             key={"CourseLanguage"}
             id='Course Language'
             variant="outlined"
@@ -222,6 +228,7 @@ function AddCourseForm() {
               '.MuiOutlinedInput-root': {
                 lineHeight: 0 // Match default height for MUI TextField
               },
+              width:"25%"
             }}
           >
             {
@@ -232,6 +239,29 @@ function AddCourseForm() {
             ))
             }
           </TextField>
+          {/* Category */}
+  <TextField
+    select
+    variant="outlined"
+    label={t("Category")}
+    error={!!errors.category_id}
+    helperText={errors.category_id?.message}
+    {...register('category_id', { required: t("CategoryReq") })}
+    sx={{
+      '.MuiOutlinedInput-root': {
+            lineHeight: 0,
+            
+           
+      },
+      width:"25%"
+    }}
+  >
+    {categories?.data?.data?.map((cat) => (
+      <MenuItem key={cat.id} value={cat.id}>
+        {cat.name.en}
+      </MenuItem>
+    ))}
+  </TextField>
 
           {/* Image Upload */}
           <Button
@@ -239,6 +269,7 @@ function AddCourseForm() {
           role={undefined}
           variant="outlined"
           tabIndex={-1}
+          sx={{ mt: 2 ,maxHeight:"200px",lineHeight:1}}
           startIcon={<CloudUpload />}
           
         >
@@ -251,7 +282,7 @@ function AddCourseForm() {
           />
         </Button>
         {preview  && (
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 2 ,maxHeight:"200px"}}>
             <img
               src={preview}
               alt={t('Preview')}
@@ -259,8 +290,9 @@ function AddCourseForm() {
             />
           </Box>
         )}
-
-          {/* Other Inputs */}
+          </Stack>
+          <Stack display={'flex'} flexDirection={'row'}>
+            {/* Other Inputs */}
           <TextField
             fullWidth
             variant="outlined"
@@ -297,7 +329,9 @@ function AddCourseForm() {
             helperText={errors.main_video?.message}
             {...register('main_video', { required: t("MainVideoURLReq") })}
           />
-          
+          </Stack>
+
+          <Stack display={'flex'} flexDirection={'row'}>
           <TextField
           id='Course Duration'
             fullWidth
@@ -347,28 +381,16 @@ function AddCourseForm() {
       marginBottom: 2, // Add margin to separate this field visually from the next
     }}
   />
+          </Stack>
+         
+          
+         
 
-  {/* Category */}
-  <TextField
-    select
-    fullWidth
-    variant="outlined"
-    label={t("Category")}
-    error={!!errors.category_id}
-    helperText={errors.category_id?.message}
-    {...register('category_id', { required: t("CategoryReq") })}
-    sx={{
-      '.MuiOutlinedInput-root': {
-            lineHeight: 0
-      },
-    }}
-  >
-    {categories?.data?.data?.map((cat) => (
-      <MenuItem key={cat.id} value={cat.id}>
-        {cat.name.en}
-      </MenuItem>
-    ))}
-  </TextField>
+          
+          
+         
+
+  
         </Stack>
 
         <Button

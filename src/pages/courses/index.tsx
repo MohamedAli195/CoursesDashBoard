@@ -18,6 +18,7 @@ import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
 import PackagesPageSkeleton from 'components/skelton';
+import AddCourseForm from 'components/AddCourseForm';
 
 // Fetch packages function
 interface IProps {
@@ -32,6 +33,11 @@ function CoursesPage({ isDashBoard }: IProps) {
   const [tempId, setTempId] = useState(1);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+
+    // add modal
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
   // update modal
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
@@ -186,7 +192,7 @@ function CoursesPage({ isDashBoard }: IProps) {
           </Typography>
 
           {
-            checkPermissions(parsedData,'add-course') &&  <Button variant="contained" color="info" onClick={() => navigate(`${paths.courses}/add`)}>
+            checkPermissions(parsedData,'add-course') &&  <Button variant="contained" color="info" onClick={() => handleOpen()}>
             {t('AddCourse')}
           </Button>
           }
@@ -247,6 +253,12 @@ function CoursesPage({ isDashBoard }: IProps) {
           deleteAnyThing(tempId, refetch, 'courses');
         }}
       />
+
+       {/* add modal */}
+       <BasicModal open={open} handleClose={handleClose}>
+        <h2>{t('AddCourse')}</h2>
+        <AddCourseForm handleClose={handleClose} refetch={refetch} />
+      </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />
     </>
   );

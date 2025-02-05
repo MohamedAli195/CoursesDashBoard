@@ -13,7 +13,7 @@ function AddCoursePage() {
     <Typography variant="h1" color="initial">
     {t("AddCoursePage")}
         </Typography>
-    <AddCourseForm  />
+    {/* <AddCourseForm  /> */}
     
     </>
   )
