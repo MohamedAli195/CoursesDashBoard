@@ -33,6 +33,8 @@ interface IREc {
     id:number;
     name:string;
     value:string
+    status: string | null  ;
+
 }
 function RecommendationsPage({isDashBoard}:IProps) {
   // states
@@ -50,7 +52,8 @@ function RecommendationsPage({isDashBoard}:IProps) {
   const [tempRecommandation, setTempRecommandation] = useState<IREc>({
     id:0,
     name:'',
-    value:''
+    value:'',
+    status:''
   });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -79,6 +82,10 @@ function RecommendationsPage({isDashBoard}:IProps) {
     { field: 'id', headerName: 'ID' },
     { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name',flex: 0.5, },
     { field: 'value', headerName: i18n.language === 'ar' ? 'القيمة' : 'email',flex: 1,  },
+    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 ,renderCell: (params) => (
+              <SwitchStatus id={params.row.id} url={"recommendations"} apiStatus={params.row.status} />
+             
+            ), },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
@@ -102,7 +109,7 @@ function RecommendationsPage({isDashBoard}:IProps) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
+            onClick={() => navigate(`${paths.recommendations}/${params.row.id}`)}
           >
             {/* {t('view')} */}
             <Eye />
@@ -127,12 +134,14 @@ function RecommendationsPage({isDashBoard}:IProps) {
 console.log(data)
   // Prepare rows for DataGrid
   const rows =
-    data?.data?.data?.length > 0
-      ? data?.data?.data?.map((item: {name:string,id:number,value:string}) => ({
+    data?.data?.length > 0
+      ? data?.data?.map((item: {name:string,id:number,value:string,status:string}) => ({
           id: item?.id,
           name: item?.name,
 
           value: item?.value,
+          status: item?.status,
+
 
         }))
       : [];
@@ -148,10 +157,10 @@ console.log(data)
       height={''}
     >
       <Typography variant="h1" color="initial">
-        {t('Sub-Admins')}
+        {t('Recommendations')}
       </Typography>
       <Button variant="contained" color="info" onClick={handleOpen}>
-        {t('addSub-Admins')}
+        {t('add-Recommendations')}
       </Button>
     </Stack>
     }
@@ -199,7 +208,7 @@ console.log(data)
 
       {/* add modal */}
       <BasicModal open={open} handleClose={handleClose}>
-        <h2>{t('addPermissions')}</h2>
+        <h2>{t('add-Recommendations')}</h2>
         <AddRecommendationsForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 

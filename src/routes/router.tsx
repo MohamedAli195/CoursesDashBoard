@@ -22,6 +22,8 @@ import { useSelector } from 'react-redux';
 import { useAppSelector } from 'app/store';
 import { selectUserToken } from 'app/features/user/userSlice';
 import RecommendationsPage from 'pages/recommendationsPage';
+import ViewRecommendationsForm from 'components/viewRecomendationsForm';
+import RecommendationsDetails from 'pages/recommendationsPage/recommendationsDetails';
 
 
 // Lazy-loaded components
@@ -243,6 +245,14 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <ViewCustomer />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: `${paths.recommendations}/:id`,
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <RecommendationsDetails />
               </ProtectedRoute>
             ),
           },

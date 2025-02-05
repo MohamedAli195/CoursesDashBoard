@@ -118,7 +118,7 @@ function AddRecommendationsForm({ handleClose, refetch }: { handleClose: () => v
         type="submit"
         sx={{ mt: 3, fontSize: '18px' }}
       >
-        {t('addPermissions')}
+        {t('add-Recommendations')}
       </Button>
     </Box>
   );
