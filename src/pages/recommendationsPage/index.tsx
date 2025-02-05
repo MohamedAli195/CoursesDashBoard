@@ -24,6 +24,7 @@ import AddPermissinsForm from 'components/addPermissions';
 import AddSubAdminForm from 'components/addSubAdmin';
 import AddRecommendationsForm from 'components/addRecommendations';
 import UpdateRecommendationsForm from 'components/updaterecommendations';
+import PackagesPageSkeleton from 'components/skelton';
 
 // Fetch packages function
 interface IProps {
@@ -129,7 +130,7 @@ function RecommendationsPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','recommendations'),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
 console.log(data)
   // Prepare rows for DataGrid

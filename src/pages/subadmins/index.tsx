@@ -22,6 +22,7 @@ import DeleteModal from 'components/deleteModal';
 import { deleteAnyThing, fetchAllData } from 'functions';
 import AddPermissinsForm from 'components/addPermissions';
 import AddSubAdminForm from 'components/addSubAdmin';
+import PackagesPageSkeleton from 'components/skelton';
 
 // Fetch packages function
 interface IProps {
@@ -130,7 +131,7 @@ function SubAdminsPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','sub-admins'),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
 console.log(data)
   // Prepare rows for DataGrid

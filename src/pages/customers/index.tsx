@@ -18,6 +18,7 @@ import { ICustomer } from 'interfaces';
 import SelectSort from 'components/selectSort';
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
+import PackagesPageSkeleton from 'components/skelton';
 
 // Fetch packages function
 interface IProps {
@@ -132,7 +133,7 @@ function CustomersPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','customers'),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid

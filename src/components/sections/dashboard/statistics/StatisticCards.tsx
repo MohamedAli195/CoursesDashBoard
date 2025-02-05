@@ -12,6 +12,7 @@ import ProductsIcon from 'components/icons/menu-icons/ProductsIcon';
 import KnowledgebaseIcon from 'components/icons/menu-icons/KnowledgebaseIcon';
 import CouponsIcon from 'components/icons/menu-icons/CouponsIcon';
 import { t } from 'i18next';
+import SkeletonLoader from 'components/dashboardSkelton';
 
 // interface PercentageProps {
 //   color: string;
@@ -68,7 +69,7 @@ const StatisticsCards = () => {
 
 
   
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <SkeletonLoader />
   if (isError) return <p>Error: {error.message}</p>;
   const stats2: IStatisticsCard[] = [
     {

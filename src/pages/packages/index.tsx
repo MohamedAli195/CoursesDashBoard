@@ -20,6 +20,7 @@ import SelectSort from 'components/selectSort';
 import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
+import PackagesPageSkeleton from 'components/skelton';
 
 // Fetch packages function
 interface IProps {
@@ -133,7 +134,7 @@ function PackagesPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','packages'),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PackagesPageSkeleton />
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid

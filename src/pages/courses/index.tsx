@@ -17,6 +17,7 @@ import BasicModal from 'components/modal/ShareModal';
 import SwitchStatus from 'components/switch';
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
+import PackagesPageSkeleton from 'components/skelton';
 
 // Fetch packages function
 interface IProps {
@@ -164,7 +165,7 @@ function CoursesPage({ isDashBoard }: IProps) {
           // descriptionAr: packageItem.description.ar,
         }))
       : [];
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
   // console.log(data)
   const totalItems = data.data?.total;

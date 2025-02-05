@@ -21,6 +21,7 @@ import Lottie from "lottie-react";
 import deleteAnimation from "./../../../src/components/animations/delete.json";
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
+import PackagesPageSkeleton from 'components/skelton';
 
 // Fetch packages function
 interface IProps {
@@ -135,7 +136,7 @@ function CategoriesPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search,sort,'','categories'),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PackagesPageSkeleton />
   if (isError) return <p>Error: {error.message}</p>;
 
   const rows =
