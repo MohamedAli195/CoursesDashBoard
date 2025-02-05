@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import IconifyIcon from 'components/base/IconifyIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -95,8 +95,15 @@ const dispatch = useDispatch()
         dispatch(userDataLogin(response.data.token));
         localStorage.setItem('permissions', JSON.stringify(response.data.data.permissions));
 
-  
-        navigate('/', { replace: true, state: { from: pathname, userData: response.data.data } });
+        // setTimeout(()=>{
+        //   // navigate('/', { replace: true, state: { from: pathname, userData: response.data.data } });
+
+
+        // },5000)
+
+        setTimeout(() => {
+          location.replace("/");
+        }, 2000);
       } else {
         setError('Login was successful, but no token was returned.');
       }
@@ -109,6 +116,7 @@ const dispatch = useDispatch()
     }
   };
   
+console.log("reder/rerender")
   return (
     <>
       <Box

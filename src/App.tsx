@@ -9,6 +9,9 @@ const App = () => {
     document.documentElement.lang = i18n.language;
     document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
   }, [i18n.language]);
+  useEffect(()=>{
+
+  },[localStorage.getItem("token")])
   return (
     <>
       <Outlet />
