@@ -69,10 +69,10 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
     queryKey: [`permissions-${page}-${per}-${search}-${sort}`],
     queryFn: () => fetchAllData(page, per, search, sort, '', 'roles/permissions'),
   });
-  (apiPermissions?.data)
+  // console.log(apiPermissions?.data)
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      console.log(data)
+      // console.log(data)
       // const formData = new FormData();
       // formData.append('display_name[en]', data.display_name.en);
       // formData.append('display_name[ar]', data.display_name.ar);
@@ -89,7 +89,7 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
   
       const res = await axios.post(`${url}/admin/roles`, data, { headers });
 
-      console.log(res)
+      // console.log(res)
       toast.success(t('roles added successfully'));
       handleClose();
       refetch();
