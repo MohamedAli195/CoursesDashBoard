@@ -60,7 +60,7 @@ function PermissionsPage({isDashBoard}:IProps) {
   const handleEditOpen = (packageData: ITempPermissions) => {
     // setTempIdUpdate(packageData.id); // Set selected package data
     // const filterd = packageData.permissions.map(item => item.name);
-    console.log(packageData)
+    // console.log(packageData)
     settempPermission(packageData)
     handleOpenU(); // Open the update modalclg
   };
@@ -131,7 +131,7 @@ function PermissionsPage({isDashBoard}:IProps) {
 
   if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
-console.log(data)
+// console.log(data)
   // Prepare rows for DataGrid
   const rows =
     data?.data?.length > 0
@@ -150,7 +150,7 @@ console.log(data)
         }))
       : [];
   const totalItems = data.data?.total;
-  console.log(totalItems)
+  // console.log(totalItems)
   return (
     <>
     {

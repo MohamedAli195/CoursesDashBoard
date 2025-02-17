@@ -151,7 +151,7 @@ function SubAdminsPage({ isDashBoard }: IProps) {
 
   if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
-  console.log(data);
+  // console.log(data);
   // Prepare rows for DataGrid
   const rows =
     data?.data?.length > 0

@@ -53,7 +53,7 @@ const NotFoundPage = lazy(() => import('pages/not-found'));
 const isLoggedIn = localStorage.getItem("token") ? Boolean(localStorage.getItem("token")) :false
 
 
-console.log("isLoggedIn",isLoggedIn)
+// console.log("isLoggedIn",isLoggedIn)
 export const routes = [
   {
     element: (

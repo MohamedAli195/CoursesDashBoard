@@ -69,7 +69,7 @@ function AddPermissionsForm({ handleClose, refetch }: { handleClose: () => void;
     queryKey: [`permissions-${page}-${per}-${search}-${sort}`],
     queryFn: () => fetchAllData(page, per, search, sort, '', 'roles/permissions'),
   });
-  console.log(apiPermissions?.data)
+  (apiPermissions?.data)
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       console.log(data)

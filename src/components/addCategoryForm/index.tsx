@@ -80,7 +80,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
         { headers }
       );
 
-      // console.log(response.data);
+      // (response.data);
       toast.success('Category added successfully');
       handleClose();
       refetch();

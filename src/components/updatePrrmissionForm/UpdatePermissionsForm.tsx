@@ -96,7 +96,7 @@ function UpdatePermissionsForm({
     queryFn: () => fetchAllData(page, per, search, sort, '', 'roles/permissions'),
   });
 
-  console.log(tempPermission);
+  // console.log(tempPermission);
 
   useEffect(() => {
     if (tempPermission) {
@@ -119,7 +119,7 @@ function UpdatePermissionsForm({
 
       const resonse = await axios.post(`${url}/admin/roles/${tempPermission?.id}/update`, data, { headers });
 
-      console.log(resonse);
+      // console.log(resonse);
       toast.success(t('roles added successfully'));
       handleClose();
       refetch();
@@ -205,7 +205,7 @@ function UpdatePermissionsForm({
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map((value) => {
-                        console.log('Selected Value:', value); // Log each value
+                        // console.log('Selected Value:', value); // Log each value
                         return <Chip key={value} label={value} />; // Use value directly
                       })}
                     </Box>
