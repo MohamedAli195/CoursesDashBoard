@@ -24,6 +24,7 @@ import { selectUserToken } from 'app/features/user/userSlice';
 import RecommendationsPage from 'pages/recommendationsPage';
 import ViewRecommendationsForm from 'components/viewRecomendationsForm';
 import RecommendationsDetails from 'pages/recommendationsPage/recommendationsDetails';
+import SubAdminDetails from 'pages/subadmins/subADminDetails';
 
 
 // Lazy-loaded components
@@ -172,6 +173,15 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <SubAdminsPage isDashBoard={false}/>
+              </ProtectedRoute>
+            ),
+          },
+
+          {
+            path: `${paths.subAdmins}/:id`, // Fixed typo
+            element: (
+              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <SubAdminDetails />
               </ProtectedRoute>
             ),
           },

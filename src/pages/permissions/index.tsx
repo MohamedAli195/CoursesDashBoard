@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
-import { IPackage, IPackageSelected } from 'interfaces';
+import { IPackage, IPackageSelected, IPermissions, ITempPermissions } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
@@ -22,6 +22,7 @@ import DeleteModal from 'components/deleteModal';
 import { deleteAnyThing, fetchAllData } from 'functions';
 import AddPermissinsForm from 'components/addPermissions';
 import PackagesPageSkeleton from 'components/skelton';
+import UpdatePermissionsForm from 'components/updatePrrmissionForm/UpdatePermissionsForm';
 
 // Fetch packages function
 interface IProps {
@@ -35,6 +36,7 @@ function PermissionsPage({isDashBoard}:IProps) {
   const [per, setper] = useState(10);
   const [tempId, setTempId] = useState(1);
   const [tempIdUpdate, setTempIdUpdate] = useState(1);
+  // const [tempPermission, settempPermission] = useState({});
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
@@ -53,11 +55,14 @@ function PermissionsPage({isDashBoard}:IProps) {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | IPackageSelected>(null);
+  const [tempPermission, settempPermission] = useState<ITempPermissions | undefined>();
 
-  const handleEditOpen = (packageData: IPackageSelected) => {
-    setTempIdUpdate(packageData.id); // Set selected package data
-    handleOpenU(); // Open the update modal
+  const handleEditOpen = (packageData: ITempPermissions) => {
+    // setTempIdUpdate(packageData.id); // Set selected package data
+    // const filterd = packageData.permissions.map(item => item.name);
+    console.log(packageData)
+    settempPermission(packageData)
+    handleOpenU(); // Open the update modalclg
   };
 
   // Columns configuration
@@ -108,14 +113,7 @@ function PermissionsPage({isDashBoard}:IProps) {
             {/* {t('delete')} */}
             <Trash2 />
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
-          >
-            {/* {t('view')} */}
-            <Eye />
-          </Button>
+
           <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
             {/* {t('edit')} */}
             <Pencil />
@@ -136,8 +134,8 @@ function PermissionsPage({isDashBoard}:IProps) {
 console.log(data)
   // Prepare rows for DataGrid
   const rows =
-    data?.data?.data?.length > 0
-      ? data.data.data.map((role: {name:string,id:number,display_name:{
+    data?.data?.length > 0
+      ? data?.data.map((role: {name:string,id:number,display_name:{
         en:string,
         ar:string
       },permissions:string[]}) => ({
@@ -224,10 +222,10 @@ console.log(data)
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>{t('editPackage')}</h2>
-        <UpdatePackageForm
+        <UpdatePermissionsForm
           handleClose={handleCloseU}
           refetch={refetch}
-          id={tempIdUpdate}
+          tempPermission={tempPermission}
         />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />

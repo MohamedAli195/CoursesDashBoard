@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
-import { IPackage, IPackageSelected } from 'interfaces';
+import { IPackage, IPackageSelected, ISubADmin } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
 import PaginationComponent from 'components/pagination';
 import SelectPerPage from 'components/selectPerPAge';
@@ -23,12 +23,15 @@ import { deleteAnyThing, fetchAllData } from 'functions';
 import AddPermissinsForm from 'components/addPermissions';
 import AddSubAdminForm from 'components/addSubAdmin';
 import PackagesPageSkeleton from 'components/skelton';
+import UpdateSubAdminForm from 'components/updateSubAdminForm';
 
 // Fetch packages function
 interface IProps {
-  isDashBoard:boolean
+  isDashBoard: boolean;
 }
-function SubAdminsPage({isDashBoard}:IProps) {
+
+
+function SubAdminsPage({ isDashBoard }: IProps) {
   // states
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -44,50 +47,68 @@ function SubAdminsPage({isDashBoard}:IProps) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-    // delete modal
-    const [opend, setOpend] = useState(false);
-    const handleOpend = () => setOpend(true);
-    const handleClosed = () => setOpend(false);
+  // delete modal
+  const [opend, setOpend] = useState(false);
+  const handleOpend = () => setOpend(true);
+  const handleClosed = () => setOpend(false);
 
   // update modal
   const [openU, setOpenU] = useState(false);
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | IPackageSelected>(null);
+  const [selectedPackage, setSelectedPackage] = useState<null | ISubADmin>(null);
 
-  const handleEditOpen = (packageData: IPackageSelected) => {
-    setTempIdUpdate(packageData.id); // Set selected package data
+  const handleEditOpen = (subAdmin: ISubADmin) => {
+    setTempIdUpdate(subAdmin.id); // Set selected package data
     handleOpenU(); // Open the update modal
   };
 
   // Columns configuration
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name',flex: 0.5, },
-    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email',flex: 1,  },
-    { field: 'avatar', headerName: i18n.language === 'ar' ? 'الصورة' : 'avatar' ,flex: 1, },
+    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name', flex: 0.5 },
+    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
+    // { field: 'avatar', headerName: i18n.language === 'ar' ? 'الصورة' : 'avatar' ,flex: 1, },
     // { field: 'role', headerName: i18n.language === 'ar' ? 'صلاحية' : 'role',flex: 1,  },
-    { field: 'roles', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'roles',flex: 1,renderCell: (params) => (
-      <Box   sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          overflowX: 'auto', // Optional: adds horizontal scrolling if content overflows
-        }}>
-        {params.row.role.map((item:string)=>{
-          return(
-          
-            <Box component="div" sx={{ display: 'inline-block',backgroundColor:"#dfdfdf", m:0.5 ,borderRadius:1,p:0.5}}>{item}</Box>
-      
-          )
-        })}
-      </Box>
-          ), 
-        },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status',renderCell: (params) => (
-          <SwitchStatus id={params.row.id} url={"packages"} apiStatus={params.row.status} />
-         
-        ), },
+    {
+      field: 'roles',
+      headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'roles',
+      flex: 1,
+      renderCell: (params) => (
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            overflowX: 'auto', // Optional: adds horizontal scrolling if content overflows
+          }}
+        >
+          {params.row.role.map((item: string) => {
+            return (
+              <Box
+                component="div"
+                sx={{
+                  display: 'inline-block',
+                  backgroundColor: '#dfdfdf',
+                  m: 0.5,
+                  borderRadius: 1,
+                  p: 0.5,
+                }}
+              >
+                {item}
+              </Box>
+            );
+          })}
+        </Box>
+      ),
+    },
+    {
+      field: 'status',
+      headerName: i18n.language === 'ar' ? 'الحالة' : 'status',
+      renderCell: (params) => (
+        <SwitchStatus id={params.row.id} url={'packages'} apiStatus={params.row.status} />
+      ),
+    },
     {
       field: 'actions',
       headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
@@ -97,13 +118,10 @@ function SubAdminsPage({isDashBoard}:IProps) {
           <Button
             variant="contained"
             color="error"
-            
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }
-          }
+            onClick={() => {
+              handleOpend();
+              setTempId(params.row.id);
+            }}
           >
             {/* {t('delete')} */}
             <Trash2 />
@@ -111,7 +129,7 @@ function SubAdminsPage({isDashBoard}:IProps) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
+            onClick={() => navigate(`${paths.subAdmins}/${params.row.id}`)}
           >
             {/* {t('view')} */}
             <Eye />
@@ -128,58 +146,58 @@ function SubAdminsPage({isDashBoard}:IProps) {
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`sub-admins-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchAllData(page, per, search, sort,'','sub-admins'),
+    queryFn: () => fetchAllData(page, per, search, sort, '', 'sub-admins'),
   });
 
   if (isLoading) return <PackagesPageSkeleton />;
   if (isError) return <p>Error: {error.message}</p>;
-console.log(data)
+  console.log(data);
   // Prepare rows for DataGrid
   const rows =
     data?.data?.length > 0
-      ? data.data.map((admin: {name:string,id:number,email:string,avatar:string,role:string[]}) => ({
-          id: admin?.id,
-          name: admin?.name,
-          // display_name: admin?.display_name,
-          email: admin?.email,
-          avatar: admin?.avatar,
-          role: admin?.role,
+      ? data.data.map(
+          (admin: { name: string; id: number; email: string; avatar: string; role: string[] }) => ({
+            id: admin?.id,
+            name: admin?.name,
+            // display_name: admin?.display_name,
+            email: admin?.email,
+            // avatar: admin?.avatar,
+            role: admin?.role,
 
-          // status: role?.status,
-        }))
+            // status: role?.status,
+          }),
+        )
       : [];
   const totalItems = data?.total;
   return (
     <>
-    {
-      !isDashBoard && <Stack
-      flexDirection="row"
-      alignItems="center"
-      justifyContent="space-between"
-      mb={3}
-      height={''}
-    >
-      <Typography variant="h1" color="initial">
-        {t('Sub-Admins')}
-      </Typography>
-      <Button variant="contained" color="info" onClick={handleOpen}>
-        {t('addSub-Admins')}
-      </Button>
-    </Stack>
-    }
-      
+      {!isDashBoard && (
+        <Stack
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={3}
+          height={''}
+        >
+          <Typography variant="h1" color="initial">
+            {t('Sub-Admins')}
+          </Typography>
+          <Button variant="contained" color="info" onClick={handleOpen}>
+            {t('addSub-Admins')}
+          </Button>
+        </Stack>
+      )}
 
       <Paper sx={{ width: '100%' }}>
-        {
-          isDashBoard && <Typography variant="h1" color="initial">
-          {t('Sub-Admins')}
-        </Typography>
-        }
+        {isDashBoard && (
+          <Typography variant="h1" color="initial">
+            {t('Sub-Admins')}
+          </Typography>
+        )}
         <Stack flexDirection={'row'} alignItems={'center'}>
-        <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
-        
+          <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
+
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
-          
         </Stack>
         <DataGrid
           rows={rows}
@@ -202,7 +220,7 @@ console.log(data)
         >
           <PaginationComponent
             page={page}
-            pageCounter={totalItems / per <= 1 ? 1 :  Math.ceil(totalItems / per)}
+            pageCounter={totalItems / per <= 1 ? 1 : Math.ceil(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />
@@ -215,16 +233,20 @@ console.log(data)
         <AddSubAdminForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'sub-admins')}}/>
+      <DeleteModal
+        handleClosed={handleClosed}
+        opend={opend}
+        refetch={refetch}
+        tempId={tempId}
+        deleteFunc={() => {
+          deleteAnyThing(tempId, refetch, 'sub-admins');
+        }}
+      />
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>{t('editPackage')}</h2>
-        <UpdatePackageForm
-          handleClose={handleCloseU}
-          refetch={refetch}
-          id={tempIdUpdate}
-        />
+        <UpdateSubAdminForm handleClose={handleCloseU} refetch={refetch} id={tempIdUpdate} />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

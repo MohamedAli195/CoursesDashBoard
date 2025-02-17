@@ -38,8 +38,31 @@ export interface IPackage {
   image: string | null | FileList;
   status: string | null  ;
 }
+export interface ISubADmin {
+  id: number;
+  name: string;
+  email: string;
+  password?: string | undefined;
+  role: string[];
+}
 
 
+export interface IPermissions {
+  id:number;
+  name: string;
+  display_name: {
+    ar: string;
+    en: string;
+  };
+  permissions: string[];
+}
+export interface ITempPermissions {
+  id: number;
+  name: string;
+  display_nameAr: string;
+  display_nameEn: string;
+  permissions: { name: string }[]; // Change permissions to an array of objects
+}
 export interface ICourseSelect {
     id: number;
     nameAr: string;
