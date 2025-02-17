@@ -135,8 +135,8 @@ function RecommendationsPage({isDashBoard}:IProps) {
 // console.log(data)
   // Prepare rows for DataGrid
   const rows =
-    data?.data?.length > 0
-      ? data?.data?.map((item: {name:string,id:number,value:string,status:string}) => ({
+    data?.data?.data?.length > 0
+      ? data?.data?.data?.map((item: {name:string,id:number,value:string,status:string}) => ({
           id: item?.id,
           name: item?.name,
 

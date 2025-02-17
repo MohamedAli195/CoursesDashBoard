@@ -154,8 +154,8 @@ function SubAdminsPage({ isDashBoard }: IProps) {
   // console.log(data);
   // Prepare rows for DataGrid
   const rows =
-    data?.data?.length > 0
-      ? data.data.map(
+    data?.data?.data?.length > 0
+      ? data?.data?.data?.map(
           (admin: { name: string; id: number; email: string; avatar: string; role: string[] }) => ({
             id: admin?.id,
             name: admin?.name,

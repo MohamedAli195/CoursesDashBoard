@@ -32,6 +32,8 @@ function CategoriesPage({isDashBoard}:IProps) {
   const [page, setPage] = useState(1);
   const [per, setper] = useState(10);
   const [search, setSearch] = useState('');
+
+  // console.log(search)
   const [sort, setSort] = useState('desc');
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();

@@ -134,8 +134,8 @@ function PermissionsPage({isDashBoard}:IProps) {
 // console.log(data)
   // Prepare rows for DataGrid
   const rows =
-    data?.data?.length > 0
-      ? data?.data.map((role: {name:string,id:number,display_name:{
+    data?.data?.data?.length > 0
+      ? data?.data?.data?.map((role: {name:string,id:number,display_name:{
         en:string,
         ar:string
       },permissions:string[]}) => ({
