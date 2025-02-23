@@ -170,19 +170,19 @@ function PermissionsPage({isDashBoard}:IProps) {
     </Stack>
     }
       
-
+      <Stack flexDirection={'row'} alignItems={'center'}>
+        <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
+        
+          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} search={search} />
+          
+        </Stack>
       <Paper sx={{ width: '100%' }}>
         {
           isDashBoard && <Typography variant="h1" color="initial">
           {t('permissions')}
         </Typography>
         }
-        <Stack flexDirection={'row'} alignItems={'center'}>
-        <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
-        
-          <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
-          
-        </Stack>
+
         <DataGrid
           rows={rows}
           columns={columns}

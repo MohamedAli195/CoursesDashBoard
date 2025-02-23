@@ -13,11 +13,12 @@ interface SearchFormInputs {
 }
 
 interface IProps {
+  search:string;
   setsearch: (val: string) => void;
   isDashBoard:boolean
 }
 
-const SearchForm = ({ setsearch ,isDashBoard}: IProps) => {
+const SearchForm = ({ setsearch ,isDashBoard ,search}: IProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<SearchFormInputs>();
 
   const onSubmit: SubmitHandler<SearchFormInputs> = (data) => {
@@ -30,7 +31,7 @@ const SearchForm = ({ setsearch ,isDashBoard}: IProps) => {
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={handleSubmit(onSubmit)}
       noValidate
       sx={{ display: 'flex', gap: 2, alignItems: 'center', m: 2 }}
     >
@@ -39,6 +40,7 @@ const SearchForm = ({ setsearch ,isDashBoard}: IProps) => {
           variant="outlined"
           {...register('query', { required: 'Search query is required' })}
           error={!!errors.query}
+          value={search}
           helperText={errors.query?.message}
           placeholder={isArabic ? 'البحث فى الجدول' : 'Search In Table'}
           InputProps={{
@@ -49,12 +51,16 @@ const SearchForm = ({ setsearch ,isDashBoard}: IProps) => {
             ),
           }}
           sx={{width:isDashBoard ? "350px":"500px"}}
+          onChange={(e)=>{
+            setsearch(e.target.value)
+          }
+          }
         />
       </FormControl>
 
-      <Button type="submit" variant="contained" color="primary">
+      {/* <Button type="submit" variant="contained" color="primary">
         Search
-      </Button>
+      </Button> */}
     </Box>
   );
 };
