@@ -26,7 +26,7 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
       headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'permissions',
       flex: 2,
       renderCell: (params) => (
-        <Box
+        <Box 
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -35,7 +35,8 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
         >
           {params.row.permissions.map((item: { name: string }) => {
             return (
-              <Box
+              <Box 
+              key={item.name}
                 component="div"
                 sx={{
                   display: 'inline-block',

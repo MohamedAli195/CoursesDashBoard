@@ -19,17 +19,16 @@ interface IProps {
 }
 function CustomersTable({data,handleEditOpen,setTempId,handleOpend,isDashBoard}: IProps) {
 
+  console.log(data)
   const navigate = useNavigate();
   const columns: GridColDef[] = !isDashBoard
     ? [
         { field: 'id', headerName: 'ID', width: 30 },
-        i18n.language === 'ar'
-          ? { field: 'nameAr', headerName: 'اسم الكورس', flex: 1 }
-          : { field: 'nameEn', headerName: 'Name ', flex: 1 },
+        { field: 'name',   headerName: i18n.language === 'ar' ? 'الاسم':"name",flex: 1, renderCell:(params)=> i18n.language === 'ar' ?  params.row.name.ar : params.row.name.en },
+
         { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
-        i18n.language === 'ar'
-          ? { field: 'categoryAr', headerName: 'القسم', flex: 1 }
-          : { field: 'categoryEn', headerName: 'category ', flex: 1 },
+        { field: 'category',   headerName: i18n.language === 'ar' ? 'القسم':"category",flex: 1, renderCell:(params)=> i18n.language === 'ar' ? params.row.category.name.ar : params.row.category.name.en },
+
         {
           field: 'image',
           headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
@@ -104,14 +103,11 @@ function CustomersTable({data,handleEditOpen,setTempId,handleOpend,isDashBoard}:
       ]
     : [
         { field: 'id', headerName: 'ID', width: 30 },
-        i18n.language === 'ar'
-          ? { field: 'nameAr', headerName: 'اسم الكورس', flex: 1 }
-          : { field: 'nameEn', headerName: 'Name ', flex: 1 },
+        { field: 'name',   headerName: i18n.language === 'ar' ? 'الاسم':"name",flex: 1, renderCell:(params)=> i18n.language === 'ar' ?  params.row.name.ar : params.row.name.en },
 
         { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
-        i18n.language === 'ar'
-          ? { field: 'categoryAr', headerName: 'القسم', flex: 1 }
-          : { field: 'categoryEn', headerName: 'category ', flex: 1 },
+        { field: 'category',   headerName: i18n.language === 'ar' ? 'القسم':"category",flex: 1, renderCell:(params)=> i18n.language === 'ar' ? params.row.category.name.ar : params.row.category.name.en },
+      
       ];
 
   const rows =

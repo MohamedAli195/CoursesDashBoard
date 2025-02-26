@@ -75,26 +75,13 @@ function SubAdminsPage({ isDashBoard }: IProps) {
     queryFn: () => fetchAllData(page, per, search, sort, '', 'sub-admins'),
   });
 
+  console.log(data)
   if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
   // console.log(data);
   // Prepare rows for DataGrid
-  const rows =
-    data?.data?.data?.length > 0
-      ? data?.data?.data?.map(
-          (admin: { name: string; id: number; email: string; avatar: string; role: string[] }) => ({
-            id: admin?.id,
-            name: admin?.name,
-            // display_name: admin?.display_name,
-            email: admin?.email,
-            // avatar: admin?.avatar,
-            role: admin?.role,
-
-            // status: role?.status,
-          }),
-        )
-      : [];
-  const totalItems = data?.total;
+  
+  const totalItems = data?.data?.total;
   return (
     <>
       {!isDashBoard && (

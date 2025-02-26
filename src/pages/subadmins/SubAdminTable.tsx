@@ -40,6 +40,7 @@ function SubAdminTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
             return (
               <Box
                 component="div"
+                key={item}
                 sx={{
                   display: 'inline-block',
                   backgroundColor: '#dfdfdf',
