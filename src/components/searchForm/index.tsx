@@ -13,7 +13,7 @@ interface SearchFormInputs {
 }
 
 interface IProps {
-  search:string;
+  search?:string;
   setsearch: (val: string) => void;
   isDashBoard:boolean
 }

@@ -67,6 +67,7 @@ function PermissionsPage({isDashBoard}:IProps) {
 
   // Columns configuration
   const columns: GridColDef[] = [
+    
     { field: 'id', headerName: 'ID' },
     { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name' },
     { field: 'permissions', headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'permissions',flex: 2,renderCell: (params) => (
@@ -143,10 +144,8 @@ function PermissionsPage({isDashBoard}:IProps) {
           name: role?.name,
           permissions: role?.permissions,
           // display_name: role?.display_name,
-
           display_nameEn: role.display_name?.en,
           display_nameAr: role.display_name?.ar,
-          // status: role?.status,
         }))
       : [];
   const totalItems = data.data?.total;
