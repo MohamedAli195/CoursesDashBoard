@@ -22,7 +22,7 @@ import { deleteAnyThing, fetchAllData } from 'functions';
 import AddPermissinsForm from 'components/Permissions/addPermissions';
 
 import UpdatePermissionsForm from 'components/Permissions/updatePrrmissionForm/UpdatePermissionsForm';
-import CompanyTable from './PermissionsTable';
+import PermissionsTable from './PermissionsTable';
 import SkeletonTables from 'components/Shared/skelton';
 import SelectSort from 'components/Shared/selectSort';
 import SelectPerPage from 'components/Shared/selectPerPAge';
@@ -103,7 +103,7 @@ function PermissionsPage({ isDashBoard }: IProps) {
             {t('permissions')}
           </Typography>
         )}
-        <CompanyTable
+        <PermissionsTable
           data={data?.data?.data}
           handleEditOpen={handleEditOpen}
           handleOpend={handleOpend}

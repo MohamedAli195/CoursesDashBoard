@@ -21,6 +21,7 @@ import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'func
 import SkeletonTables from 'components/Shared/skelton';
 import SelectSort from 'components/Shared/selectSort';
 import SelectPerPage from 'components/Shared/selectPerPAge';
+import CustomersTable from './CustomerTable';
 
 
 // Fetch packages function
@@ -61,71 +62,7 @@ function CustomersPage({isDashBoard}:IProps) {
   // fetchCustomers();
 
   // Columns configuration
-  const columns: GridColDef[] = 
-  !isDashBoard ?
-  [
-    { field: 'id', headerName: 'ID' },
-    i18n.language === 'ar'
-      ? { field: 'name', headerName: 'الاسم', flex: 1 }
-      : { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
 
-    { field: 'phone', headerName: i18n.language === 'ar' ? 'رقم الموبايل' : 'phone', flex: 1 },
-    {
-      field: 'partner_code',
-      headerName: i18n.language === 'ar' ? 'رقم الشريك' : 'partner_code',
-      flex: 1,
-    },
-    {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 1,
-      renderCell: (params) => (
-        <Stack direction="row" gap={1}>
-
-          {
-            checkPermissions(parsedData,'delete-customer') &&           <Button
-            variant="contained"
-            color="error"
-            // onClick={() => deleteCustomer(params.row.id, refetch)}
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }
-          }
-          >
-            {/* {t('delete')} */}
-            <Trash2 />
-          </Button>
-          }
-          {
-            checkPermissions(parsedData,'show-customers') && <Button
-            variant="contained"
-            color="info"
-            onClick={() => navigate(`${paths.customers}/${params.row.id}`)}
-          >
-            {/* {t('view')} */}
-            <Eye />
-          </Button>
-          }
-      {
-        checkPermissions(parsedData,'edit-customer') && <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-        {/* {t('edit')} */}
-        <Pencil />
-      </Button>
-      }
-
-        </Stack>
-      ),
-    },
-  ]:[ { field: 'id', headerName: 'ID' },
-    i18n.language === 'ar'
-      ? { field: 'name', headerName: 'الاسم', flex: 1 }
-      : { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
-
-    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1 },];
 
   // Pagination settings
   // const paginationModel = { page: 0, pageSize: 5 };
@@ -191,21 +128,28 @@ function CustomersPage({isDashBoard}:IProps) {
             <SearchForm setsearch={setSearch} isDashBoard={isDashBoard}/>
           </Stack>
         }
-        <DataGrid
+           <CustomersTable
+          data={data?.data?.data}
+          handleEditOpen={handleEditOpen}
+          handleOpend={handleOpend}
+          setTempId={setTempId}
+          isDashBoard={isDashBoard}
+        />
+        {/* <DataGrid
           rows={rows}
           columns={columns}
           // initialState={{ pagination: { paginationModel } }}
           // pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
           autoHeight
-          getRowHeight={() => !isDashBoard ? 200: 'auto'} 
+          // getRowHeight={() => !isDashBoard ? 200: 'auto'} 
           getRowClassName={(params: GridRowClassNameParams) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
           }
           disableRowSelectionOnClick
           disableMultipleRowSelection
           hideFooterPagination={true}
-        />
+        /> */}
         <Stack
           direction={'row'}
           justifyContent={'space-between'}

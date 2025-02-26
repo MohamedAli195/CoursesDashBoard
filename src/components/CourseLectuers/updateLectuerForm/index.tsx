@@ -2,6 +2,7 @@ import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { fetchOne } from 'functions';
+import { IPackageLectuerSelected } from 'interfaces';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
@@ -19,12 +20,20 @@ interface IFormInput {
     ar: string;
     fr: string;
   };
-  course_id: string | undefined;
+  course_id: number ;
   video_url: string;
   duration: string;
 }
 
-function UpdateLectuerForm() {
+function UpdateLectuerForm({
+  handleClose,
+  initialData,
+  refetch
+}: {
+  handleClose: () => void;
+  refetch:()=>void
+  initialData?: null | IPackageLectuerSelected
+}) {
   const {
     register,
     handleSubmit,
@@ -35,40 +44,33 @@ function UpdateLectuerForm() {
   const { t } = useTranslation();
   const { id } = useParams();
 
-  const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`Lectuers-${id}`],
-    queryFn: () => fetchOne(id,'course-lectures'),
-  });
+  // const { data, error, isLoading, isError, refetch } = useQuery({
+  //   queryKey: [`Lectuers-${id}`],
+  //   queryFn: () => fetchOne(id,'course-lectures'),
+  // });
   // console.log(data?.data);
 
-  const courseID = data?.data.course.id;
   const url = import.meta.env.VITE_API_URL;
   useEffect(() => {
-    if (data?.data) {
-      setValue('title.ar', data?.data.title.ar);
-      setValue('title.en', data?.data.title.en);
-      setValue('title.fr', data?.data.title.fr);
-      setValue('description.ar', data?.data.description.ar);
-      setValue('description.en', data?.data.description.en);
-      setValue('description.fr', data?.data.description.fr);
-      setValue('video_url', data?.data.video_url);
-      setValue('duration', data?.data.duration);
+
+    // console.log(data)
+    if (initialData) {
+      setValue('title.ar', initialData.title.ar);
+      setValue('title.en', initialData.title.en);
+      setValue('title.fr', initialData.title.fr);
+      setValue('description.ar', initialData.description.ar);
+      setValue('description.en', initialData.description.en);
+      setValue('description.fr', initialData.description.fr);
+      setValue('video_url', initialData.video_url);
+      setValue('duration', initialData.duration);
+      setValue('course_id', initialData.course.id);
     }
-  }, [data?.data, setValue]);
+  }, [initialData, setValue]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    // console.log(data);
+    console.log(data);
     try {
-      const formData = new FormData();
-      formData.append('title[en]', data.title.en);
-      formData.append('title[ar]', data.title.ar);
-      formData.append('title[fr]', data.title.fr);
-      formData.append('description[en]', data.description?.en);
-      formData.append('description[ar]', data.description?.ar);
-      formData.append('description[fr]', data.description?.ar);
-      formData.append('video_url', data.video_url);
-      formData.append('duration', data.duration);
-      formData.append('course_id', courseID);
+      
 
       const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -76,11 +78,12 @@ function UpdateLectuerForm() {
       };
 
       const response = await axios.post(
-        `${url}/admin/course-lectures/${id}/update`,
-        formData,
+        `${url}/admin/course-lectures/${initialData?.id}/update`,
+        data,
         { headers },
       );
-
+      refetch()
+      handleClose()
       // console.log(response.data);
       toast.success('course lectuer updated successfully');
     } catch (err) {

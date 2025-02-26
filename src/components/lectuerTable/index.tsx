@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
@@ -15,13 +15,17 @@ import { deleteAnyThing, fetchLectuers } from 'functions';
 import SearchForm from 'components/Shared/searchForm';
 import SelectPerPage from 'components/Shared/selectPerPAge';
 import SelectSort from 'components/Shared/selectSort';
+import LectuerTables from './LectuersTable';
+import BasicModal from 'components/Shared/modal/ShareModal';
+import UpdateCategoryForm from 'components/Category/updateCategoryForm/UpdateCategory';
+import UpdateLectuerForm from 'components/CourseLectuers/updateLectuerForm';
 
 // Fetch packages function
 interface IProps {
-  isDashBoard:boolean
+  isDashBoard: boolean;
 }
-function LectuerTable({isDashBoard}:IProps) {
-    // states
+function LectuerTable({ isDashBoard }: IProps) {
+  // states
   const [page, setPage] = useState(1);
   const [per, setper] = useState(10);
   const [search, setSearch] = useState('');
@@ -31,88 +35,35 @@ function LectuerTable({isDashBoard}:IProps) {
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
-      // delete modal
-      const [opend, setOpend] = useState(false);
-      const handleOpend = () => setOpend(true);
-      const handleClosed = () => setOpend(false);
-
-  // Columns configuration
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'الاسم'  ,flex: 1,}
-      : { field: 'nameEn', headerName: 'Name' ,flex: 1, },
-    // i18n.language === 'ar'
-    //   ? { field: 'descriptionAr', headerName: 'الوصف' }
-    //   : { field: 'descriptionEn', headerName: 'description' },
-    { field: 'vedioUrl', headerName: i18n.language === 'ar' ? 'الرابط' : 'Link',flex: 1, },
-    { field: 'vedioDuration', headerName: i18n.language === 'ar' ? 'المدة' : 'time '},
-    {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-
-      flex: 1,
-      renderCell: (params) => (
-        <Stack direction="row" spacing={1}>
-          <Button
-            variant="contained"
-            color="error"
-            // onClick={() => deleteLectuer(params.row.id, refetch)}
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }}
-          >
-            {/* {t('delete')} */}
-            <Trash2 />
-          </Button>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={() => navigate(`${paths.lectuers}/${params.row.id}`)}
-          >
-            {/* {t('view')} */}
-            <Eye />
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(`${paths.lectuers}/update/${params.row.id}`)}
-          >
-            {/* {t('edit')} */}
-            <Pencil />
-          </Button>
-        </Stack>
-      ),
-    },
-  ];
+  // delete modal
+  const [opend, setOpend] = useState(false);
+  const handleOpend = () => setOpend(true);
+  const handleClosed = () => setOpend(false);
+  const [selectedCategory, setSelectedCategory] = useState<null | IPackageLectuerSelected>(null);
+  const handleEditOpen = (categoryData: IPackageLectuerSelected) => {
+    console.log(categoryData);
+    setSelectedCategory(categoryData); // Set selected package data
+    handleOpenU(); // Open the update modal
+  };
+  // update modal
+  const [openU, setOpenU] = useState(false);
+  const handleOpenU = () => setOpenU(true);
+  const handleCloseU = () => setOpenU(false);
 
   // Pagination settings
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`Lectuers-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchLectuers(id, page, per, search,sort),
+    queryFn: () => fetchLectuers(id, page, per, search, sort),
   });
 
+  // console.log(data)
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
   // console.log(data.data.data);
   // Prepare rows for DataGrid
-  const rows =
-    data.data?.data?.length > 0
-      ? data?.data?.data.map((lecturItem: IPackageLectuerSelected) => ({
-          id: lecturItem.id,
-          nameEn: lecturItem.title?.en,
-          nameAr: lecturItem.title?.ar,
-          // descriptionEn: lecturItem.description.en,
-          // descriptionAr: lecturItem.description.ar,
 
-          vedioUrl: lecturItem.video_url,
-          vedioDuration: lecturItem.duration,
-        }))
-      : [];
   const totalItems = data.data?.total;
   return (
     <>
@@ -122,38 +73,32 @@ function LectuerTable({isDashBoard}:IProps) {
 
       <Paper sx={{ width: '100%', marginTop: '20px' }}>
         <Stack flexDirection={'row'} alignItems={'center'}>
-                  <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
-        
+          <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
+
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
-                 
-          
         </Stack>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          // initialState={{ pagination: { paginationModel } }}
-          // pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
-          autoHeight
-          getRowHeight={() => 200} // Set each row's height to 200px
-          getRowClassName={(params: GridRowClassNameParams) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-          }
-          disableRowSelectionOnClick
-          disableMultipleRowSelection
-          hideFooterPagination={true}
+        <LectuerTables
+          data={data?.data?.data}
+          handleEditOpen={handleEditOpen}
+          handleOpend={handleOpend}
+          setTempId={setTempId}
         />
-        <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{ marginTop: 2, mx: 2 }}
+        >
           <PaginationComponent
             page={page}
-            pageCounter={totalItems / per <= 1 ? 1 :  Math.ceil(totalItems / per)}
+            pageCounter={totalItems / per <= 1 ? 1 : Math.ceil(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />
         </Stack>
       </Paper>
-            {/* delete modal */}
-            {/* <BasicModal open={opend} handleClose={handleClosed}>
+      {/* delete modal */}
+      {/* <BasicModal open={opend} handleClose={handleClosed}>
       <Typography variant="h6" component="h2" gutterBottom>
           Delete
         </Typography>
@@ -175,9 +120,22 @@ function LectuerTable({isDashBoard}:IProps) {
         </Box>
        
       </BasicModal> */}
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'course-lectures')}}/>
 
-      
+      {/* update modal */}
+      <BasicModal open={openU} handleClose={handleCloseU}>
+        <h2>{t('updateCategory')}</h2>
+
+        <UpdateLectuerForm handleClose={handleCloseU} initialData={selectedCategory} refetch={refetch} />
+      </BasicModal>
+      <DeleteModal
+        handleClosed={handleClosed}
+        opend={opend}
+        refetch={refetch}
+        tempId={tempId}
+        deleteFunc={() => {
+          deleteAnyThing(tempId, refetch, 'course-lectures');
+        }}
+      />
 
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

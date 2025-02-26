@@ -7,24 +7,27 @@ import { Navigate, useNavigate } from 'react-router-dom';
 // import { ICompany } from 'interfaces';
 import paths from 'routes/path';
 import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
-import { ITempPermissions } from 'interfaces';
+import { IREc, ISubADmin, ITempPermissions } from 'interfaces';
 import SwitchStatus from 'components/Shared/switch';
 interface IProps {
-  handleEditOpen:(val:ITempPermissions)=>void
+  handleEditOpen:(val:ISubADmin)=>void
   handleOpend:()=>void
   setTempId:(val:number)=>void
-  data: ITempPermissions[];
+  data: ISubADmin[];
 }
-function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
+function SubAdminTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
   const navigate = useNavigate();
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name' },
+    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name', flex: 0.5 },
+    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
+    // { field: 'avatar', headerName: i18n.language === 'ar' ? 'الصورة' : 'avatar' ,flex: 1, },
+    // { field: 'role', headerName: i18n.language === 'ar' ? 'صلاحية' : 'role',flex: 1,  },
     {
-      field: 'permissions',
-      headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'permissions',
-      flex: 2,
+      field: 'roles',
+      headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'roles',
+      flex: 1,
       renderCell: (params) => (
         <Box
           sx={{
@@ -33,7 +36,7 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
             overflowX: 'auto', // Optional: adds horizontal scrolling if content overflows
           }}
         >
-          {params.row.permissions.map((item: { name: string }) => {
+          {params.row.role.map((item: string) => {
             return (
               <Box
                 component="div"
@@ -45,21 +48,16 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
                   p: 0.5,
                 }}
               >
-                {item.name}
+                {item}
               </Box>
             );
           })}
         </Box>
       ),
     },
-    i18n.language === 'ar'
-      ? { field: 'display_nameAr', headerName: 'الاسم المعروض', flex: 1 }
-      : { field: 'display_nameEn', headerName: 'display name En', flex: 1 },
-
     {
       field: 'status',
       headerName: i18n.language === 'ar' ? 'الحالة' : 'status',
-      width: 130,
       renderCell: (params) => (
         <SwitchStatus id={params.row.id} url={'packages'} apiStatus={params.row.status} />
       ),
@@ -81,7 +79,14 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
             {/* {t('delete')} */}
             <Trash2 />
           </Button>
-
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`${paths.subAdmins}/${params.row.id}`)}
+          >
+            {/* {t('view')} */}
+            <Eye />
+          </Button>
           <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
             {/* {t('edit')} */}
             <Pencil />
@@ -94,8 +99,8 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
   const rows =
     data.length > 0
-      ? data.map((company: ITempPermissions) => ({
-          ...company,
+      ? data.map((sub: ISubADmin) => ({
+          ...sub,
         }))
       : [];
   return (
@@ -115,4 +120,4 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
   );
 }
 
-export default PermissionsTable;
+export default SubAdminTable;

@@ -8,10 +8,10 @@ import BasicModal from 'components/Shared/modal/ShareModal';
 // import { fetchPackages } from './packagesFunct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import paths from 'routes/path';
+
 import { useTranslation } from 'react-i18next';
-import { IPackage, IPackageSelected } from 'interfaces';
-import { Eye, Trash2, Pencil } from 'lucide-react';
+import { IPackageSelected, IREc } from 'interfaces';
+
 import PaginationComponent from 'components/Shared/pagination';
 
 import SearchForm from 'components/Shared/searchForm';
@@ -25,18 +25,12 @@ import SwitchStatus from 'components/Shared/switch';
 import SkeletonTables from 'components/Shared/skelton';
 import SelectSort from 'components/Shared/selectSort';
 import SelectPerPage from 'components/Shared/selectPerPAge';
+import RecommendationsTable from './RecommendationsTable';
 
 
 // Fetch packages function
 interface IProps {
   isDashBoard:boolean
-}
-interface IREc {
-    id:number;
-    name:string;
-    value:string
-    status: string | null  ;
-
 }
 function RecommendationsPage({isDashBoard}:IProps) {
   // states
@@ -80,50 +74,7 @@ function RecommendationsPage({isDashBoard}:IProps) {
   };
 
   // Columns configuration
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name',flex: 0.5, },
-    { field: 'value', headerName: i18n.language === 'ar' ? 'القيمة' : 'email',flex: 1,  },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 ,renderCell: (params) => (
-              <SwitchStatus id={params.row.id} url={"recommendations"} apiStatus={params.row.status} />
-             
-            ), },
-    {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 1,
-      renderCell: (params) => (
-        <Stack direction="row" gap={1}>
-          <Button
-            variant="contained"
-            color="error"
-            
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }
-          }
-          >
-            {/* {t('delete')} */}
-            <Trash2 />
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(`${paths.recommendations}/${params.row.id}`)}
-          >
-            {/* {t('view')} */}
-            <Eye />
-          </Button>
-          <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
-            {/* {t('edit')} */}
-            <Pencil />
-          </Button>
-        </Stack>
-      ),
-    },
-  ];
+
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
@@ -134,19 +85,7 @@ function RecommendationsPage({isDashBoard}:IProps) {
   if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 // console.log(data)
-  // Prepare rows for DataGrid
-  const rows =
-    data?.data?.data?.length > 0
-      ? data?.data?.data?.map((item: {name:string,id:number,value:string,status:string}) => ({
-          id: item?.id,
-          name: item?.name,
 
-          value: item?.value,
-          status: item?.status,
-
-
-        }))
-      : [];
   const totalItems = data?.data?.total;
   return (
     <>
@@ -180,18 +119,11 @@ function RecommendationsPage({isDashBoard}:IProps) {
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
           
         </Stack>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          sx={{ border: 0 }}
-          autoHeight
-          getRowHeight={() => 200} // Set each row's height to 200px
-          getRowClassName={(params: GridRowClassNameParams) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-          }
-          disableRowSelectionOnClick
-          disableMultipleRowSelection
-          hideFooterPagination={true}
+        <RecommendationsTable 
+          data={data?.data?.data}
+          handleEditOpen={handleEditOpen}
+          handleOpend={handleOpend}
+          setTempId={setTempId}
         />
         <Stack
           direction={'row'}

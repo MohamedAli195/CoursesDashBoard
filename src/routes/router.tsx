@@ -36,7 +36,6 @@ const OrdersPage = lazy(() => import('pages/orders'));
 const Dashboard = lazy(() => import('pages/dashboard/index'));
 // const ProductsPage = lazy(() => import('pages/products'));
 const CustomersPage = lazy(() => import('pages/customers'));
-const ReportsPage = lazy(() => import('pages/reports'));
 const InboxPage = lazy(() => import('pages/inbox'));
 const NotFoundPage = lazy(() => import('pages/not-found'));
 
@@ -107,14 +106,7 @@ export const routes = [
               </ProtectedRoute>
             ),
           },
-          {
-            path: paths.reports,
-            element: (
-              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <ReportsPage />
-              </ProtectedRoute>
-            ),
-          },
+
           {
             path: paths.courses,
             element: (
@@ -230,14 +222,14 @@ export const routes = [
               </ProtectedRoute>
             ),
           },
-          {
-            path: `${paths.lectuers}/update/:id`, // Fixed typo
-            element: (
-              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <UpdateLectuerForm />
-              </ProtectedRoute>
-            ),
-          },
+          // {
+          //   path: `${paths.lectuers}/update/:id`, // Fixed typo
+          //   element: (
+          //     <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+          //       <UpdateLectuerForm />
+          //     </ProtectedRoute>
+          //   ),
+          // },
           {
             path: `${paths.customers}/:id`,
             element: (

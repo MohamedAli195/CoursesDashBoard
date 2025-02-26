@@ -140,14 +140,18 @@ export interface ICourseSelect {
 
   export interface IPackageLectuerSelected {
     id:number |string
+    course:{
+      id:number
+    }
     title: {
       en: string;
       ar: string;
+      fr:string
     };
     description: {
       en: string;
       ar: string;
-
+      fr:string
     };
 
     video_url: string;
@@ -173,6 +177,13 @@ export interface ICourseSelect {
     partner_code: string;
   }
 
+ export interface IREc {
+      id:number;
+      name:string;
+      value:string
+      status: string | null  ;
+  
+  }
 export interface IOrder  {
     id: number,
     status: string,
