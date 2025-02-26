@@ -1,5 +1,5 @@
-import PageLoader from 'components/loading/PageLoader';
-import Splash from 'components/loading/Splash';
+import PageLoader from 'components/Shared/loading/PageLoader';
+import Splash from 'components/Shared/loading/Splash';
 import AuthLayout from 'layouts/auth-layout';
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
@@ -13,16 +13,13 @@ import AddCoursePage from 'pages/courses/AddCoursePage';
 import CourseDetails from 'pages/courses/CourseDetails';
 import AddCourseLectuerPage from 'pages/courses/AddCourseLectuerPage';
 import CourseUpdate from 'pages/courses/CourseUpdate';
-import UpdateLectuerForm from 'components/updateLectuerForm';
+import UpdateLectuerForm from 'components/CourseLectuers/updateLectuerForm';
 import LectuerDetails from 'components/lectuerTable/LectuerDetails';
-import ViewCustomer from 'components/ViewCustomer';
+import ViewCustomer from 'components/Customers/ViewCustomer';
 import PermissionsPage from 'pages/permissions';
 import SubAdminsPage from 'pages/subadmins';
-import { useSelector } from 'react-redux';
-import { useAppSelector } from 'app/store';
-import { selectUserToken } from 'app/features/user/userSlice';
+
 import RecommendationsPage from 'pages/recommendationsPage';
-import ViewRecommendationsForm from 'components/viewRecomendationsForm';
 import RecommendationsDetails from 'pages/recommendationsPage/recommendationsDetails';
 import SubAdminDetails from 'pages/subadmins/subADminDetails';
 
@@ -40,7 +37,6 @@ const Dashboard = lazy(() => import('pages/dashboard/index'));
 // const ProductsPage = lazy(() => import('pages/products'));
 const CustomersPage = lazy(() => import('pages/customers'));
 const ReportsPage = lazy(() => import('pages/reports'));
-const CouponsPage = lazy(() => import('pages/coupons'));
 const InboxPage = lazy(() => import('pages/inbox'));
 const NotFoundPage = lazy(() => import('pages/not-found'));
 
@@ -116,14 +112,6 @@ export const routes = [
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <ReportsPage />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: paths.coupons,
-            element: (
-              <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                <CouponsPage />
               </ProtectedRoute>
             ),
           },

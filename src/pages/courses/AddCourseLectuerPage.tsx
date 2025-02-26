@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import AddCourseLectuerForm from 'components/AddCourseLectuerForm';
+import AddCourseLectuerForm from 'components/CourseLectuers/AddCourseLectuerForm';
 
 import { useParams } from 'react-router-dom';
 import { t } from 'i18next';

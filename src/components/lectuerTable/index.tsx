@@ -9,13 +9,12 @@ import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
 import { IPackageLectuerSelected } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
-import SelectSort from 'components/selectSort';
-import BasicModal from 'components/modal/ShareModal';
-import { deleteAnyThing, fetchLectuers } from 'functions';
+import PaginationComponent from 'components/Shared/pagination';
 import DeleteModal from 'components/deleteModal';
+import { deleteAnyThing, fetchLectuers } from 'functions';
+import SearchForm from 'components/Shared/searchForm';
+import SelectPerPage from 'components/Shared/selectPerPAge';
+import SelectSort from 'components/Shared/selectSort';
 
 // Fetch packages function
 interface IProps {

@@ -1,10 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import ViewPackageForm from 'components/viewpackageForm';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { fetchOne } from 'functions';
-import ViewRecommendationsForm from 'components/viewRecomendationsForm';
+import ViewRecommendationsForm from 'components/Recommendations/viewRecomendationsForm';
 
 function RecommendationsDetails() {
   const { id } = useParams();

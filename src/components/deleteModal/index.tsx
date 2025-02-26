@@ -1,5 +1,5 @@
 import { Button, Typography ,Box } from '@mui/material'
-import BasicModal from 'components/modal/ShareModal'
+import BasicModal from 'components/Shared/modal/ShareModal'
 import Lottie from 'lottie-react'
 import {  } from 'lucide-react'
 

@@ -1,10 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import ViewPackageForm from 'components/viewpackageForm';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { fetchOne } from 'functions';
-import SubAdminViewForm from 'components/subAdminViewForm';
+import SubAdminViewForm from 'components/SubAdmin/subAdminViewForm';
 
 function SubAdminDetails() {
   const { id } = useParams();

@@ -9,16 +9,20 @@ import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
 import { ICourse, ICourseSelect, IFormInputCourses } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
-import SelectSort from 'components/selectSort';
-import BasicModal from 'components/modal/ShareModal';
-import SwitchStatus from 'components/switch';
+import PaginationComponent from 'components/Shared/pagination';
+
+import SearchForm from 'components/Shared/searchForm';
+
+import BasicModal from 'components/Shared/modal/ShareModal';
+
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
-import PackagesPageSkeleton from 'components/skelton';
-import AddCourseForm from 'components/AddCourseForm';
+
+import AddCourseForm from 'components/Courses/AddCourseForm';
+import SelectPerPage from 'components/Shared/selectPerPAge';
+import SelectSort from 'components/Shared/selectSort';
+import SkeletonTables from 'components/Shared/skelton';
+import SwitchStatus from 'components/Shared/switch';
 
 // Fetch packages function
 interface IProps {
@@ -171,7 +175,7 @@ function CoursesPage({ isDashBoard }: IProps) {
           // descriptionAr: packageItem.description.ar,
         }))
       : [];
-  if (isLoading) return <PackagesPageSkeleton />;
+  if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
   // console.log(data)
   const totalItems = data.data?.total;

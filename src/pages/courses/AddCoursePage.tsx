@@ -2,7 +2,7 @@
 
 
 import { Typography } from '@mui/material'
-import AddCourseForm from 'components/AddCourseForm'
+import AddCourseForm from 'components/Courses/AddCourseForm'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 

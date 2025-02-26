@@ -3,9 +3,8 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
-import AddPackageForm from 'components/addPacageForm';
-import UpdatePackageForm from 'components/updatePacageForm';
+import BasicModal from 'components/Shared/modal/ShareModal';
+import UpdatePackageForm from 'components/Packages/updatePacageForm';
 // import { fetchPackages } from './packagesFunct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,20 +12,25 @@ import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
 import { IPackage, IPackageSelected } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
-import SelectSort from 'components/selectSort';
-import SwitchStatus from 'components/switch';
+import PaginationComponent from 'components/Shared/pagination';
+
+import SearchForm from 'components/Shared/searchForm';
+
+
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
-import PackagesPageSkeleton from 'components/skelton';
+
+import PackagesTable from './PackagesTable';
+import AddPackageForm from 'components/Packages/addPackageForm';
+import SelectSort from 'components/Shared/selectSort';
+import SkeletonTables from 'components/Shared/skelton';
+import SelectPerPage from 'components/Shared/selectPerPAge';
 
 // Fetch packages function
 interface IProps {
-  isDashBoard:boolean
+  isDashBoard: boolean;
 }
-function PackagesPage({isDashBoard}:IProps) {
+function PackagesPage({ isDashBoard }: IProps) {
   // states
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -42,10 +46,10 @@ function PackagesPage({isDashBoard}:IProps) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-    // delete modal
-    const [opend, setOpend] = useState(false);
-    const handleOpend = () => setOpend(true);
-    const handleClosed = () => setOpend(false);
+  // delete modal
+  const [opend, setOpend] = useState(false);
+  const handleOpend = () => setOpend(true);
+  const handleClosed = () => setOpend(false);
 
   // update modal
   const [openU, setOpenU] = useState(false);
@@ -60,81 +64,14 @@ function PackagesPage({isDashBoard}:IProps) {
   };
 
   // Columns configuration
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID' },
-    i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'الاسم',flex: 1, }
-      : { field: 'nameEn', headerName: 'Name' ,flex: 1,},
-    { field: 'price', headerName: i18n.language === 'ar' ? 'السعر' : 'price' },
-    {
-      field: 'image',
-      headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
-
-      flex: 1,
-      renderCell: (params) =>
-        params.value ? (
-          <img src={params.value} alt={params.row.name} style={{ width: '100%', height: 'auto' }} />
-        ) : (
-          <Typography variant="body2" color="textSecondary">
-            No Image
-          </Typography>
-        ),
-    },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status', width: 130 ,renderCell: (params) => (
-          <SwitchStatus id={params.row.id} url={"packages"} apiStatus={params.row.status} />
-         
-        ), },
-    {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 1,
-      renderCell: (params) => (
-        <Stack direction="row" gap={1}>
-          {
-            checkPermissions(parsedData,'delete-package') && <Button
-            variant="contained"
-            color="error"
-            
-            onClick={
-              ()=>{
-              handleOpend()
-              setTempId(params.row.id)
-            }
-          }
-          >
-            {/* {t('delete')} */}
-            <Trash2 />
-          </Button>
-          }
-          {
-            checkPermissions(parsedData,'show-packages') &&     <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
-          >
-            {/* {t('view')} */}
-            <Eye />
-          </Button>
-          }
-        {
-          checkPermissions(parsedData,'edit-package') && <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
-          {/* {t('edit')} */}
-          <Pencil />
-        </Button>
-        }
-
-        </Stack>
-      ),
-    },
-  ];
 
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`packages-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchAllData(page, per, search, sort,'','packages'),
+    queryFn: () => fetchAllData(page, per, search, sort, '', 'packages'),
   });
 
-  if (isLoading) return <PackagesPageSkeleton />
+  if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
@@ -152,53 +89,42 @@ function PackagesPage({isDashBoard}:IProps) {
   const totalItems = data.data?.total;
   return (
     <>
-    {
-      !isDashBoard && <Stack
-      flexDirection="row"
-      alignItems="center"
-      justifyContent="space-between"
-      mb={3}
-      height={''}
-    >
-      <Typography variant="h1" color="initial">
-        {t('packages')}
-      </Typography>
+      {!isDashBoard && (
+        <Stack
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={3}
+          height={''}
+        >
+          <Typography variant="h1" color="initial">
+            {t('packages')}
+          </Typography>
 
-      {
-        checkPermissions(parsedData,'add-package') && <Button variant="contained" color="info" onClick={handleOpen}>
-        {t('addPackage')}
-      </Button>
-      }
-    
-      
-    </Stack>
-    }
-      
+          {checkPermissions(parsedData, 'add-package') && (
+            <Button variant="contained" color="info" onClick={handleOpen}>
+              {t('addPackage')}
+            </Button>
+          )}
+        </Stack>
+      )}
 
       <Paper sx={{ width: '100%' }}>
-        {
-          isDashBoard && <Typography variant="h1" color="initial">
-          {t('packages')}
-        </Typography>
-        }
+        {isDashBoard && (
+          <Typography variant="h1" color="initial">
+            {t('packages')}
+          </Typography>
+        )}
         <Stack flexDirection={'row'} alignItems={'center'}>
-        <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
-        
+          <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
+
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
-          
         </Stack>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          sx={{ border: 0 }}
-          autoHeight
-          getRowHeight={() => 200} // Set each row's height to 200px
-          getRowClassName={(params: GridRowClassNameParams) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-          }
-          disableRowSelectionOnClick
-          disableMultipleRowSelection
-          hideFooterPagination={true}
+        <PackagesTable
+          data={data?.data?.data}
+          handleEditOpen={handleEditOpen}
+          handleOpend={handleOpend}
+          setTempId={setTempId}
         />
         <Stack
           direction={'row'}
@@ -208,7 +134,7 @@ function PackagesPage({isDashBoard}:IProps) {
         >
           <PaginationComponent
             page={page}
-            pageCounter={totalItems / per <= 1 ? 1 :  Math.ceil(totalItems / per)}
+            pageCounter={totalItems / per <= 1 ? 1 : Math.ceil(totalItems / per)}
             setPage={setPage}
           />
           <SelectPerPage perPage={per} setPerPage={setper} />
@@ -221,16 +147,20 @@ function PackagesPage({isDashBoard}:IProps) {
         <AddPackageForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'packages')}}/>
+      <DeleteModal
+        handleClosed={handleClosed}
+        opend={opend}
+        refetch={refetch}
+        tempId={tempId}
+        deleteFunc={() => {
+          deleteAnyThing(tempId, refetch, 'packages');
+        }}
+      />
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>{t('editPackage')}</h2>
-        <UpdatePackageForm
-          handleClose={handleCloseU}
-          refetch={refetch}
-          id={tempIdUpdate}
-        />
+        <UpdatePackageForm handleClose={handleCloseU} refetch={refetch} id={tempIdUpdate} />
       </BasicModal>
       <Toaster position="bottom-center" reverseOrder={false} />
     </>

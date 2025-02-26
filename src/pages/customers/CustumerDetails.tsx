@@ -1,12 +1,12 @@
 import { useLocation, useParams } from "react-router-dom"
 
 import { useQuery } from "@tanstack/react-query";
-import ViewPackageForm from "components/viewpackageForm";
-import { useEffect } from "react";
-import i18n from "i18n";
+
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { fetchOne } from "functions";
+import ViewPackageForm from "components/Packages/viewpackageForm";
+import ViewCustomer from "components/Customers/ViewCustomer";
 
 function customerDetails() {
     const { id } = useParams();
@@ -27,6 +27,9 @@ function customerDetails() {
         {t("packagPage")}
         </Typography>
         <ViewPackageForm initialData ={data?.data}/>
+        {/* <ViewCustomer initialData ={data?.data}/> */}
+
+        
         </>
     );
 }

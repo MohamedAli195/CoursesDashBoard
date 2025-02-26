@@ -3,22 +3,25 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
+import BasicModal from 'components/Shared/modal/ShareModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
-import AddCustomer from 'components/addCustomer';
-import UpdateCustomerForm from 'components/updatePacageForm/updateCustomer';
+import AddCustomer from 'components/Customers/addCustomer';
+import UpdateCustomerForm from 'components/Customers/updateCustomer';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
+import PaginationComponent from 'components/Shared/pagination';
+
+import SearchForm from 'components/Shared/searchForm';
 import { ICustomer } from 'interfaces';
-import SelectSort from 'components/selectSort';
+
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
-import PackagesPageSkeleton from 'components/skelton';
+import SkeletonTables from 'components/Shared/skelton';
+import SelectSort from 'components/Shared/selectSort';
+import SelectPerPage from 'components/Shared/selectPerPAge';
+
 
 // Fetch packages function
 interface IProps {
@@ -133,7 +136,7 @@ function CustomersPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','customers'),
   });
 
-  if (isLoading) return <PackagesPageSkeleton />;
+  if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid

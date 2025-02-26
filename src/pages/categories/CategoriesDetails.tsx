@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query";
 
 // import { fetchCategory } from "./categoriesFunct";
-import ViewCategoryForm from "components/viewCategoriesForm/ViewCategoryForm";
+import ViewCategoryForm from "components/Category/viewCategoriesForm/ViewCategoryForm";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { fetchOne } from "functions";

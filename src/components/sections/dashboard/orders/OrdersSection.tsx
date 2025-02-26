@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import IconifyIcon from 'components/base/IconifyIcon';
-import CircularLoader from 'components/loading/Circular';
+import CircularLoader from 'components/Shared/loading/Circular';
 import OrdersLineChart from 'components/sections/dashboard/orders/OrdersLineChart';
 import { ordersOverTimeData } from 'data/dashboard/charts';
 import dayjs from 'dayjs';

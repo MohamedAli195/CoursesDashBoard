@@ -1,7 +1,7 @@
 
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import ViewLectuerForm from 'components/viewLectuerForm';
+import ViewLectuerForm from 'components/CourseLectuers/viewLectuerForm';
 
 function LectuerDetails() {
   const { t } = useTranslation();

@@ -3,9 +3,8 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
-import AddPackageForm from 'components/addPacageForm';
-import UpdatePackageForm from 'components/updatePacageForm';
+import BasicModal from 'components/Shared/modal/ShareModal';
+
 // import { fetchPackages } from './packagesFunct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,18 +12,20 @@ import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
 import { IPackage, IPackageSelected } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
-import SelectSort from 'components/selectSort';
-import SwitchStatus from 'components/switch';
+import PaginationComponent from 'components/Shared/pagination';
+
+import SearchForm from 'components/Shared/searchForm';
+
 import DeleteModal from 'components/deleteModal';
 import { deleteAnyThing, fetchAllData } from 'functions';
-import AddPermissinsForm from 'components/addPermissions';
-import AddSubAdminForm from 'components/addSubAdmin';
-import AddRecommendationsForm from 'components/addRecommendations';
-import UpdateRecommendationsForm from 'components/updaterecommendations';
-import PackagesPageSkeleton from 'components/skelton';
+;
+import AddRecommendationsForm from 'components/Recommendations/addRecommendations';
+import UpdateRecommendationsForm from 'components/Recommendations/updaterecommendations';
+import SwitchStatus from 'components/Shared/switch';
+import SkeletonTables from 'components/Shared/skelton';
+import SelectSort from 'components/Shared/selectSort';
+import SelectPerPage from 'components/Shared/selectPerPAge';
+
 
 // Fetch packages function
 interface IProps {
@@ -130,7 +131,7 @@ function RecommendationsPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','recommendations'),
   });
 
-  if (isLoading) return <PackagesPageSkeleton />;
+  if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 // console.log(data)
   // Prepare rows for DataGrid

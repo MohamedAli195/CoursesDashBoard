@@ -1,13 +1,10 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
-import ViewPackageForm from 'components/viewpackageForm';
-import { useEffect } from 'react';
-import i18n from 'i18n';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
-import ViewCoursForm from 'components/viewCoursForm';
+import ViewCoursForm from 'components/Courses/viewCoursForm';
 import LectuerTable from 'components/lectuerTable';
 import { fetchOne } from 'functions';
 

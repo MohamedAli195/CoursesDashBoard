@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import ViewPackageForm from 'components/viewpackageForm';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { fetchOne } from 'functions';
+import ViewPackageForm from 'components/Packages/viewpackageForm';
 
 function PackageDetails() {
   const { id } = useParams();

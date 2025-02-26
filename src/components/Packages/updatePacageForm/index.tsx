@@ -1,12 +1,10 @@
 import { Box, Button, Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import InputFileUpload from 'components/UploadImage';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';
-
 import { CloudUpload } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchOne } from 'functions';

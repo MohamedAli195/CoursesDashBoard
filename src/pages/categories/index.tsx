@@ -3,25 +3,29 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
+import BasicModal from 'components/Shared/modal/ShareModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
-import AddCategoryForm from 'components/addCategoryForm';
-import UpdateCategoryForm from 'components/updateCategoryForm/UpdateCategory';
+import AddCategoryForm from 'components/Category/addCategoryForm';
+import UpdateCategoryForm from 'components/Category/updateCategoryForm/UpdateCategory';
 import { useTranslation } from 'react-i18next';
 import { ICategory, ISelectCategory } from 'interfaces';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
-import SelectSort from 'components/selectSort';
+import PaginationComponent from 'components/Shared/pagination';
+
+import SearchForm from 'components/Shared/searchForm';
+
 // import CustomDataGridFooter from 'components/common/table/CustomDataGridFooter';
 import Lottie from "lottie-react";
 import deleteAnimation from "./../../../src/components/animations/delete.json";
 import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
-import PackagesPageSkeleton from 'components/skelton';
+
+import CategoriesTable from './CategoriesTable';
+import SkeletonTables from 'components/Shared/skelton';
+import SelectSort from 'components/Shared/selectSort';
+import SelectPerPage from 'components/Shared/selectPerPAge';
 
 // Fetch packages function
 interface IProps {
@@ -53,82 +57,16 @@ function CategoriesPage({isDashBoard}:IProps) {
       const handleOpend = () => setOpend(true);
       const handleClosed = () => setOpend(false);
   // Define a state to store selected package data
-  const [selectedCategory, setSelectedCategory] = useState<null | ISelectCategory>(null);
+  const [selectedCategory, setSelectedCategory] = useState<null | ICategory>(null);
 
-  const handleEditOpen = (categoryData: ISelectCategory) => {
+  const handleEditOpen = (categoryData: ICategory) => {
+    console.log(categoryData)
     setSelectedCategory(categoryData); // Set selected package data
     handleOpenU(); // Open the update modal
   };
 
   // fetch from api
-  // fetchCategories();
 
-  // Columns configuration
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID'},
-    i18n.language === 'ar'
-      ? { field: 'nameAr', headerName: 'الاسم' , flex: 1,}
-      : { field: 'nameEn', headerName: 'Name' , flex: 1,},
-    // i18n.language === 'ar'
-    //   ? { field: 'descriptionAr', headerName: 'الوصف' }
-    //   : { field: 'descriptionEn', headerName: 'description' },
-
-    {
-      field: 'image',
-      headerName: i18n.language === 'ar' ? 'الصورة' : 'image',
-
-      flex: 1,
-      renderCell: (params) =>
-        params.value ? (
-          <img src={params.value} alt={params.row.name} style={{ width: '100%', height: '100%' }} />
-        ) : (
-          <Typography variant="body2" color="textSecondary">
-            No Image
-          </Typography>
-        ),
-    },
-    {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 1,
-      renderCell: (params) => (
-        <Stack direction="row" gap={1}>
-          {
-             checkPermissions(parsedData,'delete-category') && <Button
-             variant="contained"
-             color="error"
-             // onClick={() => deleteCategory(params.row.id, refetch)}
-             onClick={
-               ()=>{
-               handleOpend()
-               setTempId(params.row.id)
-             }}
-           >
-             {/* {t("delete")} */}
-             <Trash2 />
-           </Button>
-          }
-          {
-            checkPermissions(parsedData,'show-categories') && <Button
-            variant="contained"
-            color="info"
-            onClick={() => navigate(`${paths.categories}/${params.row.id}`)}
-          >
-            {/* {t("view")}  */}
-            <Eye />
-          </Button>
-          }
-  {
-    checkPermissions(parsedData,'edit-category') && <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-    {/* {t("edit")} */}
-    <Pencil />
-  </Button>
-  }
-
-        </Stack>
-      ),
-    },
-  ];
 
 
 
@@ -138,20 +76,10 @@ function CategoriesPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search,sort,'','categories'),
   });
 
-  if (isLoading) return <PackagesPageSkeleton />
+  if (isLoading) return <SkeletonTables />
   if (isError) return <p>Error: {error.message}</p>;
 
-  const rows =
-    data?.data?.data?.length > 0
-      ? data.data.data.map((packageItem: ICategory) => ({
-          id: packageItem.id,
-          nameEn: packageItem.name?.en,
-          nameAr: packageItem.name?.ar,
-          // descriptionEn: packageItem.description?.en,
-          // descriptionAr: packageItem.description?.ar,
-          image: packageItem.image,
-        }))
-      : [];
+ 
       const totalItems = data.data?.total
   return (
     <>
@@ -181,20 +109,11 @@ function CategoriesPage({isDashBoard}:IProps) {
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
           
         </Stack>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          // initialState={{ pagination: { paginationModel } }}
-          // pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
-          autoHeight
-          getRowHeight={() => 200} // Set each row's height to 200px
-          getRowClassName={(params: GridRowClassNameParams) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-          }
-          disableRowSelectionOnClick
-          disableMultipleRowSelection
-          hideFooterPagination={true}
+        <CategoriesTable
+          data={data?.data?.data}
+          handleEditOpen={handleEditOpen}
+          handleOpend={handleOpend}
+          setTempId={setTempId}
         />
         <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
           <PaginationComponent

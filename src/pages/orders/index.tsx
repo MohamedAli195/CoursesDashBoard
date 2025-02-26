@@ -3,25 +3,29 @@ import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/modal/ShareModal';
+import BasicModal from 'components/Shared/modal/ShareModal';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
-import AddCustomer from 'components/addCustomer';
-import UpdateCustomerForm from 'components/updatePacageForm/updateCustomer';
+import AddCustomer from 'components/Customers/addCustomer';
+import UpdateCustomerForm from 'components/Customers/updateCustomer';
 import { Eye, Trash2, Pencil } from 'lucide-react';
-import PaginationComponent from 'components/pagination';
-import SelectPerPage from 'components/selectPerPAge';
-import SearchForm from 'components/searchForm';
+import PaginationComponent from 'components/Shared/pagination';
+
+import SearchForm from 'components/Shared/searchForm';
 import { ICustomer, IOrder } from 'interfaces';
-import SelectSort from 'components/selectSort';
+
 import DeleteModal from 'components/deleteModal';
 // import { fetchCustomers } from 'pages/customers/costumersFunct';
 import UpdateOrderForm from 'components/updateOrderForm';
 import { fetchAllData } from 'functions';
-import PackagesPageSkeleton from 'components/skelton';
+import SkeletonTables from 'components/Shared/skelton';
+import SelectSort from 'components/Shared/selectSort';
+import SelectPerPage from 'components/Shared/selectPerPAge';
+import OrdersTable from './OrdersTable';
+
 
 // Fetch packages function
 interface IProps {
@@ -66,97 +70,16 @@ function OrdersPage({isDashBoard}:IProps) {
     handleOpenU(); // Open the update modal
   };
 
-  // fetch from api
-  // fetchCustomers();
-
-  // Columns configuration
-  const columns: GridColDef[] = 
-  !isDashBoard ?
-  [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'name', flex: 0.5 },
-    { field: 'order_type', headerName: i18n.language === 'ar' ? 'نوع الطلب' : 'order type', flex: 0.5},
-    { field: 'created_at', headerName: i18n.language === 'ar' ? 'تاريخ الطلب' : 'created at', flex: 0.5 },
-
-    { field: 'total', headerName: i18n.language === 'ar' ? 'الاجمالى' : 'total ' },
-    { field: 'status', headerName: i18n.language === 'ar' ? 'الحالة' : 'status ',
-      flex: 0.5,
-
-      renderCell: (params) => (
-        <span
-          style={{
-            color: params.value === 'accepted' ? 'green' : params.value === 'canceled' ? '#ffd7d7' :'blue',
-            backgroundColor: params.value === 'accepted' ? '#a8f1cd' : params.value === 'canceled' ? '#FF0000' :'#6691e7',
-            fontWeight: 'bold',
-            padding:10,
-            display:'inline-block',
-            borderRadius:10
-          }}
-        >
-          {params.value}
-        </span>
-      ),
-     },
-    {
-      field: 'payment_method',
-      headerName: i18n.language === 'ar' ? 'طريقة الدفع' : 'payment method',
-    
-    },
-    {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 0.5,
-      renderCell: (params) => (
-        <Stack direction="row" gap={1}>
-          <Button
-            variant="contained"
-            color="info"
-            // onClick={() => navigate(`${paths.customers}/${params.row.id}`)}
-          >
-            {/* {t('view')} */}
-            <Eye />
-          </Button>
-          <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
-            {/* {t('edit')} */}
-            <Pencil />
-          </Button>
-        </Stack>
-      ),
-    },
-  ]:[ { field: 'id', headerName: 'ID' },
-    i18n.language === 'ar'
-      ? { field: 'name', headerName: 'الاسم', flex: 1 }
-      : { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'email', headerName: i18n.language === 'ar' ? 'الايميل' : 'email', flex: 1 },
-
-    { field: 'phone', headerName: i18n.language === 'ar' ? 'الحالة' : 'phone', flex: 1 },];
-
-  // Pagination settings
-  // const paginationModel = { page: 0, pageSize: 5 };
-
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
     queryKey: [`orders-${page}-${per}-${search}-${sort}-${typeFilter}`],
     queryFn: () => fetchAllData(page, per, search, sort,typeFilter,'orders'),
   });
 
-  if (isLoading) return <PackagesPageSkeleton />;
+  if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 
-  // Prepare rows for DataGrid
-  // console.log(data.data.data);
-  const rows =
-  data?.data?.data?.length > 0
-    ? data?.data?.data?.map((orderItem: IOrder) => ({
-        id:  orderItem.id,
-        name: orderItem.user.name,
-        order_type: orderItem.order_type,
-        created_at: formatDate(orderItem.created_at), // Format created_at
-        status: orderItem.status,
-        payment_method: orderItem.payment_method,
-        total: orderItem.total,
-      }))
-    : [];
+
   const totalItems = data?.data?.total;
   return (
     <>
@@ -172,9 +95,7 @@ function OrdersPage({isDashBoard}:IProps) {
       <Typography variant="h1" color="initial">
         {t('Orders')}
       </Typography>
-      {/* <Button variant="contained" color="info" onClick={handleOpen}>
-        {t('Addcustomers')}
-      </Button> */}
+
     </Stack> 
     }
       
@@ -193,20 +114,12 @@ function OrdersPage({isDashBoard}:IProps) {
             <SearchForm setsearch={setSearch} isDashBoard={isDashBoard}/>
           </Stack>
         }
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          // initialState={{ pagination: { paginationModel } }}
-          // pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
-          autoHeight
-          getRowHeight={() => !isDashBoard ? 200: 'auto'} 
-          getRowClassName={(params: GridRowClassNameParams) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-          }
-          disableRowSelectionOnClick
-          disableMultipleRowSelection
-          hideFooterPagination={true}
+        <OrdersTable
+          data={data?.data?.data}
+          handleEditOpen={handleEditOpen}
+          handleOpend={handleOpend}
+          setTempId={setTempId}
+          isDashBoard={isDashBoard}
         />
         <Stack
           direction={'row'}
@@ -231,31 +144,7 @@ function OrdersPage({isDashBoard}:IProps) {
       </BasicModal>
 
 
-            {/* delete modal */}
-            {/* <BasicModal open={opend} handleClose={handleClosed}>
-      <Typography variant="h6" component="h2" gutterBottom>
-          Delete
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Are you sure you want to delete this Customer?
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
-          <Button variant="outlined" onClick={handleClosed}>
-            Close
-          </Button>
-          <Button variant="contained" color="error" onClick={() => {
-            
-            deleteCustomer(tempId, refetch)
-            handleClosed()
-            
-            }}>
-            Delete 
-          </Button>
-        </Box>
-       
-      </BasicModal> */}
-      {/* <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteCustomer(tempId,refetch)}}/> */}
-
+      
 
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU} isDeleteModal={true}>

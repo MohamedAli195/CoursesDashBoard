@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
+import { ICategory } from 'interfaces';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -41,15 +42,7 @@ function UpdateCategoryForm({
 }: {
   handleClose: () => void;
   refetch: () => void;
-  initialData?: null | {
-    id: number;
-    nameAr: string;
-    nameEn: string;
-    descriptionAr: string;
-    descriptionEn: string;
-    imageUrl: string;
-    image?:string
-  };
+  initialData?: null | ICategory
 }) {
   const { register, setValue, handleSubmit, watch , formState: { errors },} = useForm<IFormInput>();
   const { t } = useTranslation();
@@ -69,11 +62,15 @@ function UpdateCategoryForm({
   };
 
   useEffect(() => {
+    console.log(initialData)
     if (initialData) {
-      setValue('name.en', initialData.nameEn);
-      setValue('name.ar', initialData.nameAr);
-      setValue('description.en', initialData.descriptionEn);
-      setValue('description.ar', initialData.descriptionAr);
+      setValue('name.en', initialData?.name?.en);
+      setValue('name.ar', initialData?.name?.ar);
+      setValue('name.fr', initialData?.name?.fr);
+      setValue('description.ar', initialData?.description?.ar);
+      setValue('description.en', initialData?.description?.en);
+      setValue('description.fr', initialData?.description?.fr);
+
     }
   }, [initialData, setValue]);
 

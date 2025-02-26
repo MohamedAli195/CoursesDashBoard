@@ -1,5 +1,5 @@
 import { Card, CardContent, Divider, Stack, Typography } from '@mui/material';
-import CircularLoader from 'components/loading/Circular';
+import CircularLoader from 'components/Shared/loading/Circular';
 import SalesBarChart from 'components/sections/dashboard/sales/SalesBarChart';
 import { salesData } from 'data/dashboard/charts';
 import EChartsReactCore from 'echarts-for-react/lib/core';

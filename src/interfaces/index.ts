@@ -12,10 +12,10 @@ export interface ISelectCategory {
 
 export interface ICategory {
   id: number;
-  name: { en: string; ar: string };
-  description: { en: string; ar: string };
+  name: { en: string; ar: string ,fr:string };
+  description: { en: string; ar: string ,fr:string  };
   //   price: string;
-  image: FileList | string;
+  image: string | undefined  |null
 }
 
 
