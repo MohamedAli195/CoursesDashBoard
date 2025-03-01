@@ -210,8 +210,8 @@ function UpdateSubAdminForm({
                   )}
                   MenuProps={MenuProps}
                 >
-                  {Array.isArray(apiRoles?.data) &&
-                    apiRoles?.data.map((item: { id: number; name: string }) => (
+                  {Array.isArray(apiRoles?.data?.data) &&
+                    apiRoles?.data?.data.map((item: { id: number; name: string }) => (
                       <MenuItem
                         key={item.name}
                         value={item.name}

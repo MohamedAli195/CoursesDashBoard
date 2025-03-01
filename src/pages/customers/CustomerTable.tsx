@@ -87,8 +87,8 @@ function CustomersTable({data,handleEditOpen,setTempId,handleOpend,isDashBoard}:
 
 
   const rows =
-    data.length > 0
-      ? data.map((customer: ICustomer) => ({
+    data?.length > 0
+      ? data?.map((customer: ICustomer) => ({
           ...customer,
         }))
       : [];

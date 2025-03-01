@@ -81,8 +81,8 @@ function OrdersTable({data,handleEditOpen,setTempId,handleOpend ,isDashBoard}: I
 
 
   const rows =
-    data.length > 0
-      ? data.map((order: IOrder) => ({
+    data?.length > 0
+      ? data?.map((order: IOrder) => ({
           ...order,
         }))
       : [];

@@ -84,10 +84,12 @@
       "Update":"نحديث",
     "Permissions":"الصلاحيات",
                  "addPermissions":"اضافة صلاحية",
-                 "Sub-Admins":"المديرين الفرعيين","addSub-Admins":"اضافة مدير فرعى",
+                 "Sub-Admins":"المديرين",
+                 "addSub-Admins":"اضافة مدير فرعى",
                  "Recommendations":"التوصيات",
                  "add-Recommendations":"اضافة توصية",
-                 "UpdateSubAdmin":"تعديل الصلاحيات"
+                 "UpdateSubAdmin":"تعديل الصلاحيات",
+                 "Roles":"القواعد"
 
 
 

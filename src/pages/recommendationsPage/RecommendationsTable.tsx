@@ -65,8 +65,8 @@ function RecommendationsTable({data,handleEditOpen,setTempId,handleOpend}: IProp
 
 
   const rows =
-    data.length > 0
-      ? data.map((recom: IREc) => ({
+    data?.length > 0
+      ? data?.map((recom: IREc) => ({
           ...recom,
         }))
       : [];

@@ -99,8 +99,8 @@ function SubAdminTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
 
   const rows =
-    data.length > 0
-      ? data.map((sub: ISubADmin) => ({
+    data?.length > 0
+      ? data?.map((sub: ISubADmin) => ({
           ...sub,
         }))
       : [];

@@ -94,8 +94,8 @@ function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
 
   const rows =
-    data.length > 0
-      ? data.map((company: ITempPermissions) => ({
+    data?.length > 0
+      ? data?.map((company: ITempPermissions) => ({
           ...company,
         }))
       : [];

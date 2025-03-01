@@ -111,8 +111,8 @@ function CustomersTable({data,handleEditOpen,setTempId,handleOpend,isDashBoard}:
       ];
 
   const rows =
-    data.length > 0
-      ? data.map((customer: IFormInputCourses) => ({
+    data?.length > 0
+      ? data?.map((customer: IFormInputCourses) => ({
           ...customer,
         }))
       : [];

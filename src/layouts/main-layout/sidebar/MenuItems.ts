@@ -75,7 +75,7 @@ const generateMenuItems = (): IMenuitems[] => [
   },
   {
     id: uniqueId(),
-    title: i18next.t("Permissions"),
+    title: i18next.t("Roles"),
     icon: CustomersIcon,
     href: paths.permissions,
     available: false,

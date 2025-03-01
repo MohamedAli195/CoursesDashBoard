@@ -81,8 +81,8 @@ function CategoriesTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
 
   const rows =
-    data.length > 0
-      ? data.map((cat: ICategory) => ({
+    data?.length > 0
+      ? data?.map((cat: ICategory) => ({
           ...cat,
         }))
       : [];

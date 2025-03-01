@@ -89,8 +89,8 @@ function PackagesTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
 
   const rows =
-    data.length > 0
-      ? data.map((pack: IPackage) => ({
+    data?.length > 0
+      ? data?.map((pack: IPackage) => ({
           ...pack,
         }))
       : [];
