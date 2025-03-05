@@ -1,46 +1,41 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
+import { Button, Stack, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useQuery } from '@tanstack/react-query';
-import { Toaster } from 'react-hot-toast';
-import BasicModal from 'components/Shared/modal/ShareModal';
-import UpdatePackageForm from 'components/Packages/updatePacageForm';
-// import { fetchPackages } from './packagesFunct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import paths from 'routes/path';
 import { useTranslation } from 'react-i18next';
-import { IPackage, IPackageSelected } from 'interfaces';
-import { Eye, Trash2, Pencil } from 'lucide-react';
+import { IPackageSelected } from 'interfaces';
 import PaginationComponent from 'components/Shared/pagination';
-
 import SearchForm from 'components/Shared/searchForm';
-
-
-import DeleteModal from 'components/deleteModal';
 import { checkPermissions, deleteAnyThing, fetchAllData, parsedData } from 'functions';
-
 import PackagesTable from './PackagesTable';
 import AddPackageForm from 'components/Packages/addPackageForm';
 import SelectSort from 'components/Shared/selectSort';
 import SkeletonTables from 'components/Shared/skelton';
 import SelectPerPage from 'components/Shared/selectPerPAge';
-
+import Modals from './Modals';
 // Fetch packages function
 interface IProps {
   isDashBoard: boolean;
 }
 function PackagesPage({ isDashBoard }: IProps) {
   // states
+
+  // const [globalState,setGlobalState]= useState<{page:number,search:string,sort:'desc'|'asc',per:number}>({
+  //   page:1,
+  //   search:'',
+  //   sort:'desc',
+  //   per:1
+  // })
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('desc');
   const [per, setper] = useState(10);
   const [tempId, setTempId] = useState(1);
   const [tempIdUpdate, setTempIdUpdate] = useState(1);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // add modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -56,7 +51,7 @@ function PackagesPage({ isDashBoard }: IProps) {
   const handleOpenU = () => setOpenU(true);
   const handleCloseU = () => setOpenU(false);
   // Define a state to store selected package data
-  const [selectedPackage, setSelectedPackage] = useState<null | IPackageSelected>(null);
+  // const [selectedPackage, setSelectedPackage] = useState<null | IPackageSelected>(null);
 
   const handleEditOpen = (packageData: IPackageSelected) => {
     setTempIdUpdate(packageData.id); // Set selected package data
@@ -75,18 +70,8 @@ function PackagesPage({ isDashBoard }: IProps) {
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
-  const rows =
-    data?.data?.data?.length > 0
-      ? data.data.data.map((packageItem: IPackage) => ({
-          id: packageItem.id,
-          nameEn: packageItem.name?.en,
-          nameAr: packageItem.name?.ar,
-          price: packageItem.price,
-          image: packageItem.image,
-          status: packageItem.status,
-        }))
-      : [];
-  const totalItems = data.data?.total;
+
+  const totalItems = data?.data?.total;
   return (
     <>
       {!isDashBoard && (
@@ -101,7 +86,9 @@ function PackagesPage({ isDashBoard }: IProps) {
             {t('packages')}
           </Typography>
 
-          {checkPermissions(parsedData, 'add-package') && (
+          {
+          // checkPermissions(parsedData, 'add-package') && 
+          (
             <Button variant="contained" color="info" onClick={handleOpen}>
               {t('addPackage')}
             </Button>
@@ -117,7 +104,6 @@ function PackagesPage({ isDashBoard }: IProps) {
         )}
         <Stack flexDirection={'row'} alignItems={'center'}>
           <SelectSort data={['asc', 'desc']} setSortFun={setSort} sortVal={sort} />
-
           <SearchForm setsearch={setSearch} isDashBoard={isDashBoard} />
         </Stack>
         <PackagesTable
@@ -141,28 +127,10 @@ function PackagesPage({ isDashBoard }: IProps) {
         </Stack>{' '}
       </Paper>
 
-      {/* add modal */}
-      <BasicModal open={open} handleClose={handleClose}>
-        <h2>{t('addPackage')}</h2>
-        <AddPackageForm handleClose={handleClose} refetch={refetch} />
-      </BasicModal>
 
-      <DeleteModal
-        handleClosed={handleClosed}
-        opend={opend}
-        refetch={refetch}
-        tempId={tempId}
-        deleteFunc={() => {
-          deleteAnyThing(tempId, refetch, 'packages');
-        }}
-      />
-
-      {/* update modal */}
-      <BasicModal open={openU} handleClose={handleCloseU}>
-        <h2>{t('editPackage')}</h2>
-        <UpdatePackageForm handleClose={handleCloseU} refetch={refetch} id={tempIdUpdate} />
-      </BasicModal>
-      <Toaster position="bottom-center" reverseOrder={false} />
+{/* modals components collect all modal in one componnet */}
+<Modals tempId={tempId} handleClose={handleClose} handleCloseU={handleCloseU} handleClosed={handleClosed} open={open}  openU={openU} opend={opend} refetch={refetch} tempIdUpdate={tempIdUpdate}   />
+  
     </>
   );
 }

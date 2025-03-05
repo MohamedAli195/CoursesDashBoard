@@ -50,7 +50,8 @@ function PackagesTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
       renderCell: (params) => (
         <Stack direction="row" gap={1}>
           {
-            checkPermissions(parsedData,'delete-package') && <Button
+            // checkPermissions(parsedData,'delete-package') && 
+            <Button
             variant="contained"
             color="error"
             
@@ -66,7 +67,8 @@ function PackagesTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
           </Button>
           }
           {
-            checkPermissions(parsedData,'show-packages') &&     <Button
+            // checkPermissions(parsedData,'show-packages') &&     
+            <Button
             variant="contained"
             color="primary"
             onClick={() => navigate(`${paths.packages}/${params.row.id}`)}
@@ -76,7 +78,8 @@ function PackagesTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
           </Button>
           }
         {
-          checkPermissions(parsedData,'edit-package') && <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
+          // checkPermissions(parsedData,'edit-package') && 
+          <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
           {/* {t('edit')} */}
           <Pencil />
         </Button>
