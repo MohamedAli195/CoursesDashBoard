@@ -190,7 +190,7 @@ export const fetchCountOfNotifications = async () => {
       console.error(`Error fetching notifications details:`, error); // Log full error
       if(error.response.status===401){
         localStorage.removeItem("token")
-        window.location.pathname="/login"
+        window.location.pathname="/authentication/login"
       }
       
   }
