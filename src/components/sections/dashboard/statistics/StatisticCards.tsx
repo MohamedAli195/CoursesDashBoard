@@ -67,8 +67,6 @@ const StatisticsCards = () => {
     queryFn: () => fetchStatis(),
   });
 
-
-  
   if (isLoading) return <SkeletonLoader />
   if (isError) return <p>Error: {error.message}</p>;
   const stats2: IStatisticsCard[] = [

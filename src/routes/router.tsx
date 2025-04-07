@@ -59,6 +59,7 @@ export const routes = [
     children: [
       {
         path: paths.default,
+        
         element: (
           <Suspense fallback={<PageLoader />}>
             <MainLayout />
@@ -67,6 +68,7 @@ export const routes = [
         children: [
           {
             index: true,
+            
             element: (
               <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                 <Dashboard />

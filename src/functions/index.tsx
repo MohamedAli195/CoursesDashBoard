@@ -16,7 +16,9 @@ if (storedPermissions) {
   parsedData = JSON.parse(storedPermissions);
     // console.log(parsedData);
 } else {
+   
     console.log('No data found!');
+   
 }
   // Delete package function
 export  const deleteAnyThing = async (id: number,refetch:()=>void ,module:string) => {
@@ -60,7 +62,7 @@ export  const deleteAnyThing = async (id: number,refetch:()=>void ,module:string
         },
       },
     );
-
+    console.log(response)
     return response.data;
   };
   /// Api requestes
@@ -186,7 +188,11 @@ export const fetchCountOfNotifications = async () => {
       return response.data;
   } catch (error) {
       console.error(`Error fetching notifications details:`, error); // Log full error
-      throw error; // Rethrow to handle in useQuery's error state
+      if(error.response.status===401){
+        localStorage.removeItem("token")
+        window.location.pathname="/login"
+      }
+      
   }
 };
 
