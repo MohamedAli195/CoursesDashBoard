@@ -1,118 +1,137 @@
+import React from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import i18n from 'i18n';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
-import React from 'react';
-import imgNotFound from './../../../public/images/No_Image_Available.jpg';
-import { Navigate, useNavigate } from 'react-router-dom';
-// import { ICompany } from 'interfaces';
+import { useNavigate } from 'react-router-dom';
 import paths from 'routes/path';
 import { DataGrid, GridColDef, GridRowClassNameParams } from '@mui/x-data-grid';
 import { ITempPermissions } from 'interfaces';
 import SwitchStatus from 'components/Shared/switch';
+
 interface IProps {
-  handleEditOpen:(val:ITempPermissions)=>void
-  handleOpend:()=>void
-  setTempId:(val:number)=>void
+  handleEditOpen: (val: ITempPermissions) => void;
+  handleOpend: () => void;
+  setTempId: (val: number) => void;
   data: ITempPermissions[];
 }
-function PermissionsTable({data,handleEditOpen,setTempId,handleOpend}: IProps) {
 
+function PermissionsTable({ data, handleEditOpen, setTempId, handleOpend }: IProps) {
   const navigate = useNavigate();
+  const isArabic = i18n.language === 'ar';
+
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name' },
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: i18n.language === 'ar' ? 'الاسم' : 'Name', flex: 1 },
     {
       field: 'permissions',
-      headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'permissions',
+      headerName: i18n.language === 'ar' ? 'الصلاحيات' : 'Permissions',
       flex: 2,
       renderCell: (params) => (
-        <Box 
+        <Box
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
-            overflowX: 'auto', // Optional: adds horizontal scrolling if content overflows
+            gap: 0.5,
+            maxWidth: '100%',
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',
           }}
         >
-          {params.row.permissions.map((item: { name: string }) => {
-            return (
-              <Box 
+          {params.row.permissions.map((item: { name: string }) => (
+            <Box
               key={item.name}
-                component="div"
-                sx={{
-                  display: 'inline-block',
-                  backgroundColor: '#dfdfdf',
-                  m: 0.5,
-                  borderRadius: 1,
-                  p: 0.5,
-                }}
-              >
-                {item.name}
-              </Box>
-            );
-          })}
+              component="div"
+              sx={{
+                backgroundColor: '#dfdfdf',
+                borderRadius: 1,
+                px: 1,
+                py: 0.5,
+                fontSize: '0.85rem',
+                whiteSpace: 'nowrap',
+              }}
+              title={item.name}
+            >
+              {item.name}
+            </Box>
+          ))}
         </Box>
       ),
     },
     i18n.language === 'ar'
       ? { field: 'display_nameAr', headerName: 'الاسم المعروض', flex: 1 }
-      : { field: 'display_nameEn', headerName: 'display name En', flex: 1 },
-
+      : { field: 'display_nameEn', headerName: 'Display Name En', flex: 1 },
     {
       field: 'status',
-      headerName: i18n.language === 'ar' ? 'الحالة' : 'status',
+      headerName: i18n.language === 'ar' ? 'الحالة' : 'Status',
       width: 130,
       renderCell: (params) => (
         <SwitchStatus id={params.row.id} url={'packages'} apiStatus={params.row.status} />
       ),
     },
     {
-      field: 'actions',
-      headerName: i18n.language === 'ar' ? 'العمليات' : 'actions',
-      flex: 1,
+field: 'actions',
+          headerName: isArabic ? 'العمليات' : 'Actions',
+          flex: 1,
+          sortable: false,
+          filterable: false,
+          minWidth: 200,
       renderCell: (params) => (
-        <Stack direction="row" gap={1}>
+<Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
           <Button
             variant="contained"
             color="error"
+            size="small"
             onClick={() => {
               handleOpend();
               setTempId(params.row.id);
             }}
           >
-            {/* {t('delete')} */}
-            <Trash2 />
+            <Trash2 size={16} />
           </Button>
 
-          <Button variant="contained" color="info" onClick={() => handleEditOpen(params.row)}>
-            {/* {t('edit')} */}
-            <Pencil />
+          <Button variant="contained" color="info" size="small" onClick={() => handleEditOpen(params.row)}>
+            <Pencil size={16} />
           </Button>
-        </Stack>
+         </Box>
       ),
     },
   ];
 
+  const rows = data?.length ? data : [];
 
-  const rows =
-    data?.length > 0
-      ? data?.map((company: ITempPermissions) => ({
-          ...company,
-        }))
-      : [];
   return (
-<DataGrid
-    rows={rows}
-    columns={columns}
-    sx={{ border: 0 }}
-    autoHeight
-    getRowHeight={() => 200} // Set each row's height to 200px
-    getRowClassName={(params: GridRowClassNameParams) =>
-      params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-    }
-    disableRowSelectionOnClick
-    disableMultipleRowSelection
-    hideFooterPagination={true}
-  />
+    <DataGrid
+      rows={rows}
+      columns={columns}
+      sx={{
+        border: 0,
+        '& .MuiDataGrid-cell': {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        '& .MuiDataGrid-cellContent': {
+          overflow: 'visible',
+        },
+      }}
+      autoHeight
+      getRowHeight={() => 200} // fixed height for each row
+      getRowClassName={(params: GridRowClassNameParams) =>
+        params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
+      }
+      disableRowSelectionOnClick
+      disableMultipleRowSelection
+      hideFooterPagination
+    />
   );
 }
 

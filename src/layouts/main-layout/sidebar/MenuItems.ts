@@ -32,14 +32,14 @@ export interface IMenuitems {
 const generateMenuItems = (): IMenuitems[] => [
   {
     id: uniqueId(),
-    title: i18next.t("Dashboard"),
+    title: i18next.t("dashboard"),
     icon: HomeIcon,
     href: '/',
     available: true,
   },
   {
     id: uniqueId(),
-    title: i18next.t("Packages"),
+    title: i18next.t("packages"),
     icon: OrderIcon,
     href: paths.packages,
     chipColor: 'secondary',
@@ -47,14 +47,14 @@ const generateMenuItems = (): IMenuitems[] => [
   },
   {
     id: uniqueId(),
-    title: i18next.t("Courses"),
+    title: i18next.t("courses"),
     icon: ProductsIcon,
     href: paths.courses,
     available: true,
   },
   {
     id: uniqueId(),
-    title: i18next.t("Categories"),
+    title: i18next.t("categories"),
     icon: CategoriesIcon,
     href: paths.categories,
     available: true,
@@ -68,7 +68,7 @@ const generateMenuItems = (): IMenuitems[] => [
   },
   {
     id: uniqueId(),
-    title: i18next.t("Customers"),
+    title: i18next.t("customers"),
     icon: CustomersIcon,
     href: paths.customers,
     available: true,
