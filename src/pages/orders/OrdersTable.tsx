@@ -131,10 +131,15 @@ function OrdersTable({ data, handleEditOpen, setTempId, handleOpend, isDashBoard
     },
   ];
 
+  console.log(data)
   const columns = isDashBoard ? dashboardColumns : defaultColumns;
 
-  const rows = data?.length > 0 ? data.map((order) => ({ ...order })) : [];
-
+const rows = data?.length > 0
+  ? data.map((order) => ({
+      ...order,
+      created_at: new Date(order.created_at).toLocaleDateString('en-GB'), // dd/mm/yyyy
+    }))
+  : [];
   return (
     <DataGrid
       rows={rows}

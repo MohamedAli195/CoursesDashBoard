@@ -34,8 +34,7 @@ interface IFormInput {
   duration: string;
 }
 
-function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
-
+function AddCourseLectuerForm({ handleClose, refetch ,vid }: {vid: string | undefined ,handleClose: () => void; refetch: () => void }) {
   const {
     register,
     handleSubmit,
@@ -63,14 +62,12 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
         'Content-Type': 'multipart/form-data',
       };
 
-      const response = await axios.post(
-        `${url}/admin/course-lectures`,
-        formData,
-        { headers },
-      );
+      const response = await axios.post(`${url}/admin/course-lectures`, formData, { headers });
 
       // console.log(response.data);
       toast.success('course lectuer added successfully');
+         handleClose();
+      refetch();
     } catch (err) {
       // console.error('Error adding course lectuer:', err);
       toast.error('Failed to add course lectuer, please check your input.');
@@ -88,83 +85,86 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
       >
         <Stack spacing={3}>
           {/* Arabic Name */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={t("ArabicName")}
-            error={!!errors.title?.ar}
-            helperText={errors.title?.ar?.message}
-            {...register('title.ar', { required: t("ArabicNameReq") })}
-          />
+          <Stack display={'flex'} flexDirection={'row'}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={t('ArabicName')}
+              error={!!errors.title?.ar}
+              helperText={errors.title?.ar?.message}
+              {...register('title.ar', { required: t('ArabicNameReq') })}
+            />
 
-          {/* English Name */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={t("EnglishName")}
-            error={!!errors.title?.en}
-            helperText={errors.title?.en?.message}
-            {...register('title.en', { required: t("EnglishNameReq") })}
-          />
-          {/* English Name */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="franc name"
-            error={!!errors.title?.fr}
-            helperText={errors.title?.fr?.message}
-            {...register('title.fr', { required: "franc name is required" })}
-          />
+            {/* English Name */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={t('EnglishName')}
+              error={!!errors.title?.en}
+              helperText={errors.title?.en?.message}
+              {...register('title.en', { required: t('EnglishNameReq') })}
+            />
+            {/* English Name */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="franc name"
+              error={!!errors.title?.fr}
+              helperText={errors.title?.fr?.message}
+              {...register('title.fr', { required: 'franc name is required' })}
+            />
+          </Stack>
+          <Stack display={'flex'} flexDirection={'row'}>
+            {/* description Name */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={t('descAr')}
+              error={!!errors.description?.ar}
+              helperText={errors.description?.ar?.message}
+              {...register('description.ar', { required: t('descArReq') })}
+            />
 
-          {/* description Name */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={t("descAr")}
-            error={!!errors.description?.ar}
-            helperText={errors.description?.ar?.message}
-            {...register('description.ar', { required: t("descArReq")})}
-          />
+            {/* description En */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={t('descEn')}
+              error={!!errors.description?.en}
+              helperText={errors.description?.en?.message}
+              {...register('description.en', { required: t('descEnReq') })}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="franc desc"
+              error={!!errors.description?.en}
+              helperText={errors.description?.en?.message}
+              {...register('description.en', { required: 'franc desc required' })}
+            />
+          </Stack>
+          <Stack display={'flex'} flexDirection={'row'}>
+            {/* Other Fields */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={t('videoUrl')}
+              error={!!errors.video_url}
+              helperText={errors.video_url?.message}
+              {...register('video_url', { required: t('videoUrlReq') })}
+            />
 
-          {/* description En */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={t("descEn")}
-            error={!!errors.description?.en}
-            helperText={errors.description?.en?.message}
-            {...register('description.en', { required: t("descEnReq") })}
-          />
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="franc desc"
-            error={!!errors.description?.en}
-            helperText={errors.description?.en?.message}
-            {...register('description.en', { required: "franc desc required" })}
-          />
-
-          {/* Other Fields */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={t("videoUrl")}
-            error={!!errors.video_url}
-            helperText={errors.video_url?.message}
-            {...register('video_url', { required: t("videoUrlReq") })}
-          />
-
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={t("videoDuration")}
-            error={!!errors.duration}
-            helperText={errors.duration?.message}
-            {...register('duration', {
-              required: t("videoDurationReq"),
-            })}
-          />
-
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={t('videoDuration')}
+              error={!!errors.duration}
+              helperText={errors.duration?.message}
+              {...register('duration', {
+                required: t('videoDurationReq'),
+              })}
+            />
+          </Stack>
           <Button
             color="primary"
             variant="contained"
@@ -173,7 +173,7 @@ function AddCourseLectuerForm({ vid }: { vid: string | undefined }) {
             type="submit"
             sx={{ mt: 3, fontSize: '18px' }}
           >
-            {t("AddLecuter")}
+            {t('AddLecuter')}
           </Button>
         </Stack>
       </Box>

@@ -14,7 +14,6 @@ const CustomersPage = lazy(() => import('pages/customers'));
 const OrdersPage = lazy(() => import('pages/orders'));
 const CoursesPage = lazy(() => import('pages/courses'));
 const AddCoursePage = lazy(() => import('pages/courses/AddCoursePage'));
-const AddCourseLectuerPage = lazy(() => import('pages/courses/AddCourseLectuerPage'));
 const PermissionsPage = lazy(() => import('pages/permissions'));
 const RecommendationsPage = lazy(() => import('pages/recommendationsPage'));
 const SubAdminsPage = lazy(() => import('pages/subadmins'));
@@ -130,17 +129,6 @@ export const routes = [
               <Suspense fallback={<PageLoader />}>
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <AddCoursePage />
-                </ProtectedRoute>
-              </Suspense>
-            ),
-          },
-          {
-            path: `${paths.courses}/:id/add-lectuer`,
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
-                  <AddCourseLectuerPage />
                 </ProtectedRoute>
               </Suspense>
             ),

@@ -43,6 +43,7 @@ const ProfileDropdown = () => {
   
       // Clear the token from local storage
       localStorage.removeItem('token');
+      console.log("logout")
   
       // Show a success message
       toast.success('Logout successful');
