@@ -20,6 +20,7 @@ function CourseUpdate() {
     queryFn: () => fetchOne(id, 'courses'),
   });
 
+  console.log(data)
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
 

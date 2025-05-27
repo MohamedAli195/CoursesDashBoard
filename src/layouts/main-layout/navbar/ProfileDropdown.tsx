@@ -41,7 +41,7 @@ const ProfileDropdown = () => {
       toast.success('Logout successful');
   
       // Redirect to the login page
-      navigate(paths.login);
+      navigate(paths.default);
 
       window.location.reload();
     } catch (error) {

@@ -203,7 +203,8 @@ function UpdateCourse(props: IFormInputCourses) {
 
       toast.success('Course added successfully');
     } catch (err) {
-      // console.error('Error adding course:', err);
+
+      console.error('Error updating course:', err);
       toast.error('Failed to add course, please check your input.');
     }
   };
@@ -462,7 +463,7 @@ function UpdateCourse(props: IFormInputCourses) {
           type="submit"
           sx={{ mt: 3, fontSize: '18px' }}
         >
-          {t('AddCourse')}
+          {t('updateCourse')}
         </Button>
       </Box>
       <Toaster position="bottom-center" reverseOrder={false} />
