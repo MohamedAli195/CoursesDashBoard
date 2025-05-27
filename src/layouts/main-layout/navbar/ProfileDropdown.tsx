@@ -31,15 +31,7 @@ const ProfileDropdown = () => {
   };
   const handleLogout = async () => {
     try {
-      await axios.post(
-        'https://market-mentor.flexi-code.com/public/api/admin/logout',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
+      
   
       // Clear the token from local storage
       localStorage.removeItem('token');
