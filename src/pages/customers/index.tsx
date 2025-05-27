@@ -73,14 +73,14 @@ function CustomersPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','customers'),
   });
 
-  if (isLoading) return <SkeletonTables />;
+  // if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
   // console.log(data.data?.total);
   const rows =
     data?.data?.data?.length > 0
-      ? data.data.data.map((packageItem: ICustomer) => ({
+      ? data?.data?.data?.map((packageItem: ICustomer) => ({
           id:packageItem.id,
           name: packageItem.name,
           email: packageItem.email,
@@ -88,7 +88,7 @@ function CustomersPage({isDashBoard}:IProps) {
           partner_code: packageItem.partner_code,
         }))
       : [];
-  const totalItems = data.data?.total;
+  const totalItems = data?.data?.total;
   return (
     <>
 

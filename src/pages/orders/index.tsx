@@ -76,7 +76,7 @@ function OrdersPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,typeFilter,'orders'),
   });
 
-  if (isLoading) return <SkeletonTables />;
+  // if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 
 

@@ -76,11 +76,11 @@ function CategoriesPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search,sort,'','categories'),
   });
 
-  if (isLoading) return <SkeletonTables />
+  // if (isLoading) return <SkeletonTables />
   if (isError) return <p>Error: {error.message}</p>;
 
  
-      const totalItems = data.data?.total
+      const totalItems = data?.data?.total
   return (
     <>
    {!isDashBoard &&

@@ -82,7 +82,7 @@ function RecommendationsPage({isDashBoard}:IProps) {
     queryFn: () => fetchAllData(page, per, search, sort,'','recommendations'),
   });
 
-  if (isLoading) return <SkeletonTables />;
+  // if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 // console.log(data)
 

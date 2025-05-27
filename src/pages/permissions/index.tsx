@@ -68,10 +68,10 @@ function PermissionsPage({ isDashBoard }: IProps) {
     queryFn: () => fetchAllData(page, per, search, sort, '', 'roles'),
   });
 
-  if (isLoading) return <SkeletonTables />;
+  // if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
   
-  const totalItems = data.data?.total;
+  const totalItems = data?.data?.total;
   // console.log(totalItems)
   return (
     <>

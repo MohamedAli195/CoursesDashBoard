@@ -66,7 +66,7 @@ function PackagesPage({ isDashBoard }: IProps) {
     queryFn: () => fetchAllData(page, per, search, sort, '', 'packages'),
   });
 
-  if (isLoading) return <SkeletonTables />;
+  // if (isLoading) return <SkeletonTables />;
   if (isError) return <p>Error: {error.message}</p>;
 
   // Prepare rows for DataGrid
