@@ -5,6 +5,7 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import paths, { rootPaths } from './path';
 import ProtectedRoute from 'components/protectedRoute/ProtectedRoute';
+import SkeletonTables from 'components/Shared/skelton';
 
 const App = lazy(() => import('App'));
 const MainLayout = lazy(() => import('layouts/main-layout'));
@@ -74,7 +75,7 @@ export const routes = [
           {
             path: paths.categories,
             element: (
-              <Suspense fallback={<PageLoader />}>
+              <Suspense fallback={<SkeletonTables />}>
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <CategoriesPage isDashBoard={false} />
                 </ProtectedRoute>
@@ -92,7 +93,7 @@ export const routes = [
           {
             path: paths.customers,
             element: (
-              <Suspense fallback={<PageLoader />}>
+              <Suspense fallback={<SkeletonTables />}>
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <CustomersPage isDashBoard={false} />
                 </ProtectedRoute>
@@ -103,7 +104,7 @@ export const routes = [
           {
             path: paths.orders,
             element: (
-              <Suspense fallback={<PageLoader />}>
+             <Suspense fallback={<SkeletonTables />}>
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <OrdersPage isDashBoard={false} />
                 </ProtectedRoute>
@@ -114,7 +115,7 @@ export const routes = [
           {
             path: paths.courses,
             element: (
-              <Suspense fallback={<PageLoader />}>
+              <Suspense fallback={<SkeletonTables />}>
                 {' '}
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <CoursesPage isDashBoard={false} />
@@ -136,7 +137,7 @@ export const routes = [
           {
             path: paths.permissions,
             element: (
-              <Suspense fallback={<PageLoader />}>
+             <Suspense fallback={<SkeletonTables />}>
                 {' '}
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <PermissionsPage isDashBoard={false} />
@@ -147,7 +148,7 @@ export const routes = [
           {
             path: paths.recommendations,
             element: (
-              <Suspense fallback={<PageLoader />}>
+              <Suspense fallback={<SkeletonTables />}>
                 {' '}
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <RecommendationsPage isDashBoard={false} />
@@ -158,7 +159,7 @@ export const routes = [
           {
             path: paths.subAdmins,
             element: (
-              <Suspense fallback={<PageLoader />}>
+              <Suspense fallback={<SkeletonTables />}>
                 {' '}
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <SubAdminsPage isDashBoard={false} />
@@ -190,7 +191,7 @@ export const routes = [
           {
             path: paths.packages, // Fixed typo
             element: (
-              <Suspense fallback={<PageLoader />}>
+              <Suspense fallback={<SkeletonTables />}>
                 {' '}
                 <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
                   <PackagesPage isDashBoard={false} />
