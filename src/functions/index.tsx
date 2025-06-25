@@ -1,14 +1,18 @@
+import { RootState, store } from "app/store";
 import axios from "axios";
 import i18n from "i18n";
 import { Ipermisson } from "interfaces";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 
 
 
 
 const url = import.meta.env.VITE_API_URL;
-const token = localStorage.getItem('token');
+const token = store.getState().auth.token;
+
+console.log(token)
 
 const storedPermissions = localStorage.getItem('permissions');
 export let parsedData:Ipermisson[];
@@ -88,7 +92,7 @@ export  const deleteAnyThing = async (id: number,refetch:()=>void ,module:string
 
       /// Api requestes tomorow
       export const fetchOne = async (id:number|undefined|string,module:string) => {
-        const token = localStorage.getItem("token");
+    
         if (!token) throw new Error("Authorization token is missing");
     
         try {
@@ -198,8 +202,7 @@ export const fetchCountOfNotifications = async () => {
 
 export const readNotification = async (id:number) => {
 
-  const token2 = localStorage.getItem('token');
-  if (!token2) throw new Error("Authorization token is missing");
+  if (!token) throw new Error("Authorization token is missing");
   console.log(token)
   try {
       const response = await axios.post(
@@ -209,7 +212,7 @@ export const readNotification = async (id:number) => {
           },
           {
               headers: {
-                  Authorization: `Bearer ${token2}`,
+                  Authorization: `Bearer ${token}`,
               },
           }
       );
@@ -221,6 +224,10 @@ export const readNotification = async (id:number) => {
   }
 };
 
-export const checkPermissions = (permissions: Ipermisson[], one: string | undefined): boolean => {
-  return permissions.some(item => item.name === one);
+export const checkPermissions = (permissions: Ipermisson[], one: string | undefined) => {
+  if(permissions)
+  {
+    return permissions.some(item => item.name === one);
+
+  }
 };

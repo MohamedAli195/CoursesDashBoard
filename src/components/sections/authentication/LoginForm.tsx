@@ -16,8 +16,12 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import paths from './../../../routes/path';
 import { redirect } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { userDataLogin } from 'app/features/user/userSlice';
+import { useLoginMutation } from 'app/features/auth/authQuery';
+// import { userDataLogin } from 'app/features/user/userSlice';
+import Cookies from "js-cookie";
 
+import { AppDispatch, persistor } from "app/store";
+import { clearCredentials, setCredentials } from "app/features/auth/authSlice";
 
 interface IFormInput {
   email: string;
@@ -42,7 +46,7 @@ const dispatch = useDispatch()
   };
 
   
-
+  const [login, { isLoading }] = useLoginMutation();
   // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
   //   try {
   //     const response = await axios.post(
@@ -79,42 +83,67 @@ const dispatch = useDispatch()
   //   }
   // };
   
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    setLoading(true);
+  // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.post(`${url}/admin/login`, data);
+      
+
+      
+      
+  //     if (response.data.token) {
+
+  //       // console.log(response.data.data.permissions)
+  //       localStorage.setItem('token', response.data.token);
+  //       toast.success('Sign-in successful, redirecting to dashboard...');
+  //       dispatch(userDataLogin(response.data.token));
+  //       localStorage.setItem('permissions', JSON.stringify(response.data.data.permissions));
+
+  //       // setTimeout(()=>{
+  //       //   // navigate('/', { replace: true, state: { from: pathname, userData: response.data.data } });
+
+
+  //       // },5000)
+
+  //       setTimeout(() => {
+  //         location.replace("/");
+  //       }, 2000);
+  //     } else {
+  //       setError('Login was successful, but no token was returned.');
+  //     }
+  //   } catch (err) {
+  //     const errorMessage = err.response?.data?.message || 'An error occurred. Please try again.';
+  //     setError(errorMessage);
+  //     toast.error(errorMessage);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const onSubmit = async (formData: IFormInput) => {
     try {
-      const response = await axios.post(`${url}/admin/login`, data);
-      
+      const response = await login(formData).unwrap();
+      console.log(response);
+      const token = response?.token;
+      const user = {
+        email: response?.data?.email,
+        id: response?.data?.id,
+        name: response?.data?.name,
+      };
+      // localStorage.setItem('token', response?.token);
+      Cookies.set("useToken", "tokenn", { expires: 7 });
+      if (token && user) {
+        dispatch(setCredentials({ token, user }));
+        //   localStorage.setItem("useToken",token)
 
-      
-      
-      if (response.data.token) {
+        navigate("/");
+      console.error("Logied:", error);
 
-        // console.log(response.data.data.permissions)
-        localStorage.setItem('token', response.data.token);
-        toast.success('Sign-in successful, redirecting to dashboard...');
-        dispatch(userDataLogin(response.data.token));
-        localStorage.setItem('permissions', JSON.stringify(response.data.data.permissions));
-
-        // setTimeout(()=>{
-        //   // navigate('/', { replace: true, state: { from: pathname, userData: response.data.data } });
-
-
-        // },5000)
-
-        setTimeout(() => {
-          location.replace("/");
-        }, 2000);
-      } else {
-        setError('Login was successful, but no token was returned.');
       }
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || 'An error occurred. Please try again.';
-      setError(errorMessage);
-      toast.error(errorMessage);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error("Login failed:", error);
     }
   };
+
   
 console.log("reder/rerender")
   return (

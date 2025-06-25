@@ -1,3 +1,4 @@
+import { store } from "app/store";
 import axios from "axios";
 import i18n from "i18n";
 
@@ -6,7 +7,7 @@ import i18n from "i18n";
 
 
 export const fetchStatis = async () => {
-    const token = localStorage.getItem('token');
+  const token = store.getState().auth.token;
 
     if (!token) {
       throw new Error('Authorization token is missing');

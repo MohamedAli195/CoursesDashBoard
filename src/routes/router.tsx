@@ -6,6 +6,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import paths, { rootPaths } from './path';
 import ProtectedRoute from 'components/protectedRoute/ProtectedRoute';
 import SkeletonTables from 'components/Shared/skelton';
+import { store } from 'app/store';
 
 const App = lazy(() => import('App'));
 const MainLayout = lazy(() => import('layouts/main-layout'));
@@ -35,14 +36,7 @@ const SignUpPage = lazy(() => import('pages/authentication/register'));
 const ForgotPasswordPage = lazy(() => import('pages/authentication/forgot-password'));
 const PasswordResetPage = lazy(() => import('pages/authentication/reset-password'));
 const NotFoundPage = lazy(() => import('pages/not-found'));
-
-// Check if user is logged in
-
-// const token = useAppSelector((state)=>state.user.token)
-
-// const token =selectUserToken((state:RootState)=>state.user.token)
-const isLoggedIn = localStorage.getItem('token') ? Boolean(localStorage.getItem('token')) : false;
-
+const token = store.getState().auth.token;
 // console.log("isLoggedIn",isLoggedIn)
 export const routes = [
   {
@@ -66,7 +60,7 @@ export const routes = [
 
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <Dashboard />
                 </ProtectedRoute>
               </Suspense>
@@ -76,7 +70,7 @@ export const routes = [
             path: paths.categories,
             element: (
               <Suspense fallback={<SkeletonTables />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <CategoriesPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -85,7 +79,7 @@ export const routes = [
           // {
           //   path: paths.products,
           //   element: (
-          //     <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+          //     <ProtectedRoute  redirect={paths.login}>
           //       <ProductsPage />
           //     </ProtectedRoute>
           //   ),
@@ -94,7 +88,7 @@ export const routes = [
             path: paths.customers,
             element: (
               <Suspense fallback={<SkeletonTables />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <CustomersPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -104,8 +98,8 @@ export const routes = [
           {
             path: paths.orders,
             element: (
-             <Suspense fallback={<SkeletonTables />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+              <Suspense fallback={<SkeletonTables />}>
+                <ProtectedRoute redirect={paths.login}>
                   <OrdersPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -117,7 +111,7 @@ export const routes = [
             element: (
               <Suspense fallback={<SkeletonTables />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <CoursesPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -128,7 +122,7 @@ export const routes = [
             path: `${paths.courses}/add`,
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <AddCoursePage />
                 </ProtectedRoute>
               </Suspense>
@@ -137,9 +131,9 @@ export const routes = [
           {
             path: paths.permissions,
             element: (
-             <Suspense fallback={<SkeletonTables />}>
+              <Suspense fallback={<SkeletonTables />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <PermissionsPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -150,7 +144,7 @@ export const routes = [
             element: (
               <Suspense fallback={<SkeletonTables />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <RecommendationsPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -161,7 +155,7 @@ export const routes = [
             element: (
               <Suspense fallback={<SkeletonTables />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <SubAdminsPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -172,7 +166,7 @@ export const routes = [
             path: `${paths.subAdmins}/:id`, // Fixed typo
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <SubAdminDetails />
                 </ProtectedRoute>
               </Suspense>
@@ -182,7 +176,7 @@ export const routes = [
             path: paths.inbox,
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <InboxPage />
                 </ProtectedRoute>
               </Suspense>
@@ -193,7 +187,7 @@ export const routes = [
             element: (
               <Suspense fallback={<SkeletonTables />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <PackagesPage isDashBoard={false} />
                 </ProtectedRoute>
               </Suspense>
@@ -204,7 +198,7 @@ export const routes = [
             element: (
               <Suspense fallback={<PageLoader />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <PackageDetails />
                 </ProtectedRoute>
               </Suspense>
@@ -215,7 +209,7 @@ export const routes = [
             element: (
               <Suspense fallback={<PageLoader />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <CategoriesDetails />
                 </ProtectedRoute>
               </Suspense>
@@ -225,7 +219,7 @@ export const routes = [
             path: `${paths.courses}/:id`, // Fixed typo
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <CourseDetails />
                 </ProtectedRoute>
               </Suspense>
@@ -236,7 +230,7 @@ export const routes = [
             path: `${paths.courses}/update/:id`, // Fixed typo
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <CourseUpdate />
                 </ProtectedRoute>
               </Suspense>
@@ -247,7 +241,7 @@ export const routes = [
             element: (
               <Suspense fallback={<PageLoader />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <LectuerDetails />
                 </ProtectedRoute>
               </Suspense>
@@ -256,7 +250,7 @@ export const routes = [
           // {
           //   path: `${paths.lectuers}/update/:id`, // Fixed typo
           //   element: (
-          //     <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+          //     <ProtectedRoute  redirect={paths.login}>
           //       <UpdateLectuerForm />
           //     </ProtectedRoute>
           //   ),
@@ -266,7 +260,7 @@ export const routes = [
             element: (
               <Suspense fallback={<PageLoader />}>
                 {' '}
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <ViewCustomer />
                 </ProtectedRoute>
               </Suspense>
@@ -276,7 +270,7 @@ export const routes = [
             path: `${paths.recommendations}/:id`,
             element: (
               <Suspense fallback={<PageLoader />}>
-                <ProtectedRoute isAllowed={isLoggedIn} redirect={paths.login}>
+                <ProtectedRoute redirect={paths.login}>
                   <RecommendationsDetails />
                 </ProtectedRoute>
               </Suspense>
@@ -293,9 +287,10 @@ export const routes = [
             element: (
               <Suspense fallback={<PageLoader />}>
                 {' '}
-                <ProtectedRoute isAllowed={!isLoggedIn} redirect={paths.default}>
-                  <LoginPage />
-                </ProtectedRoute>
+   
+               <LoginPage />
+           
+                
               </Suspense>
             ),
           },
@@ -304,11 +299,11 @@ export const routes = [
             element: (
               <Suspense fallback={<PageLoader />}>
                 {' '}
-                <ProtectedRoute isAllowed={!isLoggedIn} redirect={paths.default}>
+                <ProtectedRoute redirect={paths.default}>
                   <SignUpPage />
                 </ProtectedRoute>
               </Suspense>
-            ) 
+            ),
           },
           {
             path: paths.forgotPassword,

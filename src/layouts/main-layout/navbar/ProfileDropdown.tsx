@@ -18,7 +18,10 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import paths from 'routes/path';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { handleLogout } from 'app/services/handleLogout';
 const ProfileDropdown = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
@@ -29,21 +32,24 @@ const ProfileDropdown = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = async () => {
+  const handlingLogout = async () => {
     try {
       
   
       // Clear the token from local storage
-      localStorage.removeItem('token');
-      console.log("logout")
+      // localStorage.removeItem('token');
+      // console.log("logout")
+
+      handleLogout(dispatch);
+
   
       // Show a success message
       toast.success('Logout successful');
   
-      // Redirect to the login page
-      navigate(paths.default);
 
-      window.location.reload();
+
+
+
     } catch (error) {
       // Handle errors
       toast.error('Logout failed. Please try again.');
@@ -127,7 +133,7 @@ const ProfileDropdown = () => {
               width: '80%',
               py: 0.5,
             }}
-            onClick={()=>{handleLogout()}}
+            onClick={()=>{handlingLogout()}}
           >
             Logout
           </Button>

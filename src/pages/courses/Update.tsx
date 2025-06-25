@@ -75,6 +75,7 @@ interface IFormInputCourses {
   };
 }
 function UpdateCourse(props: IFormInputCourses) {
+
   const [catState, setCatState] = useState(props.category.id);
   const [coursLangState, setCoursLangState] = useState(props.course_lang);
   const [coursLevelState, setcoursLevelState] = useState(props.course_level);
