@@ -12,21 +12,25 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
-import { store } from 'app/store';
+import { persistor, store } from 'app/store';
 const queryClient = new QueryClient()
+import { PersistGate } from "redux-persist/integration/react";
+ // تأكد إن المسار صحيح
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-
-   
-    <ThemeProvider theme={theme}>
-      <BreakpointsProvider>
-        <CssBaseline />
-        <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        </QueryClientProvider>
-      </BreakpointsProvider>
-    </ThemeProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <BreakpointsProvider>
+            <CssBaseline />
+            <QueryClientProvider client={queryClient}>
+              <RouterProvider router={router} />
+            </QueryClientProvider>
+          </BreakpointsProvider>
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+

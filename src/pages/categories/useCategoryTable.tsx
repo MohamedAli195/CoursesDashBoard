@@ -8,6 +8,8 @@ import paths from 'routes/path';
 import { ICategory } from 'interfaces';
 import { checkPermissions, parsedData } from 'functions';
 import imgNotFound from './../../../public/images/No_Image_Available.jpg';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app/store';
 
 interface IProps {
   handleEditOpen: (val: ICategory) => void;
@@ -17,7 +19,7 @@ interface IProps {
 }
 const useCategoryTable = ({handleEditOpen, setTempId, handleOpend}:IProps) => {
      const navigate = useNavigate();
-
+      // const permissions = useSelector(((state:RootState)=>state.auth.authData.user?.permissions))
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID' },
     {
@@ -52,7 +54,7 @@ const useCategoryTable = ({handleEditOpen, setTempId, handleOpend}:IProps) => {
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
-          {checkPermissions(parsedData, 'delete-category') && (
+          {/* {checkPermissions(permissions, 'delete-category') && ( */}
             <Button
               variant="contained"
               color="error"
@@ -63,9 +65,9 @@ const useCategoryTable = ({handleEditOpen, setTempId, handleOpend}:IProps) => {
             >
               <Trash2 />
             </Button>
-          )}
+          {/* )} */}
 
-          {checkPermissions(parsedData, 'show-categories') && (
+          {/* {checkPermissions(permissions, 'show-categories') && ( */}
             <Button
               variant="contained"
               color="info"
@@ -73,13 +75,13 @@ const useCategoryTable = ({handleEditOpen, setTempId, handleOpend}:IProps) => {
             >
               <Eye />
             </Button>
-          )}
+          {/* )} */}
 
-          {checkPermissions(parsedData, 'edit-category') && (
+          {/* {checkPermissions(permissions, 'edit-category') && ( */}
             <Button variant="contained" color="primary" onClick={() => handleEditOpen(params.row)}>
               <Pencil />
             </Button>
-          )}
+          {/* )} */}
         </Stack>
       ),
     },

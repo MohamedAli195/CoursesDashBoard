@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 
 const url = import.meta.env.VITE_API_URL;
-const token = store.getState().auth.token;
+const token = store.getState().auth.authData.token;
 
 console.log(token)
 
@@ -224,7 +224,7 @@ export const readNotification = async (id:number) => {
   }
 };
 
-export const checkPermissions = (permissions: Ipermisson[], one: string | undefined) => {
+export const checkPermissions = (permissions: Ipermisson[] | undefined, one: string | undefined) => {
   if(permissions)
   {
     return permissions.some(item => item.name === one);

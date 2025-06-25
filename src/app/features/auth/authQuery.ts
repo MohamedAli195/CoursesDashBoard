@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Ipermisson } from "interfaces";
 
 
 const BASE_URL = "/api"; // triggers the proxy
@@ -6,6 +7,7 @@ const BASE_URL = "/api"; // triggers the proxy
 interface Ires {
   code: number;
   data: {
+    permissions: Ipermisson[];
     // avatar: string;
     email: string;
     id: number;

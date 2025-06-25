@@ -128,9 +128,12 @@ const dispatch = useDispatch()
         email: response?.data?.email,
         id: response?.data?.id,
         name: response?.data?.name,
+        permissions:response?.data?.permissions
+
       };
+      
       // localStorage.setItem('token', response?.token);
-      Cookies.set("useToken", "tokenn", { expires: 7 });
+      // Cookies.set("authData", {token,user} , { expires: 7 });
       if (token && user) {
         dispatch(setCredentials({ token, user }));
         //   localStorage.setItem("useToken",token)

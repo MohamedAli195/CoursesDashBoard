@@ -36,7 +36,7 @@ const SignUpPage = lazy(() => import('pages/authentication/register'));
 const ForgotPasswordPage = lazy(() => import('pages/authentication/forgot-password'));
 const PasswordResetPage = lazy(() => import('pages/authentication/reset-password'));
 const NotFoundPage = lazy(() => import('pages/not-found'));
-const token = store.getState().auth.token;
+const token = store.getState().auth.authData.token;
 // console.log("isLoggedIn",isLoggedIn)
 export const routes = [
   {

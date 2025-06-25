@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 }
 
 function ProtectedRoute({ children, redirect }: ProtectedRouteProps) {
-  const token = useSelector((state: RootState) => state.auth.token);
+  const token = useSelector((state: RootState) => state.auth.authData.token);
  
   // const token = Boolean(Cookies.get(' useToken'));
   if (!token) return <Navigate to={redirect} />;

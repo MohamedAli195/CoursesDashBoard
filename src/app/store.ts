@@ -12,14 +12,17 @@ import {
   REGISTER,
 } from "redux-persist";
 import cookieStorage from "./services/cookieStorage";
+import { categoriesApi } from "./features/Categories/CategoriesSlice";
 // import storage from 'redux-persist/lib/storage'; // uses localStorage
 
 
 // ✅ Step 1: Configure persistence for only `auth`
 const persistConfig = {
-  key: "auth",
+  key: "authData",
   storage: cookieStorage,
-  whitelist: ["token"], // Only persist token or full reducer as needed
+   whitelist: ["authData"],
+  
+  
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
@@ -29,6 +32,7 @@ export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer, // use persisted version
     [authApi.reducerPath]: authApi.reducer,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
 
   },
   middleware: (getDefaultMiddleware) =>
@@ -38,6 +42,8 @@ export const store = configureStore({
       },
     }).concat(
       authApi.middleware,
+      categoriesApi.middleware,
+      
 
     ),
 });

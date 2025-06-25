@@ -7,7 +7,7 @@ import i18n from "i18n";
 
 
 export const fetchStatis = async () => {
-  const token = store.getState().auth.token;
+  const token = store.getState().auth.authData.token;
 
     if (!token) {
       throw new Error('Authorization token is missing');

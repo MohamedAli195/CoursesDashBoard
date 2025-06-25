@@ -26,21 +26,33 @@ import CategoriesTable from './CategoriesTable';
 import SkeletonTables from 'components/Shared/skelton';
 import SelectSort from 'components/Shared/selectSort';
 import SelectPerPage from 'components/Shared/selectPerPAge';
+import { useDeleteCategoryMutation, useGetCategoriesQuery } from 'app/features/Categories/CategoriesSlice';
 
 // Fetch packages function
 interface IProps {
   isDashBoard:boolean
 }
 function CategoriesPage({isDashBoard}:IProps) {
+
+  
   // states
   const [page, setPage] = useState(1);
-  const [per, setper] = useState(10);
+  const [perPage, setper] = useState(10);
   const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('desc');
+  const { data: CategoriesFromRTK, error: errorRTk, isLoading:isLoadingRTK, isFetching, isSuccess } = 
+  useGetCategoriesQuery({ page, perPage, search ,sort_direction: sort });
+
+  const [deleteCategory] =useDeleteCategoryMutation()
+
+
+  const categories = CategoriesFromRTK?.data?.data || [];
+  const totalItems = CategoriesFromRTK?.data?.total || 0
+console.log(totalItems)
 
   // console.log(search)
-  const [sort, setSort] = useState('desc');
+ 
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const [tempId, setTempId] = useState(1);
 
   // add modal
@@ -65,22 +77,17 @@ function CategoriesPage({isDashBoard}:IProps) {
     handleOpenU(); // Open the update modal
   };
 
-  // fetch from api
-
-
-
-
   // Fetch packages using React Query
   const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: [`packages-${page}-${per}-${search}-${sort}`],
-    queryFn: () => fetchAllData(page, per, search,sort,'','categories'),
+    queryKey: [`packages-${page}-${perPage}-${search}-${sort}`],
+    queryFn: () => fetchAllData(page, perPage, search,sort,'','categories'),
   });
 
   // if (isLoading) return <SkeletonTables />
   if (isError) return <p>Error: {error.message}</p>;
 
  
-      const totalItems = data?.data?.total
+      // const totalItems = data?.data?.total
   return (
     <>
    {!isDashBoard &&
@@ -89,11 +96,12 @@ function CategoriesPage({isDashBoard}:IProps) {
           {t('categories')}
         </Typography>
 
-        {
-          checkPermissions(parsedData,'add-category') && <Button variant="contained" color="info" onClick={handleOpen}>
+        {/* {
+          checkPermissions(parsedData,'add-category') &&  */}
+          <Button variant="contained" color="info" onClick={handleOpen}>
           {t('AddCategory')}
         </Button>
-        }
+        {/* } */}
 
       </Stack>
 }
@@ -110,7 +118,7 @@ function CategoriesPage({isDashBoard}:IProps) {
           
         </Stack>
         <CategoriesTable
-          data={data?.data?.data}
+          data={categories}
           handleEditOpen={handleEditOpen}
           handleOpend={handleOpend}
           setTempId={setTempId}
@@ -118,10 +126,10 @@ function CategoriesPage({isDashBoard}:IProps) {
         <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ marginTop: 2,mx:2}}>
           <PaginationComponent
             page={page}
-            pageCounter={totalItems / per <= 1 ? 1 :  Math.ceil(totalItems / per)}
+            pageCounter={totalItems / perPage <= 1 ? 1 :  Math.ceil(totalItems / perPage)}
             setPage={setPage}
           />
-          <SelectPerPage perPage={per} setPerPage={setper} />
+          <SelectPerPage perPage={perPage} setPerPage={setper} />
         </Stack>
       </Paper>
 
@@ -133,7 +141,7 @@ function CategoriesPage({isDashBoard}:IProps) {
         <AddCategoryForm handleClose={handleClose} refetch={refetch} />
       </BasicModal>
 
-      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={()=>{deleteAnyThing(tempId,refetch,'categories')}}/>
+      <DeleteModal handleClosed={handleClosed}  opend={opend} refetch={refetch} tempId={tempId} deleteFunc={async()=>{await deleteCategory(tempId)}}/>
       {/* update modal */}
       <BasicModal open={openU} handleClose={handleCloseU}>
         <h2>{t('updateCategory')}</h2>

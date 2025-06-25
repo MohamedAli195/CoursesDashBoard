@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
+import { useCreateCategoryMutation } from 'app/features/Categories/CategoriesSlice';
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -44,7 +45,7 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInput>();
-
+const [createCategory] = useCreateCategoryMutation()
   const [preview, setPreview] = useState<string | null>(null);
   const url = import.meta.env.VITE_API_URL;
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,11 +75,13 @@ function AddCategoryForm({ handleClose, refetch }: { handleClose: () => void; re
         'Content-Type': 'multipart/form-data',
       };
 
-      const response = await axios.post(
-        `${url}/admin/categories`,
-        formData,
-        { headers }
-      );
+      // const response = await axios.post(
+      //   `${url}/admin/categories`,
+      //   formData,
+      //   { headers }
+      // );
+
+      const response = await createCategory(formData)
 
       // (response.data);
       toast.success('Category added successfully');

@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 
 import { CloudUpload } from 'lucide-react';
 import { ICategory } from 'interfaces';
+import { useUpdateCategoryMutation } from 'app/features/Categories/CategoriesSlice';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -47,9 +48,10 @@ function UpdateCategoryForm({
   const { register, setValue, handleSubmit, watch , formState: { errors },} = useForm<IFormInput>();
   const { t } = useTranslation();
   const ImageFromApi = initialData?.image
-  // console.log(ImageFromApi)
+  const [updateCategory] =useUpdateCategoryMutation()
   const [preview, setPreview] = useState<string | undefined |null>(ImageFromApi);
   const url = import.meta.env.VITE_API_URL;
+  const id =initialData?.id;
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -81,7 +83,40 @@ function UpdateCategoryForm({
   //   }
   // }, [selectedImage]);
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('name[en]', data.name.en);
+  //     formData.append('name[ar]', data.name.ar);
+  //     formData.append('description[en]', data.description.en);
+  //     formData.append('description[ar]', data.description.ar);
+
+  //     if (data.image && data.image.length > 0) {
+  //       formData.append('image', data.image[0]);
+  //     }
+
+  //     const headers = {
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       'Content-Type': 'multipart/form-data',
+  //     };
+
+  //     const response = await axios.post(
+  //       `${url}/admin/categories/${initialData?.id}/update`,
+  //       formData,
+  //       { headers }
+  //     );
+
+  //     toast.success(t('Category updated successfully'));
+  //     refetch();
+  //     handleClose();
+  //   } catch (err) {
+  //     // console.error('Error updating category:', err);
+  //     toast.error(t('Failed to update category, please check your input.'));
+  //   }
+  // };
+
+
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       const formData = new FormData();
       formData.append('name[en]', data.name.en);
@@ -93,16 +128,9 @@ function UpdateCategoryForm({
         formData.append('image', data.image[0]);
       }
 
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'multipart/form-data',
-      };
 
-      const response = await axios.post(
-        `${url}/admin/categories/${initialData?.id}/update`,
-        formData,
-        { headers }
-      );
+
+      const response = await updateCategory({id,formData})
 
       toast.success(t('Category updated successfully'));
       refetch();
